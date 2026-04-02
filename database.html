@@ -3,39 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The database — The 198</title>
+<title>The Database — The 198</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">The database</a></li>
+      <li><a href="database.html">Database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
-      <li><a href="interrogator.html">The interrogator</a></li>
+      <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator.html" class="btn">Is your business next? →</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
   </div>
 </nav>
+
 <main>
-<section class="section" style="padding:4rem 0 3rem"><div class="wrap">
-  <p class="t-mono" style="margin-bottom:2rem">/database</p>
-  <h1 class="t-heading" style="margin-bottom:1rem">The database</h1>
-  <p class="t-body" style="max-width:560px">198 companies. Scored across 28 fields. Filterable by Death Zone, sector, geography, failure year, and OFS band.</p>
-</div></section>
-<section class="section-sm"><div class="wrap">
-  <span class="stub" style="margin-bottom:2rem;display:inline-block">Phase 5→6 — build pending</span>
-  <p class="t-label" style="margin:2rem 0 1.25rem">This page will contain</p>
-  <ul class="num-list"><li><span class="n">01</span><span class="t-body" style="font-size:0.9rem">Full filterable and sortable table of all 198 companies</span></li><li><span class="n">02</span><span class="t-body" style="font-size:0.9rem">Filter by Primary Death Zone, sector, geography, failure type, and OFS band</span></li><li><span class="n">03</span><span class="t-body" style="font-size:0.9rem">Sort by Overall Failure Score, Human Execution vector, Volatility Score</span></li><li><span class="n">04</span><span class="t-body" style="font-size:0.9rem">Inline row expansion with verdict summary and Lead Indicator</span></li><li><span class="n">05</span><span class="t-body" style="font-size:0.9rem">Link to full case page for each company</span></li><li><span class="n">06</span><span class="t-body" style="font-size:0.9rem">Dataset statistics: distribution charts, sector heatmap</span></li></ul>
-  <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)">
-    <a href="index.html" class="btn-ghost">← Return home</a>
+
+<!-- HEADER -->
+<section class="section-dark" style="padding:4rem 0 3.5rem">
+  <div class="wrap">
+    <div class="hero-rule"></div>
+    <p class="t-label-light" style="margin-bottom:1.25rem">/database</p>
+    <h1 class="t-heading" style="color:var(--dark-ink);margin-bottom:1.25rem">The database</h1>
+    <p class="t-body-light" style="max-width:560px">198 companies. Each scored across 28 fields. Primary Death Zone, Secondary Zones, Tri-Vector profile (PR / SL / HE), Overall Failure Score, Volatility Score, and Lead Indicator.</p>
   </div>
-</div></section></main>
-<footer><div class="wrap"><div class="footer-inner">
-  <span class="t-mono">THE 198</span>
-  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
-</div></div></footer>
+</section>
+
+<!-- SCOPE -->
+<section style="border-bottom:1px solid var(--border)">
+  <div class="grid-3-dark" style="background:var(--border)">
+    <div class="grid-cell" style="padding:2.5rem 2rem">
+      <p class="t-stat" style="margin-bottom:0.75rem">198</p>
+      <p class="t-mono">companies in the dataset</p>
+    </div>
+    <div class="grid-cell" style="padding:2.5rem 2rem">
+      <p class="t-stat" style="margin-bottom:0.75rem">28</p>
+      <p class="t-mono">scored fields per company</p>
+    </div>
+    <div class="grid-cell" style="padding:2.5rem 2rem">
+      <p class="t-stat" style="margin-bottom:0.75rem">1987&ndash;2024</p>
+      <p class="t-mono">years covered</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT THE DATA CONTAINS -->
+<section class="section-pad section">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start">
+      <div>
+        <p class="t-label" style="margin-bottom:2rem">Dataset fields</p>
+        <div class="num-list">
+          <li><span class="n">01</span><span class="t-body" style="font-size:0.9rem">Company name, sector, geography, year of failure, age at failure, peak valuation or revenue, failure type</span></li>
+          <li><span class="n">02</span><span class="t-body" style="font-size:0.9rem">DZ1&ndash;DZ10 scores (1.0&ndash;10.0 each) — causal weight of each death zone</span></li>
+          <li><span class="n">03</span><span class="t-body" style="font-size:0.9rem">Primary Death Zone &amp; up to two Secondary Death Zones</span></li>
+          <li><span class="n">04</span><span class="t-body" style="font-size:0.9rem">Product Reality (PR), Structural Logic (SL), Human Execution (HE) — Tri-Vector scores calculated from DZ weights</span></li>
+          <li><span class="n">05</span><span class="t-body" style="font-size:0.9rem">Overall Failure Score (OFS) &amp; Volatility Score (VS)</span></li>
+          <li><span class="n">06</span><span class="t-body" style="font-size:0.9rem">Lead Indicator — one observable signal, insider-testable, 18&ndash;24 months before collapse</span></li>
+          <li><span class="n">07</span><span class="t-body" style="font-size:0.9rem">Contested flag where primary classification is genuinely ambiguous</span></li>
+        </div>
+      </div>
+      <div>
+        <p class="t-label" style="margin-bottom:2rem">Dataset composition</p>
+        <div style="margin-bottom:2rem">
+          <p class="t-mono" style="margin-bottom:1rem;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase">By geography</p>
+          <div style="display:flex;flex-direction:column;gap:0.6rem">
+            <div style="display:flex;align-items:center;gap:1rem"><span class="t-mono" style="width:50px;color:var(--ink-2)">US</span><div style="flex:1;height:2px;background:var(--border)"><div style="width:72.7%;height:100%;background:var(--accent)"></div></div><span class="t-mono" style="font-size:0.7rem;color:var(--ink-3)">144</span></div>
+            <div style="display:flex;align-items:center;gap:1rem"><span class="t-mono" style="width:50px;color:var(--ink-2)">Global</span><div style="flex:1;height:2px;background:var(--border)"><div style="width:10.6%;height:100%;background:var(--ink-3)"></div></div><span class="t-mono" style="font-size:0.7rem;color:var(--ink-3)">21</span></div>
+            <div style="display:flex;align-items:center;gap:1rem"><span class="t-mono" style="width:50px;color:var(--ink-2)">UK</span><div style="flex:1;height:2px;background:var(--border)"><div style="width:7.6%;height:100%;background:var(--ink-3)"></div></div><span class="t-mono" style="font-size:0.7rem;color:var(--ink-3)">15</span></div>
+            <div style="display:flex;align-items:center;gap:1rem"><span class="t-mono" style="width:50px;color:var(--ink-2)">EU</span><div style="flex:1;height:2px;background:var(--border)"><div style="width:5.1%;height:100%;background:var(--ink-3)"></div></div><span class="t-mono" style="font-size:0.7rem;color:var(--ink-3)">10</span></div>
+            <div style="display:flex;align-items:center;gap:1rem"><span class="t-mono" style="width:50px;color:var(--ink-2)">APAC</span><div style="flex:1;height:2px;background:var(--border)"><div style="width:4.0%;height:100%;background:var(--ink-3)"></div></div><span class="t-mono" style="font-size:0.7rem;color:var(--ink-3)">8</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="t-mono" style="margin-bottom:1rem;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase">By failure type</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+            <span style="font-family:var(--mono);font-size:0.7rem;padding:0.3rem 0.7rem;border:1px solid var(--border-2);color:var(--ink-2)">Bankruptcy</span>
+            <span style="font-family:var(--mono);font-size:0.7rem;padding:0.3rem 0.7rem;border:1px solid var(--border-2);color:var(--ink-2)">Shutdown</span>
+            <span style="font-family:var(--mono);font-size:0.7rem;padding:0.3rem 0.7rem;border:1px solid var(--border-2);color:var(--ink-2)">Decline</span>
+            <span style="font-family:var(--mono);font-size:0.7rem;padding:0.3rem 0.7rem;border:1px solid var(--border-2);color:var(--ink-2)">Acquisition (distressed)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTABLE CASES PREVIEW -->
+<section class="section" style="background:var(--dark);border-bottom:1px solid var(--dark-3)">
+  <div class="wrap" style="padding-top:3rem;padding-bottom:2rem">
+    <p class="t-label-light" style="margin-bottom:0.5rem">From the database</p>
+    <p class="t-mono-light" style="opacity:0.4;margin-bottom:2.5rem">Selected cases — full database forthcoming</p>
+  </div>
+  <div style="background:var(--dark-3);display:flex;flex-direction:column;gap:1px">
+    <div style="background:var(--dark-2);padding:1.5rem 2rem;display:grid;grid-template-columns:180px 1fr 80px 80px;gap:2rem;align-items:center">
+      <div><p style="font-family:var(--serif);font-size:1rem;color:var(--dark-ink);margin-bottom:0.2rem">Enron</p><p class="t-mono-light" style="font-size:0.68rem">Finance &middot; US &middot; 2001</p></div>
+      <p style="font-family:var(--sans);font-size:0.82rem;font-weight:300;color:var(--dark-ink-2);line-height:1.5">Systematic financial fraud spanning years, enabled by cultural silence. The engineers who knew. The auditors who looked away.</p>
+      <span style="font-family:var(--mono);font-size:0.68rem;color:var(--accent);letter-spacing:0.06em">DZ4</span>
+      <span style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3)">OFS 4.67</span>
+    </div>
+    <div style="background:var(--dark-2);padding:1.5rem 2rem;display:grid;grid-template-columns:180px 1fr 80px 80px;gap:2rem;align-items:center">
+      <div><p style="font-family:var(--serif);font-size:1rem;color:var(--dark-ink);margin-bottom:0.2rem">Kodak</p><p class="t-mono-light" style="font-size:0.68rem">Technology &middot; US &middot; 2012</p></div>
+      <p style="font-family:var(--sans);font-size:0.82rem;font-weight:300;color:var(--dark-ink-2);line-height:1.5">Invented the digital camera. Organised its entire identity around film. The information existed. The will to act on it did not.</p>
+      <span style="font-family:var(--mono);font-size:0.68rem;color:var(--accent);letter-spacing:0.06em">DZ5</span>
+      <span style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3)">OFS 4.31</span>
+    </div>
+    <div style="background:var(--dark-2);padding:1.5rem 2rem;display:grid;grid-template-columns:180px 1fr 80px 80px;gap:2rem;align-items:center">
+      <div><p style="font-family:var(--serif);font-size:1rem;color:var(--dark-ink);margin-bottom:0.2rem">WeWork</p><p class="t-mono-light" style="font-size:0.68rem">Real Estate/Tech &middot; US &middot; 2019</p></div>
+      <p style="font-family:var(--sans);font-size:0.82rem;font-weight:300;color:var(--dark-ink-2);line-height:1.5">One founder. Unchecked conviction. A board that could not say no. The company could only go as high as its leader permitted.</p>
+      <span style="font-family:var(--mono);font-size:0.68rem;color:var(--accent);letter-spacing:0.06em">DZ8</span>
+      <span style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3)">OFS 4.89</span>
+    </div>
+    <div style="background:var(--dark-2);padding:1.5rem 2rem;display:grid;grid-template-columns:180px 1fr 80px 80px;gap:2rem;align-items:center">
+      <div><p style="font-family:var(--serif);font-size:1rem;color:var(--dark-ink);margin-bottom:0.2rem">Blockbuster</p><p class="t-mono-light" style="font-size:0.68rem">Retail &middot; US &middot; 2010</p></div>
+      <p style="font-family:var(--sans);font-size:0.82rem;font-weight:300;color:var(--dark-ink-2);line-height:1.5">CEO saw Netflix coming. Built a counter-strategy. Icahn's board reversed it. The refusal to look was structural, then political.</p>
+      <span style="font-family:var(--mono);font-size:0.68rem;color:var(--accent);letter-spacing:0.06em">DZ5</span>
+      <span style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3)">OFS 4.12</span>
+    </div>
+    <div style="background:var(--dark-2);padding:1.5rem 2rem;display:grid;grid-template-columns:180px 1fr 80px 80px;gap:2rem;align-items:center">
+      <div><p style="font-family:var(--serif);font-size:1rem;color:var(--dark-ink);margin-bottom:0.2rem">General Magic</p><p class="t-mono-light" style="font-size:0.68rem">Consumer Tech &middot; US &middot; 1996</p></div>
+      <p style="font-family:var(--sans);font-size:0.82rem;font-weight:300;color:var(--dark-ink-2);line-height:1.5">Built the smartphone in 1992. The infrastructure, the network, the customer behaviour — none of it existed yet. Right idea. Fatal timing.</p>
+      <span style="font-family:var(--mono);font-size:0.68rem;color:var(--accent);letter-spacing:0.06em">DZ6</span>
+      <span style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3)">OFS 3.44</span>
+    </div>
+  </div>
+  <div class="wrap" style="padding-top:2rem;padding-bottom:3rem">
+    <p class="t-mono-light" style="opacity:0.4">Full interactive database — all 198 companies, filterable and sortable — in development</p>
+  </div>
+</section>
+
+<!-- INTERROGATOR CTA -->
+<section style="padding:4rem 0;background:var(--surface-up);border-bottom:1px solid var(--border)">
+  <div class="wrap">
+    <div style="max-width:600px">
+      <p class="t-label" style="margin-bottom:1.5rem">The interrogator</p>
+      <p class="t-heading" style="margin-bottom:1.25rem;font-size:clamp(1.4rem,2.5vw,2rem)">The database identifies why other companies died.<br>The interrogator identifies why yours might.</p>
+      <p class="t-body" style="margin-bottom:2rem">12 questions. Your answers mapped against 198 historical failure architectures. Nearest failure twins identified. 30-day triage produced.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Begin the interrogator &rarr;</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="t-mono-light">THE 198</span>
+      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
