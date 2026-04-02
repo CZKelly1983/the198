@@ -3,39 +3,166 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Patterns — The 198</title>
+<title>Evidence &amp; Patterns — The 198</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">The database</a></li>
+      <li><a href="database.html">Database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
-      <li><a href="interrogator.html">The interrogator</a></li>
+      <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator.html" class="btn">Is your business next? →</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
   </div>
 </nav>
+
 <main>
-<section class="section" style="padding:4rem 0 3rem"><div class="wrap">
-  <p class="t-mono" style="margin-bottom:2rem">/evidence/patterns</p>
-  <h1 class="t-heading" style="margin-bottom:1rem">Patterns</h1>
-  <p class="t-body" style="max-width:560px">The dataset made visual. 198 companies, scored across 28 fields.</p>
-</div></section>
-<section class="section-sm"><div class="wrap">
-  <span class="stub" style="margin-bottom:2rem;display:inline-block">Phase 5→6 — build pending</span>
-  <p class="t-label" style="margin:2rem 0 1.25rem">This page will contain</p>
-  <ul class="num-list"><li><span class="n">01</span><span class="t-body" style="font-size:0.9rem">DZ frequency chart — primary and named factor rates</span></li><li><span class="n">02</span><span class="t-body" style="font-size:0.9rem">Sector heatmap — failure architectures by industry</span></li><li><span class="n">03</span><span class="t-body" style="font-size:0.9rem">Geography distribution — US, UK, EU, APAC, Global</span></li><li><span class="n">04</span><span class="t-body" style="font-size:0.9rem">OFS vs Volatility Score scatter</span></li><li><span class="n">05</span><span class="t-body" style="font-size:0.9rem">HE dominance analysis — the human thread made visible</span></li><li><span class="n">06</span><span class="t-body" style="font-size:0.9rem">Failure year timeline — clustering by decade</span></li></ul>
-  <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)">
-    <a href="index.html" class="btn-ghost">← Return home</a>
+
+<!-- HEADER -->
+<section class="section-dark" style="padding:4rem 0 3.5rem">
+  <div class="wrap">
+    <div class="hero-rule"></div>
+    <p class="t-label-light" style="margin-bottom:1.25rem">/evidence</p>
+    <h1 class="t-heading" style="color:var(--dark-ink);margin-bottom:1.25rem">What the data shows</h1>
+    <p class="t-body-light" style="max-width:560px">198 companies. Scored. Classified. The patterns that emerge are not surprising in hindsight. That is the point. They were not surprising in foresight either. Someone in the room always knew.</p>
   </div>
-</div></section></main>
-<footer><div class="wrap"><div class="footer-inner">
-  <span class="t-mono">THE 198</span>
-  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
-</div></div></footer>
+</section>
+
+<!-- THE HUMAN THREAD — KEY FINDING -->
+<section style="background:var(--dark);border-bottom:2px solid var(--accent)">
+  <div class="wrap" style="padding:4rem 0">
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:center">
+      <div>
+        <p style="font-family:var(--mono);font-size:clamp(4rem,10vw,8rem);font-weight:500;color:var(--accent);line-height:1;margin-bottom:0.5rem">75.8%</p>
+        <p class="t-mono-light" style="letter-spacing:0.06em">of all 198 failures</p>
+      </div>
+      <div>
+        <p class="t-label-light" style="margin-bottom:1.5rem">The human thread</p>
+        <p style="font-family:var(--serif);font-size:clamp(1.1rem,1.8vw,1.35rem);line-height:1.7;color:var(--dark-ink);margin-bottom:1rem">Human execution failure appears as a named causal factor in 75.8% of all cases. DZ8 is the primary classification in 38 of 198 companies — 19.2% of the dataset.</p>
+        <p class="t-body-light">This is not a calibration problem. It is the central argument of the framework. Every structural failure had a human who could have seen it, named it, and acted on it. The Death Zone primary identifies the architecture. The human thread identifies the moment where intervention was possible.</p>
+        <div style="margin-top:2rem"><a href="zone-dz8.html" class="btn-ghost-light">Read the DZ8 definition &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIMARY DZ DISTRIBUTION -->
+<section class="section section-pad">
+  <div class="wrap">
+    <p class="t-label" style="margin-bottom:2.5rem">Primary death zone distribution</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem">
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">
+        <span class="t-label" style="font-size:0.62rem">Zone</span>
+        <span class="t-label" style="font-size:0.62rem">Primary cases</span>
+        <span class="t-label" style="font-size:0.62rem;text-align:right">Count</span>
+      </div>
+      <!-- Each zone bar -->
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz5.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ5</a>
+        <div style="height:3px;background:var(--border)"><div style="width:100%;height:100%;background:var(--accent)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">49</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz8.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ8</a>
+        <div style="height:3px;background:var(--border)"><div style="width:77.6%;height:100%;background:var(--accent)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">38</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz4.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ4</a>
+        <div style="height:3px;background:var(--border)"><div style="width:55.1%;height:100%;background:var(--ink-3)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">27</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz9.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ9</a>
+        <div style="height:3px;background:var(--border)"><div style="width:46.9%;height:100%;background:var(--ink-3)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">23</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz7.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ7</a>
+        <div style="height:3px;background:var(--border)"><div style="width:38.8%;height:100%;background:var(--ink-3)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">19</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz3.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ3</a>
+        <div style="height:3px;background:var(--border)"><div style="width:36.7%;height:100%;background:var(--ink-3)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">18</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz6.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ6</a>
+        <div style="height:3px;background:var(--border)"><div style="width:20.4%;height:100%;background:var(--ink-4)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">10</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz2.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ2</a>
+        <div style="height:3px;background:var(--border)"><div style="width:16.3%;height:100%;background:var(--ink-4)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">8</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz1.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.06em;text-decoration:none">DZ1</a>
+        <div style="height:3px;background:var(--border)"><div style="width:12.2%;height:100%;background:var(--ink-4)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-2)">6</span>
+      </div>
+      <div style="display:grid;grid-template-columns:80px 1fr 60px;gap:1.5rem;align-items:center">
+        <a href="zone-dz10.html" style="font-family:var(--mono);font-size:0.72rem;color:var(--ink-4);letter-spacing:0.06em;text-decoration:none">DZ10</a>
+        <div style="height:3px;background:var(--border)"><div style="width:0%;height:100%;background:var(--ink-4)"></div></div>
+        <span class="t-mono" style="text-align:right;color:var(--ink-4)">0</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY FINDINGS -->
+<section class="section section-pad" style="background:var(--surface-up)">
+  <div class="wrap">
+    <p class="t-label" style="margin-bottom:2.5rem">Key findings from the dataset</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem">
+      <div>
+        <p style="font-family:var(--serif);font-size:1.1rem;margin-bottom:0.75rem">DZ5 is the most common cause of death.</p>
+        <p class="t-body" style="font-size:0.9rem">49 companies — nearly 1 in 4 — carry The Relevance Horizon as their primary death zone. The world moved. The cost base, the culture, and the incentives did not move with it. This is not a technology problem. It is a will problem.</p>
+      </div>
+      <div>
+        <p style="font-family:var(--serif);font-size:1.1rem;margin-bottom:0.75rem">DZ10 has never been assigned as primary.</p>
+        <p class="t-body" style="font-size:0.9rem">Zero companies across 198 cases qualify as pure Sovereign Paradox primaries. External forces almost always exploit a pre-existing structural weakness. The framework is not an alibi machine. When examined closely, someone always could have seen it.</p>
+      </div>
+      <div>
+        <p style="font-family:var(--serif);font-size:1.1rem;margin-bottom:0.75rem">Human Execution dominates the Tri-Vector output.</p>
+        <p class="t-body" style="font-size:0.9rem">HE (Human Execution) is the dominant Tri-Vector in 60% of cases. The framework's thesis — that human failure is present in the majority of corporate collapses — is borne out by the data. The structural zone identifies the architecture. The human signal identifies the moment.</p>
+      </div>
+      <div>
+        <p style="font-family:var(--serif);font-size:1.1rem;margin-bottom:0.75rem">Age at failure skews young.</p>
+        <p class="t-body" style="font-size:0.9rem">Median age at failure across all 198 companies is 8 years. Most of the companies in this database were not old institutions slowly crumbling. They were businesses that scaled fast, hit a wall, and died before they understood why.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:4rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="wrap">
+    <div style="display:flex;gap:2rem;align-items:center;flex-wrap:wrap;justify-content:space-between">
+      <div>
+        <p class="t-heading" style="font-size:clamp(1.3rem,2.2vw,1.8rem);max-width:560px">The interrogator applies this evidence to your business.</p>
+      </div>
+      <a href="interrogator-diagnosis.html" class="btn" style="white-space:nowrap">Begin the interrogator &rarr;</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="t-mono-light">THE 198</span>
+      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
