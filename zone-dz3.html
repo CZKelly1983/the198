@@ -1,114 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ3: The Mirage &mdash; The 198</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DZ3: The Mirage — The 198</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .zone-hero {
+      padding: 80px 0 60px;
+      border-bottom: 1px solid var(--ink-10);
+    }
+    .zone-breadcrumb {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--ink-40);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .zone-breadcrumb a { color: var(--ink-40); text-decoration: none; }
+    .zone-breadcrumb a:hover { color: var(--red); }
+    .zone-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .zone-hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(52px, 7vw, 88px);
+      line-height: 1.0;
+      color: var(--ink);
+      margin: 0 0 10px;
+    }
+    .zone-subtitle {
+      font-family: 'Geist', sans-serif;
+      font-size: 16px;
+      color: var(--ink-40);
+      font-weight: 300;
+      margin-bottom: 40px;
+      letter-spacing: 0.02em;
+    }
+    .zone-stats {
+      display: flex;
+      gap: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--ink-10);
+    }
+    .zone-stat-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 38px;
+      color: var(--ink);
+      line-height: 1;
+      display: block;
+    }
+    .zone-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--ink-40);
+      text-transform: uppercase;
+      display: block;
+      margin-top: 4px;
+    }
+    .zone-section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--ink-10);
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--ink-40);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .zone-body {
+      font-family: 'Geist', sans-serif;
+      font-size: 17px;
+      line-height: 1.72;
+      color: var(--ink);
+      max-width: 680px;
+      font-weight: 300;
+    }
+    .zone-body p { margin: 0 0 22px; }
+    .zone-body p:last-child { margin-bottom: 0; }
+    .signal-callout {
+      border-left: 3px solid var(--red);
+      padding: 24px 28px;
+      margin: 40px 0 0;
+      max-width: 640px;
+      background: #fdf8f7;
+    }
+    .signal-callout-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+    .signal-callout p {
+      font-family: 'Geist', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--ink);
+      font-weight: 300;
+      margin: 0;
+    }
+    .fork-header {
+      margin-bottom: 48px;
+    }
+    .fork-header p {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(20px, 2.8vw, 28px);
+      line-height: 1.35;
+      color: var(--ink);
+      max-width: 620px;
+      margin: 0;
+    }
+    .case-group-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--ink-40);
+      text-transform: uppercase;
+      margin-bottom: 0;
+      margin-top: 52px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--ink-10);
+    }
+    .case-card {
+      padding: 32px 0;
+      border-bottom: 1px solid var(--ink-10);
+    }
+    .case-card-top {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .case-company {
+      font-family: 'Instrument Serif', serif;
+      font-size: 24px;
+      color: var(--ink);
+    }
+    .case-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--ink-40);
+      text-transform: uppercase;
+    }
+    .case-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      margin-left: auto;
+    }
+    .tag-failure { background: #fdf0ee; color: var(--red); }
+    .tag-survival { background: #eef5f0; color: #2a6041; }
+    .case-signal {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+      line-height: 1.55;
+      max-width: 640px;
+    }
+    .case-signal-survival {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #2a6041;
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+      line-height: 1.55;
+      max-width: 640px;
+    }
+    .case-body {
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      line-height: 1.68;
+      color: var(--ink);
+      font-weight: 300;
+      max-width: 660px;
+      margin: 0 0 14px;
+    }
+    .case-action {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--ink-10);
+    }
+    .case-action-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-40);
+      margin-bottom: 8px;
+    }
+    .case-action p {
+      font-family: 'Geist', sans-serif;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--ink-60);
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0;
+    }
+
+    /* Derivative */
+    .derivative-block {
+      background: var(--ink);
+      padding: 48px 52px;
+      margin-top: 52px;
+    }
+    .derivative-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 24px;
+    }
+    .derivative-intro {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(18px, 2.4vw, 24px);
+      line-height: 1.4;
+      color: #fff;
+      margin-bottom: 36px;
+      max-width: 600px;
+    }
+    .derivative-theme {
+      padding: 24px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .derivative-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      padding-top: 2px;
+    }
+    .derivative-theme-title {
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .derivative-theme-body {
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+      margin: 0;
+    }
+    .derivative-close {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      max-width: 520px;
+      line-height: 1.5;
+    }
+
+    /* CTA */
+    .zone-cta { padding: 80px 0 64px; }
+    .zone-cta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+    .zone-cta h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(26px, 3.5vw, 40px);
+      line-height: 1.18;
+      color: var(--ink);
+      margin: 0 0 20px;
+      max-width: 520px;
+    }
+    .zone-cta p {
+      font-family: 'Geist', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--ink-60);
+      font-weight: 300;
+      max-width: 520px;
+      margin: 0 0 36px;
+    }
+    .zone-nav {
+      display: flex;
+      gap: 28px;
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--ink-10);
+    }
+    .zone-nav a {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--ink-40);
+      text-decoration: none;
+    }
+    .zone-nav a:hover { color: var(--red); }
+
+    @media (max-width: 640px) {
+      .zone-stats { gap: 28px; flex-wrap: wrap; }
+      .derivative-block { padding: 32px 24px; }
+      .case-tag { margin-left: 0; }
+    }
+  </style>
 </head>
 <body>
 
-<nav class="site-nav">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">THE 198</a>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
-  </div>
-</nav>
+    <a href="interrogator-diagnosis.html" class="nav-cta">Is your business next? →</a>
+  </nav>
 
-<main>
+  <main class="container">
 
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz2.html" class="btn-ghost-light">&larr; DZ2</a>
-      <a href="zone-dz4.html" class="btn-ghost-light">DZ4 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ3</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Mirage</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The False Positive</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The business was real. The conditions were not. Growth, revenue, valuations — all genuine in the moment, all contingent on an external environment that was temporary, not permanent. Leaders in this zone did not misread their business. They misread the world around it.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">The ZIRP zombie scaled on free capital. The pandemic darling scaled on forced behaviour. The mortgage tech firm scaled on a rate cycle. When the conditions normalised, the structure that looked like a business revealed itself as a dependency. The cruelty of DZ3 is that the metrics were accurate. The error was believing they described something durable.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Peloton</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Zoom fatigue wave</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Webvan</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">LendingClub</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">OpenDoor</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">18</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">20.2%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">No one stress-tested the model against a normalised environment. Permanence was assumed rather than earned.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+    <section class="zone-hero">
+      <div class="zone-breadcrumb">
+        <a href="zones.html">← All zones</a>
+        &nbsp;/&nbsp;
+        <a href="zone-dz2.html">← DZ2</a>
+        &nbsp;&nbsp;
+        <a href="zone-dz4.html">DZ4 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ3 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <div class="zone-label">DZ3 — Death Zone Three</div>
+      <h1>The Mirage</h1>
+      <div class="zone-subtitle">The False Positive</div>
+      <div class="zone-stats">
+        <div>
+          <span class="zone-stat-num">18</span>
+          <span class="zone-stat-label">Primary in The 198</span>
+        </div>
+        <div>
+          <span class="zone-stat-num">20.2%</span>
+          <span class="zone-stat-label">Named factor across all 198</span>
+        </div>
+        <div>
+          <span class="zone-stat-num">4.1</span>
+          <span class="zone-stat-label">Avg overall failure score</span>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz2.html" class="btn-ghost">&larr; DZ2</a>
-      <a href="zone-dz4.html" class="btn-ghost">DZ4 &rarr;</a>
-    </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+    <section class="zone-section">
+      <div class="section-label">The pattern</div>
+      <div class="zone-body">
+        <p>The business was real. The conditions were not. Growth, revenue, valuations — all genuine in the moment, all contingent on an external environment that was temporary, not structural. Leaders in this zone did not misread their business. They misread the world around it — and assumed permanence where there was only a window.</p>
+        <p>The ZIRP-era company scaled on free capital. The pandemic business scaled on forced behaviour. The regulatory darling scaled on policy conditions that reversed. The dot-com play scaled on a market that didn't yet exist at the required size. In each case the metrics were accurate. The error was treating them as proof of something durable.</p>
+        <p>DZ3 is dangerous precisely because it looks like success until the moment it doesn't. The numbers validate the model. The team believes the model. Investors believe the model. The model is real — it just depends on conditions that will not last. By the time those conditions shift, the business has typically been built, capitalised and committed to a scale that assumes they will.</p>
+      </div>
+      <div class="signal-callout">
+        <div class="signal-callout-label">The signal you are probably not looking at</div>
+        <p>At least one significant driver of your current growth depends on a condition that did not exist three years ago. You have not stress-tested the business against its removal. You have been calling that condition "the market." It is not the market. It is a window. The question is not whether it will close. The question is whether you will have built the floor before it does.</p>
+      </div>
+    </section>
 
-</main>
+    <section class="zone-section">
+      <div class="section-label">You are approaching this zone</div>
 
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
-  </div>
-</footer>
+      <div class="fork-header">
+        <p>Other businesses have stood where you are standing. Some recognised the dependency and acted before the window closed. Some didn't. Both paths are documented below.</p>
+      </div>
+
+      <div class="case-group-label">Businesses that didn't act — and what it cost them</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-company">Pets.com</span>
+          <span class="case-meta">E-commerce · US · Failed 2000 · Age 1</span>
+          <span class="case-tag tag-failure">Did not act</span>
+        </div>
+        <div class="case-signal">Signal visible 12 months before shutdown: $400 customer acquisition cost against &lt;$30 average order value — a model only viable if dot-com capital availability continued indefinitely</div>
+        <p class="case-body">Pets.com raised $300M and spent nearly $12M on marketing in its final year, including a Super Bowl ad, while burning through capital at a rate its revenue could never justify. The business model was not broken — it was contingent. Every unit of growth depended on cheap capital continuing to subsidise customer acquisition that the underlying economics couldn't support. When the NASDAQ corrected in Q1 2000, it didn't kill Pets.com. It removed the condition that had been keeping it alive. The business went from launch to liquidation in 268 days.</p>
+        <div class="case-action">
+          <div class="case-action-label">What the dependency looked like from inside</div>
+          <p>The plan was to reach a scale at which unit economics would work — a plan that required the capital environment to remain unchanged long enough to get there. The signal that it wouldn't was in the numbers every month. When the window closed, the company had nine months of runway and nothing underneath it.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-company">Convoy</span>
+          <span class="case-meta">Logistics · US · Shutdown 2023 · Age 8</span>
+          <span class="case-tag tag-failure">Did not act</span>
+        </div>
+        <div class="case-signal">Signal visible late 2021: freight market volumes normalising from pandemic peak while $3.8B valuation assumed those conditions persisting — no documented unit economics independent of elevated freight demand</div>
+        <p class="case-body">Convoy built a digital freight brokerage that grew sharply during a period of exceptional freight demand driven by pandemic supply chain disruption. By late 2021, volumes were returning to trend. The company's headcount, cost base and $3.8B valuation all reflected peak conditions. The CEO's final memo described "an unprecedented freight market collapse" — an accurate description of what happened, but not of the underlying architecture. The dependency had been visible in the unit economics for two years before the end. The collapse wasn't unprecedented. It was a reversion.</p>
+        <div class="case-action">
+          <div class="case-action-label">What the dependency looked like from inside</div>
+          <p>A $3.8B valuation made honest internal reckoning with the underlying economics politically difficult. Every conversation about cost structure had to confront what a reset would do to the fundraising narrative. The number that was supposed to represent the business's future had become the ceiling preventing the floor from being built.</p>
+        </div>
+      </div>
+
+      <div class="case-group-label">A business that recognised it in time</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-company">Patch Plants</span>
+          <span class="case-meta">E-commerce · UK · Founded 2016 · Still trading</span>
+          <span class="case-tag tag-survival">Acted</span>
+        </div>
+        <div class="case-signal-survival">Signal visible 2021: pandemic houseplant boom driving exceptional growth on behavioural conditions — working from home, closed garden centres, nesting — that were structurally temporary</div>
+        <p class="case-body">Patch launched in 2016 as the UK's first online plant delivery brand, built on a simple proposition: make plants accessible and easy for people who found gardening intimidating. The pandemic created extraordinary conditions. Locked-down consumers, closed garden centres, and a surge in home improvement behaviour drove rapid growth. By 2021 those conditions were visibly reversing. Offices were reopening. Garden centres were trading again. The behavioural wave that had pulled consumers to online plant buying was normalising.</p>
+        <p class="case-body">Rather than defending the pandemic growth rate or scaling into conditions that were already turning, Patch focused on what was structurally theirs — the core convenience proposition, the novice customer, the care relationship. The plant doctor service, care guidance content, gifting mechanics — all of these built recurring engagement that worked independently of pandemic behaviour. The business continued to grow through normalisation and has been recognised as the UK's best plant delivery service three consecutive years.</p>
+        <div class="case-action">
+          <div class="case-action-label">What they did differently</div>
+          <p>They did not try to hold the pandemic growth rate. They identified what was structurally durable — the proposition that worked without the tailwind — and invested in that while conditions were still favourable enough to fund it. The business they have now doesn't depend on locked-down consumers. That is the only version of the business worth having.</p>
+        </div>
+      </div>
+
+      <!-- THE DERIVATIVE -->
+      <div class="derivative-block">
+        <div class="derivative-label">What the turnarounds had in common</div>
+        <div class="derivative-intro">Businesses that navigated out of DZ3 didn't wait for the conditions to change. Across the cases, three things consistently separated those that survived from those that didn't.</div>
+
+        <div class="derivative-theme">
+          <span class="derivative-num">01</span>
+          <div>
+            <div class="derivative-theme-title">They named the dependency before it was forced on them</div>
+            <p class="derivative-theme-body">They ran a deliberate exercise: strip out the condition. Remove the cheap capital, the regulatory tailwind, the pandemic behaviour, the market boom. What is left? If the answer was "not much," they treated that as a structural finding that required action, not a temporary problem to be managed. The businesses that failed named the same dependency — but in their post-mortems, not their planning cycles. The naming happened either way. The timing was everything.</p>
+          </div>
+        </div>
+
+        <div class="derivative-theme">
+          <span class="derivative-num">02</span>
+          <div>
+            <div class="derivative-theme-title">They built the structural floor while they still had capital to build it</div>
+            <p class="derivative-theme-body">The window while conditions are still favourable is also the window in which you have the resources to act. Every business that survived used the good conditions to construct something that worked without them — a retention mechanic, a different customer segment, a unit economics model that didn't require subsidy. Every business that failed used the same conditions to scale the dependency instead. Both groups had the same window. One built through it. One grew into it.</p>
+          </div>
+        </div>
+
+        <div class="derivative-theme">
+          <span class="derivative-num">03</span>
+          <div>
+            <div class="derivative-theme-title">They made the decision when it was still uncomfortable, not when it was unavoidable</div>
+            <p class="derivative-theme-body">The hardest version of this decision is the one made when the business is still growing, the team still believes, and conditions haven't visibly deteriorated yet. That is also the only version that works. By the time deterioration is visible, capital has contracted, options have narrowed, and the cost of the reset has multiplied. Every business that waited for the signal to become undeniable found that it became undeniable and terminal at the same time.</p>
+          </div>
+        </div>
+
+        <div class="derivative-close">The signal is usually visible 18 to 24 months before it becomes undeniable. The businesses that survived acted in that window. The ones in this database did not.</div>
+      </div>
+
+    </section>
+
+    <section class="zone-cta">
+      <div class="zone-cta-label">Business 199 is always optional</div>
+      <h2>The interrogator identified this architecture. What it cannot do is tell you how much of your window remains.</h2>
+      <p>That requires someone who has been inside businesses at this stage — who can look at your specific dependency, your current capital position, and your runway, and tell you honestly whether you are still in the window or already past it. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn btn-primary">Take the interrogator →</a>
+      <div class="zone-nav">
+        <a href="zone-dz2.html">← DZ2</a>
+        <a href="zones.html">All ten zones →</a>
+        <a href="zone-dz4.html">DZ4 →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>THE 198</span>
+    <span>Forensic architecture of corporate failure</span>
+  </footer>
 
 </body>
 </html>
