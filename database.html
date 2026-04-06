@@ -560,15 +560,82 @@
       justify-content: space-between;
     }
 
-    /* ─── RESPONSIVE ─── */
+    /* ─── SECONDARY COLUMNS — hidden by default ─── */
+    .col-secondary { display: none; }
+    .cols-expanded .col-secondary { display: table-cell; }
+
+    /* ─── COLUMNS TOGGLE ─── */
+    .cols-toggle {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .cols-toggle:hover { border-color: var(--border-hi); color: var(--text-dim); }
+    .cols-toggle[aria-pressed="true"] { border-color: var(--accent-dim); color: var(--accent); }
+
+    /* ─── FILTER PILLS ─── */
+    .pills-bar {
+      padding: 0 32px;
+      min-height: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      transition: padding 0.15s;
+    }
+    .pills-bar:not(:empty) { padding: 10px 32px; border-bottom: 1px solid var(--border); }
+
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      background: var(--surface);
+      border: 1px solid var(--border-hi);
+      padding: 3px 8px 3px 10px;
+      cursor: default;
+    }
+    .pill-dismiss {
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1;
+      padding: 0 2px;
+      transition: color 0.12s;
+    }
+    .pill-dismiss:hover { color: var(--red); }
+
+    /* ─── EXPLORE LINK ─── */
+    .detail-explore { margin-top: 4px; }
+    .explore-link {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-dim);
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .explore-link:hover { color: var(--text); border-color: var(--text-dim); }
     @media (max-width: 768px) {
       .site-nav { display: none; }
       .controls { flex-direction: column; gap: 10px; }
       .sort-bar { margin-left: 0; }
-      .col-geo, .col-ft, .col-age { display: none; }
       .detail-inner { padding: 16px; margin-left: 0; }
       tbody tr.case-row td:first-child,
       thead th:first-child { padding-left: 16px; }
+      .pills-bar { padding: 8px 16px; }
+      .cols-toggle { display: none; }
     }
 
     /* ─── TEASER ─── */
@@ -748,7 +815,11 @@
   <div class="results-count">
     Showing <strong id="showing-count">198</strong> of <strong>198</strong> cases
   </div>
+  <button class="cols-toggle" id="cols-toggle" aria-pressed="false">Show more columns</button>
 </div>
+
+<!-- FILTER PILLS -->
+<div class="pills-bar" id="pills-bar"></div>
 
 <!-- TABLE -->
 <div class="table-wrap">
@@ -757,12 +828,12 @@
       <tr>
         <th>Company</th>
         <th>Year</th>
-        <th class="col-geo">Geography</th>
+        <th class="col-secondary col-geo">Geography</th>
         <th>Sector</th>
         <th>Primary Death Zone</th>
         <th class="th-ofs">OFS <span class="th-note">scored 3.3–4.9 across all cases</span></th>
-        <th class="col-age">Age at failure</th>
-        <th class="col-ft">Outcome</th>
+        <th class="col-secondary col-age">Age at failure</th>
+        <th class="col-secondary col-ft">Outcome</th>
         <th></th>
       </tr>
     </thead>
@@ -861,12 +932,30 @@ const SECTOR_MAP = {
 function normSector(s) { return SECTOR_MAP[s] || s; }
 
 function initSectors() {
-  const groups = [...new Set(Object.values(SECTOR_MAP))].sort();
+  updateSectorCounts(DATA);
+}
+
+function updateSectorCounts(pool) {
+  // Count cases per normalised sector in the current unfiltered-by-sector pool
+  // (ignore the sector filter itself so counts reflect all other active filters)
+  const counts = {};
+  pool.forEach(d => {
+    const s = normSector(d.sector);
+    counts[s] = (counts[s] || 0) + 1;
+  });
+
   const sel = document.getElementById('filter-sector');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">All sectors</option>';
+
+  const groups = [...new Set(Object.values(SECTOR_MAP))].sort();
   groups.forEach(s => {
+    const n = counts[s] || 0;
+    if (n === 0) return; // hide empty sectors given current filters
     const opt = document.createElement('option');
     opt.value = s;
-    opt.textContent = s;
+    opt.textContent = `${s} (${n})`;
+    if (s === current) opt.selected = true;
     sel.appendChild(opt);
   });
 }
@@ -882,13 +971,19 @@ function applyFilters() {
   const yf   = parseInt(document.getElementById('year-from').value) || 1900;
   const yt   = parseInt(document.getElementById('year-to').value)   || 2100;
 
-  filtered = DATA.filter(d => {
+  // Pool for sector counts: everything except the sector filter itself
+  const sectorPool = DATA.filter(d => {
     if (q   && !d.company.toLowerCase().includes(q)) return false;
     if (dz  && d.Primary_DZ !== dz)                  return false;
-    if (sec && normSector(d.sector) !== sec)          return false;
     if (geo && d.geography !== geo)                   return false;
     if (ft  && d.failure_type !== ft)                 return false;
     if (d.year_of_failure < yf || d.year_of_failure > yt) return false;
+    return true;
+  });
+  updateSectorCounts(sectorPool);
+
+  filtered = sectorPool.filter(d => {
+    if (sec && normSector(d.sector) !== sec) return false;
     return true;
   });
 
@@ -900,6 +995,7 @@ function applyFilters() {
     });
   }
 
+  renderPills();
   render();
 }
 
@@ -1049,7 +1145,7 @@ function render() {
         <div class="company-teaser">${linkDZRefs(teaser)}</div>
       </td>
       <td class="td-mono">${d.year_of_failure}</td>
-      <td class="td-mono col-geo">${d.geography}</td>
+      <td class="td-mono col-secondary col-geo">${d.geography}</td>
       <td class="td-mono">${d.sector}</td>
       <td>
         <span class="dz-tag ${dzTagClass(d.Primary_DZ)} dz-ref" data-dz="${d.Primary_DZ}">${d.Primary_DZ}</span>
@@ -1059,8 +1155,8 @@ function render() {
         <span class="ofs-val ${ofsClass(d.OFS)}">${d.OFS.toFixed(2)}</span>
         <div class="ofs-band">${ofsBand}</div>
       </td>
-      <td class="td-mono col-age">${d.age_at_failure_years}yr</td>
-      <td class="col-ft"><span class="ft-tag">${d.failure_type}</span></td>
+      <td class="td-mono col-secondary col-age">${d.age_at_failure_years}yr</td>
+      <td class="col-secondary col-ft"><span class="ft-tag">${d.failure_type}</span></td>
       <td><span class="expand-icon">▶</span></td>
     </tr>`;
 
@@ -1078,6 +1174,7 @@ function render() {
                 <div class="detail-meta-item">Age at failure: <strong>${d.age_at_failure_years} years</strong></div>
                 <div class="detail-meta-item">Outcome: <strong>${d.failure_type}</strong></div>
                 <div class="detail-meta-item">OFS: <strong>${d.OFS.toFixed(2)} — ${ofsBand}</strong></div>
+                <div class="detail-meta-item detail-explore"><a href="zone-${d.Primary_DZ.toLowerCase()}.html" class="explore-link">Explore all ${d.Primary_DZ} failures →</a></div>
               </div>
             </div>
             <div class="detail-radar">
@@ -1291,9 +1388,57 @@ document.addEventListener('mousemove', e => {
   }
 });
 
+// ─── COLUMNS TOGGLE ─────────────────────────────────────────────────────────
+
+let colsExpanded = false;
+
+document.getElementById('cols-toggle').addEventListener('click', function() {
+  colsExpanded = !colsExpanded;
+  document.getElementById('db-table').classList.toggle('cols-expanded', colsExpanded);
+  this.setAttribute('aria-pressed', colsExpanded);
+  this.textContent = colsExpanded ? 'Hide columns' : 'Show more columns';
+});
+
+// ─── FILTER PILLS ────────────────────────────────────────────────────────────
+
+function renderPills() {
+  const bar = document.getElementById('pills-bar');
+  bar.innerHTML = '';
+
+  const pills = [];
+
+  const dz  = document.getElementById('filter-dz').value;
+  const sec = document.getElementById('filter-sector').value;
+  const geo = document.getElementById('filter-geo').value;
+  const ft  = document.getElementById('filter-ft').value;
+  const yf  = document.getElementById('year-from').value;
+  const yt  = document.getElementById('year-to').value;
+  const q   = document.getElementById('search-input').value.trim();
+
+  if (dz)  pills.push({ label: dz,           clear: () => { document.getElementById('filter-dz').value = '';      applyFilters(); } });
+  if (sec) pills.push({ label: sec,           clear: () => { document.getElementById('filter-sector').value = ''; applyFilters(); } });
+  if (geo) pills.push({ label: geo,           clear: () => { document.getElementById('filter-geo').value = '';    applyFilters(); } });
+  if (ft)  pills.push({ label: ft,            clear: () => { document.getElementById('filter-ft').value = '';     applyFilters(); } });
+  if (yf)  pills.push({ label: `from ${yf}`,  clear: () => { document.getElementById('year-from').value = '';     applyFilters(); } });
+  if (yt)  pills.push({ label: `to ${yt}`,    clear: () => { document.getElementById('year-to').value = '';       applyFilters(); } });
+  if (q)   pills.push({ label: `"${q}"`,      clear: () => { document.getElementById('search-input').value = ''; applyFilters(); } });
+
+  pills.forEach(p => {
+    const pill = document.createElement('span');
+    pill.className = 'filter-pill';
+    pill.innerHTML = `${p.label} <span class="pill-dismiss" title="Remove filter">×</span>`;
+    pill.querySelector('.pill-dismiss').addEventListener('click', p.clear);
+    bar.appendChild(pill);
+  });
+}
+
 // ─── BOOT ───────────────────────────────────────────────────────────────────
 
 initSectors();
+// Default: most severe failures first
+sortField = 'OFS';
+sortDir = 'desc';
+document.getElementById('sort-ofs').classList.add('active', 'desc');
 applyFilters();
 </script>
 </body>
