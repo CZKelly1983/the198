@@ -3,8 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ1: The Complexity Trap &mdash; The 198</title>
+<title>DZ1: The Complexity Trap — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
 
@@ -12,101 +49,166 @@
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
 
 <main>
 
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      
-      <a href="zone-dz2.html" class="btn-ghost-light">DZ2 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ1</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Complexity Trap</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The Weight of Bloat</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The organisation has lost the ability to prune. Every conflict of meaning is resolved by addition rather than decision. Every risk is hedged by layering rather than judgement. The product becomes a mirror of the org chart — not a solution to a customer problem.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">Death does not arrive from one catastrophic decision but from the accumulated weight of ten thousand avoided ones. In a complex organisation, failure is always collective and responsibility belongs to no one. That is precisely the point. Complexity is not a technical problem. It is a political strategy dressed as progress.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">General Motors</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">AOL Time Warner</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Nokia</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Sears</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Yahoo</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">6</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">8.1%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">No one was empowered to say no. Every product decision resulted in addition rather than replacement. Org layers multiplied faster than revenue.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz2.html" class="btn-ghost">DZ2 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ1 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ1 — Death Zone One</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Complexity Trap</h1>
+      <p class="t-label" style="margin-bottom:0">The Weight of Bloat</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat">
+          <span>6</span>
+          <span>Primary in The 198</span>
+        </div>
+        <div class="zone-stat">
+          <span>14.1%</span>
+          <span>Named factor across all 198</span>
+        </div>
+        <div class="zone-stat">
+          <span>4.4</span>
+          <span>Avg overall failure score</span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      
-      <a href="zone-dz2.html" class="btn-ghost">DZ2 &rarr;</a>
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>The business didn't collapse because it failed at one thing. It collapsed because it was trying to do too many things simultaneously, none of them well enough to matter. Product lines multiplied. Org layers accumulated. Acquisitions stacked on top of acquisitions. Every strategic challenge was met with addition rather than decision — another team, another initiative, another brand. The business grew in surface area while shrinking in coherence.</p>
+        <p>DZ1 is the failure mode of apparent success. The companies that land here were usually large enough, funded enough, and credible enough to keep adding. No single addition looked fatal. The pattern only became visible from altitude — or in retrospect. By the time complexity was named as the problem, it had become structural. Pruning would have required decisions that no one in the organisation had the authority, or the will, to make.</p>
+        <p>The human signal in this zone is specific: no one was empowered to say no. Every product decision resulted in addition rather than replacement. Every acquisition reset the integration clock without completing the last one. The organisation's immune system — the capacity to cut, focus, and recommit — had atrophied or never existed.</p>
+      </div>
+      <div class="signal-box">
+        <p class="t-mono">The signal you are probably not looking at</p>
+        <p>Count the number of things your business is simultaneously trying to prove. If it is more than two, ask who has the authority to stop one of them. If the answer is unclear, or if the question creates discomfort disproportionate to the stakes, you are already inside this zone. Complexity is not added in a single moment. It accumulates through a hundred small decisions to add rather than choose.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">You are approaching this zone</p>
+      <p class="fork-intro">Other businesses have stood where you are standing. Some recognised the pattern and cut before the weight became structural. Some didn't. Both paths are documented below.</p>
+
+      <div class="case-group-header">Businesses that didn't act — and what it cost them</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">General Motors</span>
+          <span class="t-mono">Automotive · US · Bankruptcy 2009 · Age 101</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 2005, four years before bankruptcy: $1,500-per-vehicle legacy cost disadvantage versus Toyota while maintaining eight brands — no single leader with authority or will to make the pruning decisions the structure required</p>
+        <p class="t-body">By 2005, General Motors was carrying eight brands — Pontiac, Saturn, Saab, Hummer, Buick, Cadillac, Chevrolet, GMC — none receiving sufficient investment to be genuinely competitive, all consuming capital and management bandwidth that the organisation couldn't afford. The $1,500-per-vehicle cost disadvantage versus Toyota was not a secret. It was documented, discussed, and deferred. Every brand had constituencies inside GM who would resist its removal. Every removal would be a political battle. The result was that nothing was removed.</p>
+        <p class="t-body" style="margin-top:1rem">When the 2008 financial crisis hit, GM had no structural capacity to absorb it. The complexity that had been politically protected for decades became financially terminal in months. The company filed for bankruptcy in June 2009. The brands that should have been cut in 2000 were cut in the restructuring anyway — at a cost of $50B in government support and the destruction of shareholder value built over a century.</p>
+        <div class="case-action">
+          <p class="t-mono">What the dependency looked like from inside</p>
+          <p>Every executive knew the brand portfolio was too large. The decisions weren't blocked by ignorance — they were blocked by the political cost of making them. No individual leader had both the authority and the tenure to absorb the internal resistance that pruning would generate. The organisation had become too complex to govern itself toward simplicity.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Byju's</span>
+          <span class="t-mono">EdTech · APAC · Decline 2024 · Age 12</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 2021: $2B+ in acquisitions across four companies within 12 months with none integrated — complexity accumulating faster than the organisation could absorb it, while accounting concerns simultaneously emerged</p>
+        <p class="t-body">Byju's acquired Aakash, Epic, Great Learning and WhiteHat Jr in rapid succession, spending over $2B without completing integration of any of them. Each acquisition was announced as strategic. Each reset the integration clock. The capital committed to the next acquisition was capital unavailable for the current one. Meanwhile Deloitte raised accounting concerns that culminated in their resignation as auditor — a signal that the organisation's financial controls were not keeping pace with its complexity.</p>
+        <p class="t-body" style="margin-top:1rem">At its peak, Byju's was valued at $22B. The complexity it had acquired in pursuit of that valuation became the architecture of its decline. By 2024 the company was fighting multiple legal actions, had failed to pay employee salaries, and was in dispute with lenders over $1.2B in debt. The acquisitions that were supposed to build an education empire had instead built an organisation too complex to manage, account for, or rescue.</p>
+        <div class="case-action">
+          <p class="t-mono">What the dependency looked like from inside</p>
+          <p>The acquisition pace was driven by a growth narrative that required constant escalation. Each new deal was evidence of ambition and momentum. Stopping — integrating properly before acquiring again — would have looked like retreat. The valuation that was supposed to justify the complexity had instead become the reason the complexity couldn't be controlled.</p>
+        </div>
+      </div>
+
+      <div class="case-group-header">A business that recognised it in time</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Apple</span>
+          <span class="t-mono">Consumer Technology · US · Founded 1976 · Still trading</span>
+          <span class="case-outcome outcome-win">Acted</span>
+        </div>
+        <p class="case-signal-win">Signal visible 1997: 350+ product SKUs, 15 desktop models, fragmented engineering across incompatible platforms — an organisation that had grown too complex to execute anything to a standard that competed</p>
+        <p class="t-body">When Steve Jobs returned to Apple in 1997, the company had 350 products. It was losing $1B a year. The complexity wasn't incidental to the failure — it was the failure. Every engineering team was working on something slightly different. No product was receiving enough focus to be genuinely excellent. The organisation had grown by adding and never by cutting, and the cumulative weight of that pattern had made it impossible to compete.</p>
+        <p class="t-body" style="margin-top:1rem">Jobs cut the product line to four. Four products: one desktop for consumers, one desktop for professionals, one laptop for consumers, one laptop for professionals. Everything else was stopped. The engineering capacity that had been distributed across 350 things was concentrated on four. The decision was brutal, internally resisted, and correct. Within a year Apple was profitable. Within a decade it was the most valuable company in the world.</p>
+        <div class="case-action">
+          <p class="t-mono">What they did differently</p>
+          <p>The cut was made before the organisation had time to politically protect the complexity it had accumulated. Jobs had the authority, the clarity, and crucially the external perspective to see the product portfolio as a whole and make the decision that no internal leader had been able to make. The businesses that don't survive this zone are the ones where no one with that combination of authority and perspective ever arrives — or arrives too late.</p>
+        </div>
+      </div>
+
+      <div class="derivative">
+        <p class="t-mono">What the turnarounds had in common</p>
+        <p class="derivative-intro">Businesses that navigated out of DZ1 didn't manage the complexity — they cut it. Across the cases, three things consistently separated those that survived from those that didn't.</p>
+
+        <div class="derivative-theme">
+          <span class="derivative-n">01</span>
+          <div>
+            <p class="derivative-title">They named complexity as the primary problem, not a symptom of something else</p>
+            <p class="derivative-body">The businesses that failed consistently reframed their complexity problem as an execution problem, a talent problem, or a market problem. Each reframe led to a solution that added rather than removed — more process, more management, more resource. The businesses that survived identified the complexity itself as the cause, which led to the only solution that works: reduction. You cannot execute your way out of a portfolio that is too large to execute.</p>
+          </div>
+        </div>
+
+        <div class="derivative-theme">
+          <span class="derivative-n">02</span>
+          <div>
+            <p class="derivative-title">Someone with real authority made the cut before consensus was required</p>
+            <p class="derivative-body">DZ1 failures are almost always failures of governance as much as strategy. The decisions that would have saved the business were known. They weren't made because the political cost of making them — inside an organisation that had built constituencies around every product, brand, and initiative — was too high for anyone to absorb. The turnarounds required someone with both the authority to override those constituencies and the external clarity to see past them. In most cases, that person was a founder returning, a new CEO with a mandate, or an investor with control rights. Committees don't fix DZ1.</p>
+          </div>
+        </div>
+
+        <div class="derivative-theme">
+          <span class="derivative-n">03</span>
+          <div>
+            <p class="derivative-title">They accepted the short-term cost of the cut without negotiating it away</p>
+            <p class="derivative-body">Every meaningful reduction creates immediate, visible pain: redundancies, discontinued products, disappointed customers, negative press. The businesses that survived accepted that pain in full. The businesses that failed negotiated with it — cutting 20% when 60% was required, pausing two product lines while maintaining six, restructuring without closing. Partial cuts in a DZ1 business consume the political capital required for the full cut while leaving the structural problem intact. The pain comes either way. The full cut at least buys a future.</p>
+          </div>
+        </div>
+
+        <p class="derivative-close">Complexity is added in small decisions and removed in large ones. The businesses that survived made one large decision. The ones in this database kept making small ones.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. What it cannot do is make the cut for you.</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">That requires someone who can sit inside the business, map the full product and organisational surface area, and tell you honestly what needs to go — and in what order. The businesses that survived DZ1 didn't need more analysis. They needed someone willing to say the number out loud. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zones.html">← All zones</a>
+        <a href="zone-dz2.html">DZ2 →</a>
+      </div>
+    </div>
+  </section>
 
 </main>
 
 <footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
+  <div class="wrap footer-inner">
+    <span class="t-mono">THE 198</span>
+    <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
   </div>
 </footer>
 

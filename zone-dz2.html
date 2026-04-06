@@ -3,8 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ2: The Proxy Trap &mdash; The 198</title>
+<title>DZ2: The Proxy Trap — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
 
@@ -12,101 +49,168 @@
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
 
 <main>
 
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz1.html" class="btn-ghost-light">&larr; DZ1</a>
-      <a href="zone-dz3.html" class="btn-ghost-light">DZ3 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ2</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Proxy Trap</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The Map Is Not The Territory</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The organisation has mistaken its model of the world for the world itself. A metric, a methodology, a playbook — something that was once a useful approximation of reality — has been elevated to the status of truth. Leaders in this zone are not stupid. They are precise in the wrong direction.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">They optimise the instrument while the plane descends. The tell is not that the data is wrong — it is that no one is looking out the window anymore. When results stop coming, they do not question the model. They push harder against the wall, convinced that the logic is sound and the execution is the problem.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Pets.com</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">WeWork</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Quibi</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Theranos</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Juicero</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">8</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">28.3%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">No one was asking whether the model still described reality. The board deck showed green while the product decayed.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz1.html" class="btn-ghost">← DZ1</a>
+        <a href="zone-dz3.html" class="btn-ghost">DZ3 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ2 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ2 — Death Zone Two</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Proxy Trap</h1>
+      <p class="t-label" style="margin-bottom:0">The Map Is Not The Territory</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat">
+          <span>8</span>
+          <span>Primary in The 198</span>
+        </div>
+        <div class="zone-stat">
+          <span>18.7%</span>
+          <span>Named factor across all 198</span>
+        </div>
+        <div class="zone-stat">
+          <span>3.9</span>
+          <span>Avg overall failure score</span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz1.html" class="btn-ghost">&larr; DZ1</a>
-      <a href="zone-dz3.html" class="btn-ghost">DZ3 &rarr;</a>
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>The metric was not wrong. The metric just stopped describing the thing it was supposed to describe — and no one noticed, or no one said so. The board deck showed green. The dashboard showed growth. The KPIs were hitting. The business was dying.</p>
+        <p>DZ2 is the failure of the instrument replacing the territory. It happens when a proxy — GMV, DAU, NPS, page views, subscriber count, market share — is elevated above ground-truth feedback. Leaders stop looking out of the window and start looking at the map. The map, optimised for and by the business, keeps showing what the business needs to see. The window shows something different.</p>
+        <p>It usually begins innocently. Metrics are necessary. Dashboards are necessary. The problem emerges when the feedback loop between the metric and reality quietly breaks — when the business learns to optimise the instrument rather than the outcome — and that break goes unexamined. By the time the gap between the map and the territory becomes undeniable, it has typically been compounding for years.</p>
+      </div>
+      <div class="signal-box">
+        <p class="t-mono">The signal you are probably not looking at</p>
+        <p>When did you last talk to a customer who did not want to talk to you? Your metrics capture the engaged, the retained, the satisfied. They do not capture the person who left without explaining why, the trial that never converted, the churn that was logged but not interrogated. The business that only listens to its metrics hears what its metrics are designed to surface. The territory always knows more than the map.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">You are approaching this zone</p>
+      <p class="fork-intro">Other businesses have stood where you are standing. Some rebuilt the feedback loop before the gap became fatal. Some didn't. Both paths are documented below.</p>
+
+      <div class="case-group-header">Businesses that didn't act — and what it cost them</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Groupon</span>
+          <span class="t-mono">E-commerce · US · Decline 2022 · Age 14</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 2011: internal data showing merchant repeat participation below 20% and negligible customer re-purchase — a marketplace structurally broken while subscriber growth metrics remained strong</p>
+        <p class="t-body">Groupon's own data told the story clearly by 2011. Merchants weren't coming back — the economics of running a Groupon deal were poor for most of them. Customers who bought deals weren't returning to the businesses at full price — the offer attracted bargain hunters, not loyal customers. The marketplace wasn't working. But subscriber growth was strong, deal volume was strong, and the metric dashboard continued to justify the $13B IPO valuation that CEO Andrew Mason had pursued instead of accepting Google's $6B acquisition offer.</p>
+        <p class="t-body" style="margin-top:1rem">The subscriber numbers described a real audience. They did not describe a functioning marketplace. By 2022 the company's market cap had fallen over 95% from its IPO peak. The metrics that had justified the valuation were proxies for a business model that the underlying data had already shown wasn't working. The board deck stayed green while the territory deteriorated for a decade.</p>
+        <div class="case-action">
+          <p class="t-mono">What the dependency looked like from inside</p>
+          <p>The subscriber metric was real, trackable, and grew consistently. The merchant and customer behaviour metrics — repeat rates, full-price return visits — were harder to measure and told an uncomfortable story. In a business optimised around growth metrics, the uncomfortable story doesn't get reported upward. It gets noted in the data and overridden by the dashboard.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Segway</span>
+          <span class="t-mono">Consumer Technology · US · Shutdown 2020 · Age 19</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible at December 2001 launch: Jobs and Bezos enthusiasm used as proxy for mass-market demand — product-technology validation had replaced customer-need validation before a unit had been sold</p>
+        <p class="t-body">Before Segway launched, it had secured the enthusiasm of Steve Jobs, Jeff Bezos, and John Doerr. It had secured $90M in funding. It had secured a cover story in Time magazine calling it potentially the biggest thing since the internet. What it had not secured was evidence that ordinary people, at ordinary prices, in ordinary places, needed a $5,000 alternative to walking. Steve Jobs had explicitly said the price would kill it. The team had used VIP enthusiasm as a proxy for mass market validation — and never replaced it with the real thing.</p>
+        <p class="t-body" style="margin-top:1rem">The company spent nineteen years optimising the gyroscopic technology, reducing the price incrementally, pursuing niche applications. The market consistently communicated it didn't need the product in any form that was commercially viable. The instrument — expert enthusiasm, technological achievement, niche adoption — kept showing reasons to continue. The territory — mass market indifference — was never adequately interrogated.</p>
+        <div class="case-action">
+          <p class="t-mono">What the dependency looked like from inside</p>
+          <p>Every proxy pointed to a future that kept receding. The technology worked. The experts were impressed. The niche customers were enthusiastic. Each of these was real. None of them was a substitute for the ground-truth question: will enough people pay enough money for this to constitute a business? That question was never answered with sufficient rigour before the capital was committed.</p>
+        </div>
+      </div>
+
+      <div class="case-group-header">A business that rebuilt the feedback loop in time</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Slack</span>
+          <span class="t-mono">B2B Software · US · Founded 2013 · Acquired Salesforce 2021 at $27.7B</span>
+          <span class="case-outcome outcome-win">Acted</span>
+        </div>
+        <p class="case-signal-win">Signal visible 2013: prior product Glitch had strong engagement metrics among existing users while simultaneously failing to attract new ones — a DZ2 warning that internal enthusiasm was not describing external demand</p>
+        <p class="t-body">Before Slack, Stewart Butterfield's team had built Glitch — an innovative browser-based game with a devoted community of existing users and strong engagement metrics. The metrics said the product was working. The growth numbers said something different: new users weren't coming. The team had optimised for engagement within a committed audience and used that engagement as evidence of a larger opportunity. It wasn't.</p>
+        <p class="t-body" style="margin-top:1rem">Rather than doubling down on Glitch's metrics, Butterfield made the decision to shut it down and pivot to the internal communication tool the team had built for themselves. The pivot was driven by a direct question — what do we actually know is working from first principles, not from what the dashboard says? The internal tool had no metrics at all. It had something more reliable: a team that found it genuinely indispensable. Slack was built from that insight, not from the Glitch dashboard.</p>
+        <div class="case-action">
+          <p class="t-mono">What they did differently</p>
+          <p>They recognised that their strongest metric — engaged user behaviour — was measuring activity within a contained group, not demand in an open market. Rather than finding better proxies for the thing they wanted to prove, they went back to ground truth: what problem actually exists, who actually has it, and is our tool actually solving it for them? The willingness to abandon a metric that felt good in favour of a question that felt uncertain is the distinction. Most businesses in DZ2 keep refining the instrument. Slack threw it out.</p>
+        </div>
+      </div>
+
+      <div class="derivative">
+        <p class="t-mono">What the turnarounds had in common</p>
+        <p class="derivative-intro">Businesses that navigated out of DZ2 didn't find better metrics. They rebuilt the habit of looking at the territory directly. Three things consistently separated those that survived from those that didn't.</p>
+
+        <div class="derivative-theme">
+          <span class="derivative-n">01</span>
+          <div>
+            <p class="derivative-title">They asked what the metric was designed to miss</p>
+            <p class="derivative-body">Every metric captures something and excludes something. The businesses that survived got deliberate about the exclusion. What does our subscriber count not tell us about subscriber quality? What does our NPS not tell us about the customers who never responded? What does our GMV not tell us about margin per transaction? The businesses that failed optimised the metric without interrogating its boundaries. The ones that survived treated every dashboard number as an answer to a specific question — and kept asking whether it was the right question.</p>
+          </div>
+        </div>
+
+        <div class="derivative-theme">
+          <span class="derivative-n">02</span>
+          <div>
+            <p class="derivative-title">They created deliberate exposure to unfiltered feedback</p>
+            <p class="derivative-body">Metrics capture what the business is already measuring. They don't capture what the business doesn't know to measure. The businesses that survived built deliberate mechanisms for exposure to unfiltered reality — founder-led customer calls, lost deal reviews, support ticket analysis, in-person observation of customers who weren't performing as the model predicted. Not to replace the dashboard, but to audit it. The businesses that failed let the dashboard become the only source of truth. The territory was always there. They stopped looking at it.</p>
+          </div>
+        </div>
+
+        <div class="derivative-theme">
+          <span class="derivative-n">03</span>
+          <div>
+            <p class="derivative-title">They were willing to act on what the territory said even when the map disagreed</p>
+            <p class="derivative-body">The hardest version of this is acting on ground-truth feedback when every metric says things are fine. Shutting down a product line when engagement is strong. Pivoting when the dashboard is green. Raising prices when retention data says customers will leave. Every one of these decisions requires trusting the territory over the map — which means being willing to be wrong about what the metrics mean. The businesses that failed couldn't make that trade. The metrics had become the reality. The territory was noise.</p>
+          </div>
+        </div>
+
+        <p class="derivative-close">The map is updated by the business. The territory is updated by the world. In DZ2, the gap between them widens until the business discovers which one was real.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. What it cannot do is tell you what your metrics are hiding.</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">That requires someone who can sit inside the business, look at the dashboard alongside the territory, and name the gap — specifically, not generally. Every business in this database had a metric that looked right. The question is not whether your metrics are accurate. The question is whether they are describing the thing that matters. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zone-dz1.html">← DZ1</a>
+        <a href="zones.html">All zones →</a>
+        <a href="zone-dz3.html">DZ3 →</a>
+      </div>
+    </div>
+  </section>
 
 </main>
 
 <footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
+  <div class="wrap footer-inner">
+    <span class="t-mono">THE 198</span>
+    <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
   </div>
 </footer>
 

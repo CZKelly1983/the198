@@ -3,112 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ4: The Integrity Collapse &mdash; The 198</title>
+<title>DZ4: The Integrity Collapse — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
-
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
-
 <main>
-
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz3.html" class="btn-ghost-light">&larr; DZ3</a>
-      <a href="zone-dz5.html" class="btn-ghost-light">DZ5 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ4</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Integrity Collapse</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The Rot</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The organisation has been systematically borrowing against its own future. Technical debt deferred, cultural toxicity tolerated, safety corners cut, numbers smoothed for the board deck. Each individual act of compromise appears manageable. The compound interest does not.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">Integrity Collapse is not a sudden event — it is the moment when years of small corruptions exceed the system's capacity to absorb them. The rot is always visible to those inside before it is visible to anyone outside. The defining feature of DZ4 is not the final catastrophe but the silence that preceded it: the engineers who knew, the managers who suspected, the auditors who looked away.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Enron</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Lehman Brothers</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Boeing 737 MAX</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">FTX</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Wirecard</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">27</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">23.2%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">The engineers who knew. The managers who suspected. The auditors who looked away. The silence was structural before the failure was visible.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz3.html" class="btn-ghost">← DZ3</a>
+        <a href="zone-dz5.html" class="btn-ghost">DZ5 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ4 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ4 — Death Zone Four</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Integrity Collapse</h1>
+      <p class="t-label" style="margin-bottom:0">The Rot</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat"><span>27</span><span>Primary in The 198</span></div>
+        <div class="zone-stat"><span>28.3%</span><span>Named factor across all 198</span></div>
+        <div class="zone-stat"><span>4.1</span><span>Avg overall failure score</span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz3.html" class="btn-ghost">&larr; DZ3</a>
-      <a href="zone-dz5.html" class="btn-ghost">DZ5 &rarr;</a>
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>Nobody decided to destroy the business. They decided to defer the problem. Each individual deferral appeared manageable — a technical debt left unpaid, a compliance gap papered over, a number smoothed to hit a target, a safety concern noted and shelved. The organisation accumulated these decisions the way a building accumulates structural damage: invisibly, until the load becomes fatal.</p>
+        <p>DZ4 is distinguished from individual bad actors by its systemic nature. This is not one person making one catastrophic choice. This is a culture of quiet accommodation that spans teams, tenures, and time. Insiders knew. The knowledge was widely distributed. The capacity to act on it was structurally suppressed — by incentives, by hierarchy, by the collective understanding that naming the problem would cost more than deferring it. Until it didn't.</p>
+        <p>The human signal here is specific: the engineers who knew, the managers who suspected, the auditors who looked away. DZ4 is the failure of collective moral courage at scale. The rot was rarely hidden. It was tolerated.</p>
+      </div>
+      <div class="signal-box">
+        <p class="t-mono">The signal you are probably not looking at</p>
+        <p>What is the thing in your business that everyone knows about but no one has formally named? The technical decision deferred since the last fundraise. The compliance gap everyone assumes someone else is managing. The culture problem that surfaces in exit interviews but not in leadership meetings. The longer it goes unnamed, the more expensive it becomes to surface it — and the more people become complicit in keeping it unnamed.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
 
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">You are approaching this zone</p>
+      <p class="fork-intro">The businesses that survived DZ4 named the rot before an external force named it for them. Both paths are documented below.</p>
+
+      <div class="case-group-header">Businesses that didn't act — and what it cost them</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Enron</span>
+          <span class="t-mono">Energy · US · Bankruptcy 2001 · Age 16</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible August 2001: VP Sherron Watkins sent memo directly to CEO Ken Lay warning the company could "implode in a wave of accounting scandals" — integrity rot visible to insiders four years before bankruptcy began</p>
+        <p class="t-body">The SPE structures that destroyed Enron had been accumulating since 1997. They were not a secret inside the organisation. Sherron Watkins was not the only person who understood what they meant. The knowledge was distributed across CFO Andy Fastow's team, across Arthur Andersen's audit team, across a board that had twice suspended the company's own code of ethics to allow Fastow's side arrangements. Each person who knew weighed the cost of naming it against the cost of staying quiet. Staying quiet won — until it didn't.</p>
+        <p class="t-body" style="margin-top:1rem">When the Wall Street Journal began investigating in October 2001, the entire edifice collapsed in six weeks. The $101B revenue company filed for bankruptcy in December 2001. The lesson of Enron is not that the fraud was clever. The lesson is that organisations can collectively maintain silence about things that everyone knows, for longer than seems possible from the outside.</p>
+        <div class="case-action">
+          <p class="t-mono">What the rot looked like from inside</p>
+          <p>The culture rewarded performance and punished challenge. The people who asked difficult questions about the SPE structures were reassigned or managed out. The incentive to stay quiet was financial, cultural, and structural simultaneously. By the time Watkins wrote her memo, the rot had been institutionalised across four years and multiple layers of the organisation.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Wirecard</span>
+          <span class="t-mono">Fintech · EU · Bankruptcy 2020 · Age 20</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 2015: Financial Times published credible evidence of accounting irregularities in Asian operations — regulator BaFin responded by investigating the journalists, not the company</p>
+        <p class="t-body">Wirecard's €1.9B fabrication wasn't a sudden revelation. The Financial Times published substantive, documented reporting on irregularities in the company's Asian third-party acquirer relationships in 2015, 2018, and 2019. The German financial regulator BaFin's response was to open market manipulation investigations against the journalists and short-sellers raising the allegations. The company filed criminal complaints against its own critics. The pattern of regulatory capture held for five years before the €1.9B hole in the balance sheet became impossible to conceal.</p>
+        <div class="case-action">
+          <p class="t-mono">What the rot looked like from inside</p>
+          <p>The fraudulent revenues required an active, ongoing construction of false documentation across multiple geographies. This was not a historical act — it was a present-tense operation maintained by a significant number of people across years. The external signals were credible and documented. The institutional response at every level — regulatory, audit, board — was to protect the narrative rather than interrogate it.</p>
+        </div>
+      </div>
+
+      <div class="case-group-header">A business that surfaced the rot and survived</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Domino's Pizza</span>
+          <span class="t-mono">Food & Beverage · US · Founded 1960 · Still trading</span>
+          <span class="case-outcome outcome-win">Acted</span>
+        </div>
+        <p class="case-signal-win">Signal visible 2008–2009: customer satisfaction surveys, social media feedback, and internal data all confirming the product was genuinely poor — and that the business had been defending it rather than fixing it</p>
+        <p class="t-body">By 2008, Domino's was losing market share while its internal and external feedback consistently confirmed the same finding: customers thought the pizza was bad. The company had been managing this information for years — defending the product, discounting to drive volume, investing in delivery speed as a surrogate for product quality. The rot in this case was not fraud. It was the accumulated deference of an organisation that had chosen not to hear what its customers were telling it.</p>
+        <p class="t-body" style="margin-top:1rem">New CEO Patrick Doyle made the decision to name it publicly. The 2009 campaign acknowledged directly — in television advertising — that customers thought the pizza tasted like cardboard and the sauce like ketchup. Then the recipe was rebuilt from scratch. The transparency was calculated and uncomfortable. It was also the first step in a turnaround that produced a 90-fold increase in share price over the next decade.</p>
+        <div class="case-action">
+          <p class="t-mono">What they did differently</p>
+          <p>They refused to keep managing the gap between internal knowledge and external narrative. The decision to publicly name the product failure — rather than continue defending it — forced a genuine reckoning that internal acknowledgement alone had not produced. The organisations that survive DZ4 tend to use external transparency as a forcing function when internal accountability has failed. It is more expensive than early internal action. It is less expensive than waiting for collapse.</p>
+        </div>
+      </div>
+
+      <div class="derivative">
+        <p class="t-mono">What the turnarounds had in common</p>
+        <p class="derivative-intro">Businesses that navigated out of DZ4 did one thing the others didn't: they named the problem formally, at the level where the decision to act could actually be made. Three things separated those that survived.</p>
+        <div class="derivative-theme">
+          <span class="derivative-n">01</span>
+          <div>
+            <p class="derivative-title">Someone named it explicitly — not as a concern but as a finding</p>
+            <p class="derivative-body">The difference between a concern and a finding is accountability. Concerns circulate. Findings require a response. In every DZ4 survival case, the turnaround began when someone with sufficient standing converted the widely-distributed knowledge into a formal, named, documented finding that required an institutional response. The businesses that failed kept the knowledge in the concern register. The ones that survived moved it to the finding register — which meant someone's name was attached to it, and a decision had to be made.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">02</span>
+          <div>
+            <p class="derivative-title">They paid the cost of the fix before it compounded further</p>
+            <p class="derivative-body">Every deferred integrity problem compounds. The technical debt that costs £50k to fix today costs £500k in six months and a crisis in two years. The compliance gap that requires one conversation to address now requires a regulator, a fine, and a remediation programme later. The businesses that survived DZ4 calculated this trajectory explicitly — and chose the early, uncomfortable cost over the later, catastrophic one. The businesses that failed kept recalculating the same trajectory and choosing deferral. The arithmetic never changed. The timing did.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">03</span>
+          <div>
+            <p class="derivative-title">They changed the incentive structure that had made silence rational</p>
+            <p class="derivative-body">DZ4 problems persist because silence is rational inside the organisation. People who raise integrity problems are rarely rewarded and sometimes punished. The fix is not to ask people to be braver — it is to change the calculation. The businesses that survived didn't just address the specific integrity failure. They changed the culture in which that failure had been tolerated: new accountability mechanisms, new leadership behaviours, explicit protection for people who surface problems early. Without that structural change, the next deferral begins immediately.</p>
+          </div>
+        </div>
+        <p class="derivative-close">The rot was never hidden. It was accommodated. The businesses that survived stopped accommodating it before the accommodation became the company's permanent condition.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. What it cannot do is name the thing you already know.</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">That requires someone outside the incentive structure — who can sit with the leadership team, ask the question that everyone has been not asking, and create the conditions in which the answer can be given honestly. Every business in this database had people who knew. The question is whether yours has someone who can make the knowledge actionable before it becomes unavoidable.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zone-dz3.html">← DZ3</a>
+        <a href="zones.html">All zones →</a>
+        <a href="zone-dz5.html">DZ5 →</a>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
-  </div>
-</footer>
-
+<footer><div class="wrap footer-inner">
+  <span class="t-mono">THE 198</span>
+  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+</div></footer>
 </body>
 </html>

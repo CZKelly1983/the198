@@ -3,112 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ7: The Fragility Fault-Line &mdash; The 198</title>
+<title>DZ7: The Fragility Fault-Line — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
-
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
-
 <main>
-
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz6.html" class="btn-ghost-light">&larr; DZ6</a>
-      <a href="zone-dz8.html" class="btn-ghost-light">DZ8 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ7</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Fragility Fault-Line</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The House of Cards</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The business was optimised for a world that never broke. Every efficiency gain came at the cost of a margin of safety. A single customer representing sixty percent of revenue. A single engineer who owned the entire codebase. A single bank holding all the operating capital.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">In isolation each dependency looks like a reasonable trade-off. In aggregate they constitute a structure with no redundancy, no resilience, and no capacity to absorb a shock. The fault-line does not announce itself. It runs silently beneath the business until one vector snaps — political, financial, technical, legal — and everything secretly connected to it goes with it.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Silicon Valley Bank</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Lehman Brothers</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Hanjin Shipping</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Toys R Us</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Carillion</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">19</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">36.9%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">The dependency was visible. Someone chose not to address it. The concentration was known and unmitigated.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz6.html" class="btn-ghost">← DZ6</a>
+        <a href="zone-dz8.html" class="btn-ghost">DZ8 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ7 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ7 — Death Zone Seven</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Fragility Fault-Line</h1>
+      <p class="t-label" style="margin-bottom:0">The House of Cards</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat"><span>19</span><span>Primary in The 198</span></div>
+        <div class="zone-stat"><span>31.3%</span><span>Named factor across all 198</span></div>
+        <div class="zone-stat"><span>4.0</span><span>Avg overall failure score</span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz6.html" class="btn-ghost">&larr; DZ6</a>
-      <a href="zone-dz8.html" class="btn-ghost">DZ8 &rarr;</a>
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>The business was not brought down by a shock. It was brought down by a dependency — a single customer, supplier, partner, platform, regulator, or capital source that had become structurally irreplaceable, without redundancy, without a plan, and often without acknowledgement that the dependency existed at all. When that thing failed, the business had nothing to stand on.</p>
+        <p>DZ7 is not about bad luck. All businesses have dependencies. The distinction is between dependencies that are managed — diversified, hedged, or deliberately accepted with eyes open — and dependencies that are structurally irreplaceable and unaddressed. The Fragility Fault-Line is the one that was known and not mitigated. Score it on the degree of known, unmitigated concentration. Not on the fact that something broke.</p>
+        <p>The human signal in DZ7 is specific: the dependency was visible; someone chose not to address it. In Barings Bank, internal audit identified that Nick Leeson controlled both trading and settlement simultaneously — and the finding was filed rather than acted on. In Phones4U, the network operator dependency was the entire business model — visible, unmitigated, and terminal the moment EE and Vodafone made independent decisions about direct sales. The knowledge preceded the collapse. The action didn't.</p>
+      </div>
+      <div class="signal-box">
+        <p class="t-mono">The signal you are probably not looking at</p>
+        <p>What single thing, if it went away tomorrow, would make your business unviable within 90 days? One customer that represents more than 30% of revenue. One supplier with no credible alternative. One platform whose API terms you depend on. One regulatory approval that hasn't been stress-tested. Name it. Now ask: what is the plan if it goes? If the answer is "we'd figure it out," you have a fault-line. If the answer is a specific, costed, executable plan — you have a managed dependency. The difference is not the dependency itself. It is whether you have looked at it honestly.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
 
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">You are approaching this zone</p>
+      <p class="fork-intro">The businesses that survived DZ7 did so by addressing the dependency before it was triggered. Both paths are documented below.</p>
+
+      <div class="case-group-header">Businesses that didn't act — and what it cost them</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Barings Bank</span>
+          <span class="t-mono">Finance · UK · Bankruptcy 1995 · Age 233</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 1992: internal audit identified Nick Leeson controlled both trading operations and back-office settlement simultaneously in Singapore — the finding was noted and not remediated</p>
+        <p class="t-body">The structural fault that destroyed Barings Bank in 1995 was identified by the bank's own internal audit three years before the collapse. Nick Leeson's simultaneous control of trading and settlement in Singapore was a textbook control failure — the single point of oversight that made concealment possible. The audit finding was filed. The control separation was not implemented. Leeson used the gap to conceal £827M in losses in account 88888 over two and a half years.</p>
+        <p class="t-body" style="margin-top:1rem">When the losses became unmovable in February 1995, the 233-year-old bank had no capital to absorb them. The Bank of England's post-collapse investigation confirmed that the control failure — not the complexity of the derivatives, not the market conditions — was the proximate cause. The dependency was a single person in a single role with unremediated dual control. The knowledge that this was dangerous existed. The action didn't.</p>
+        <div class="case-action">
+          <p class="t-mono">What the dependency looked like from inside</p>
+          <p>Leeson was profitable, praised, and promoted. The audit finding about his dual role sat in a file. Raising it would have meant disrupting a star trader and requiring management attention to a Singapore operation that was generating exceptional returns. The cost of remediation appeared higher than the cost of deferral — until the cost of deferral became the collapse of an institution.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Phones4U</span>
+          <span class="t-mono">Retail/Telecoms · UK · Shutdown 2014 · Age 20</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 2012: O2 had already withdrawn its contract — a direct signal that network operator decisions could make the entire business unviable overnight, with no structural mitigation in place</p>
+        <p class="t-body">Phones4U's entire business model was dependent on three network operators — EE, Vodafone, and O2 — choosing to sell their contracts through independent retailers rather than their own stores. When O2 withdrew in 2012, the signal was direct and documented: the dependency was real, and network operators were actively building direct sales capability. No structural response was made to diversify the dependency or build a business model less reliant on contract renewals that the operators controlled entirely.</p>
+        <p class="t-body" style="margin-top:1rem">In September 2014, EE and then Vodafone refused to renew their contracts. The business had zero revenue within 24 hours. The 5,500 employees who lost their jobs, the suppliers who lost their receivables, and the £200M in PE debt that evaporated — all were consequences of a dependency that had been visible, unmitigated, and fatal. The collapse took a day. The fault-line had been building for years.</p>
+        <div class="case-action">
+          <p class="t-mono">What the dependency looked like from inside</p>
+          <p>The network contracts were the business. Building a model less dependent on them would have meant building a different business — one that competed with the operators in some dimension rather than distributing for them. That strategic conversation required acknowledging that the current model was fragile. The PE ownership structure, optimised for exit rather than resilience, had no incentive to make that trade.</p>
+        </div>
+      </div>
+
+      <div class="case-group-header">A business that addressed the fault-line before it broke</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Spotify</span>
+          <span class="t-mono">Music Technology · Sweden · Founded 2006 · Still trading</span>
+          <span class="case-outcome outcome-win">Acted</span>
+        </div>
+        <p class="case-signal-win">Signal visible 2015–2018: three major labels controlled licensing that could be withdrawn, repriced, or restructured at any time — an existential single-vector dependency that Spotify was actively working to reduce</p>
+        <p class="t-body">Spotify's business, from its founding, ran on licensing agreements with the major labels — Universal, Sony, and Warner — that were renegotiated periodically, whose terms were opaque, and whose renewal was never guaranteed. The labels were simultaneously suppliers, competitors (through their own streaming initiatives), and the single point of failure that could make Spotify's entire library unavailable. The dependency was structural, known, and actively discussed in every investor conversation.</p>
+        <p class="t-body" style="margin-top:1rem">Rather than accepting the dependency as permanent, Spotify invested over years in three structural responses: direct licensing deals with independent artists and smaller labels to reduce major label leverage; original podcast content to create programming not dependent on music licenses; and an algorithmic discovery layer — Discover Weekly, Daily Mix — that created user value independent of any specific licensed track. None of these eliminated the label dependency. All of them reduced it, diversified it, and gave Spotify negotiating leverage it wouldn't otherwise have had.</p>
+        <div class="case-action">
+          <p class="t-mono">What they did differently</p>
+          <p>They treated the label dependency as a known structural risk requiring active management — not as an unchangeable business condition to be accepted. The investments in podcasting, direct artist relationships, and algorithmic value creation were all, at their root, dependency-reduction strategies. They didn't wait for a label to withdraw to discover how fragile the single-vector structure was. They built structural redundancy while the business was growing and the labels had no reason to act against them.</p>
+        </div>
+      </div>
+
+      <div class="derivative">
+        <p class="t-mono">What the survivors had in common</p>
+        <p class="derivative-intro">Businesses that navigated DZ7 didn't eliminate their dependencies. They managed them. Three things consistently separated those that survived from those that didn't.</p>
+        <div class="derivative-theme">
+          <span class="derivative-n">01</span>
+          <div>
+            <p class="derivative-title">They named the dependency precisely — as a risk, not a feature</p>
+            <p class="derivative-body">Every business in DZ7 had a dominant dependency. The businesses that failed typically described it as a feature of their model — "we're the leading network retailer," "we're the exclusive distribution partner." The businesses that survived described it as a risk — "we are entirely dependent on three operators' contract decisions; here is our plan for each scenario." The reframe from feature to risk is not semantic. It changes who is responsible, what is measured, and what gets invested in. You cannot manage a dependency you have not formally named as one.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">02</span>
+          <div>
+            <p class="derivative-title">They invested in redundancy before they needed it</p>
+            <p class="derivative-body">The window for building structural redundancy is when the primary dependency is intact and the business is generating cash. That is also the window when redundancy investment appears unnecessary — the dependency is working, so why spend resources on an alternative? The businesses that survived made that investment anyway: a second supplier qualified before the first failed, a second revenue stream developed before the first was threatened, a second customer segment cultivated before the first showed signs of churning. The investment is always more expensive in hindsight than it would have been in advance.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">03</span>
+          <div>
+            <p class="derivative-title">They stress-tested the dependency explicitly — and planned for its failure</p>
+            <p class="derivative-body">The specific exercise that separates DZ7 survivors is the honest answer to one question: what happens to the business if this dependency fails tomorrow? Not what the business would try to do — what would actually happen, given current capital, current team, current customer relationships. The businesses that failed had not run this calculation or had run it and suppressed the answer. The ones that survived ran it honestly, didn't like the answer, and took action before the scenario became real. The stress test is not the plan. It is the forcing function that makes the plan necessary.</p>
+          </div>
+        </div>
+        <p class="derivative-close">The dependency was visible. The fault-line was documented. The businesses that survived chose to address it. The ones in this database chose to defer it — until deferral became impossible and the cost had compounded beyond recovery.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. What it cannot do is stress-test your specific dependency.</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">That requires someone who can map your actual dependency structure — not the version in the investor deck but the operational reality — and work through what happens to the business in each failure scenario. Most founders know the dependency exists. The question is whether anyone has run the scenario honestly and built a plan from the answer. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zone-dz6.html">← DZ6</a>
+        <a href="zones.html">All zones →</a>
+        <a href="zone-dz8.html">DZ8 →</a>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
-  </div>
-</footer>
-
+<footer><div class="wrap footer-inner">
+  <span class="t-mono">THE 198</span>
+  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+</div></footer>
 </body>
 </html>

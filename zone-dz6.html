@@ -3,112 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ6: The Timing Trap &mdash; The 198</title>
+<title>DZ6: The Timing Trap — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
-
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
-
 <main>
-
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz5.html" class="btn-ghost-light">&larr; DZ5</a>
-      <a href="zone-dz7.html" class="btn-ghost-light">DZ7 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ6</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Timing Trap</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">Too Early To Survive</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The vision was correct. The timing was fatal. Companies in this zone did not misread the market — they arrived before the market existed, before the infrastructure could support them, before the customer behaviour had been trained into shape.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">This is the most unjust of the Death Zones because the verdict of history often vindicates the idea while erasing the company. General Magic built the smartphone in 1992. Someone else launched it in 2007. The tragedy of the Timing Trap is not the failure. It is the footnote.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">General Magic</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Webvan</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Segway</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Google Glass</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Iridium</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">10</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">12.1%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">The decision to scale before the infrastructure existed was a human call that could have been made differently. The runway was finite. The gap was not.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz5.html" class="btn-ghost">← DZ5</a>
+        <a href="zone-dz7.html" class="btn-ghost">DZ7 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ6 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ6 — Death Zone Six</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Timing Trap</h1>
+      <p class="t-label" style="margin-bottom:0">Too Early To Survive</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat"><span>10</span><span>Primary in The 198</span></div>
+        <div class="zone-stat"><span>16.2%</span><span>Named factor across all 198</span></div>
+        <div class="zone-stat"><span>4.0</span><span>Avg overall failure score</span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz5.html" class="btn-ghost">&larr; DZ5</a>
-      <a href="zone-dz7.html" class="btn-ghost">DZ7 &rarr;</a>
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>The vision was right. The timing was fatal. The infrastructure, regulation, consumer behaviour, or capital environment required to support the business did not yet exist at the scale required. The company ran out of runway in the gap between a world that could be imagined and a world that had actually arrived.</p>
+        <p>DZ6 is the most sympathetic zone in the framework — and the most dangerous to be inside, because the vision's correctness makes the failure feel like bad luck rather than a structural problem. It wasn't bad luck. It was a mismatch between capital required to survive the gap and time required for the gap to close. The test for DZ6 is specific: did a later entrant with the same thesis succeed? If yes, the timing was the cause. If no, the thesis was wrong — and the failure belongs in a different zone.</p>
+        <p>The human signal in DZ6 is the founder who cannot separate vision from viability. The thesis was right. The company was not the right vehicle, at the right capitalisation, at the right moment, to prove it. Those are four separate conditions. Being right on one of them is not sufficient.</p>
+      </div>
+      <div class="signal-box">
+        <p class="t-mono">The signal you are probably not looking at</p>
+        <p>What has to be true about the world for your business to work at scale? Not what you believe will be true — what has to already be true, today, for a customer to buy your product without requiring an act of faith in a future that hasn't arrived yet. If the answer requires infrastructure, behaviour, or regulation that doesn't yet exist, you are not building a business. You are building a bridge to one. The question is whether you have enough capital to reach the other side.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
 
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">You are approaching this zone</p>
+      <p class="fork-intro">The businesses that navigated DZ6 did so by being honest about the gap — and making deliberate decisions about how to survive it. Both paths are documented below.</p>
+
+      <div class="case-group-header">Businesses that didn't survive the gap</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">General Magic</span>
+          <span class="t-mono">Technology · US · Shutdown 2002 · Age 10</span>
+          <span class="case-outcome outcome-fail">Did not survive</span>
+        </div>
+        <p class="case-signal-fail">Signal visible at 1994 launch: the Magic Link required a cellular data network, app ecosystem and consumer interface paradigm that would not exist at commercial scale for over a decade</p>
+        <p class="t-body">General Magic invented the smartphone. The 1994 Magic Link device had touchscreen navigation, apps, messaging, and internet connectivity. The team included people who would go on to found or lead Ebay, Linkedin, Android, and the iPhone. The vision was precisely right. The infrastructure gap was fatal. In 1994, there was no mobile data network capable of supporting the device, no app ecosystem, and no consumer context in which a $1,000 handheld communicator made sense to a mass market.</p>
+        <p class="t-body" style="margin-top:1rem">Apple launched the iPhone in 2007 — thirteen years later, with 3G networks, an app store ecosystem, and a consumer context in which the smartphone had become imaginable. The thesis was validated completely. The company that proved it had been dead for five years. General Magic had the vision, the talent, and the architecture. It did not have thirteen years of runway.</p>
+        <div class="case-action">
+          <p class="t-mono">What the gap looked like from inside</p>
+          <p>The team could see the future with clarity. That clarity made it difficult to see the gap for what it was — not a temporary obstacle but a structural condition that required either a fundamentally different capital strategy or a fundamentally different product that could succeed in the world that existed rather than the world that was coming. Neither adaptation was made in time.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Kozmo.com</span>
+          <span class="t-mono">E-commerce · US · Shutdown 2001 · Age 3</span>
+          <span class="case-outcome outcome-fail">Did not survive</span>
+        </div>
+        <p class="case-signal-fail">Signal visible from first year: average cost per delivery exceeded $7.50 against average order values of $10 with no delivery fee — unit economics requiring infrastructure that didn't yet exist</p>
+        <p class="t-body">Kozmo.com offered one-hour delivery of convenience items in major US cities in 1998. The model was exactly right — DoorDash, Gorillas, Getir, and dozens of others proved it viable twenty years later. What didn't exist in 1998 was the gig labour market, smartphone-based routing optimisation, or the consumer expectation density required to make the unit economics work. Kozmo was spending more to deliver each order than the order was worth, with no structural path to fixing that without infrastructure that didn't exist.</p>
+        <div class="case-action">
+          <p class="t-mono">What the gap looked like from inside</p>
+          <p>The model required a world of $3 per delivery unit economics. The world had $7.50 unit economics and no clear path to $3 without labour market, routing technology, and consumer density conditions that were years away. The $280M raised was spent proving the thesis in a world that couldn't yet support it commercially.</p>
+        </div>
+      </div>
+
+      <div class="case-group-header">A business that bridged the gap</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Amazon Web Services</span>
+          <span class="t-mono">Cloud Infrastructure · US · Founded 2006 · Still trading</span>
+          <span class="case-outcome outcome-win">Bridged the gap</span>
+        </div>
+        <p class="case-signal-win">Signal visible 2003: the cloud computing thesis was correct — but enterprise adoption required trust, security standards, and procurement processes that would take years to develop</p>
+        <p class="t-body">When Amazon began building what became AWS, the market for rented computing infrastructure was nascent. Enterprise IT procurement ran on multi-year hardware cycles. Security and compliance teams had no framework for evaluating cloud providers. The gap between the thesis — that businesses would rent computing rather than own it — and the market reality was real and significant.</p>
+        <p class="t-body" style="margin-top:1rem">Rather than waiting for the enterprise market to arrive, Amazon targeted developers and startups — customers who could make the decision themselves, without procurement committees, and who would pull the enterprise market behind them as their own companies grew. The go-to-market was designed for the world that existed, not the world that was coming. The thesis remained the same. The entry point was chosen to be viable immediately, with the larger market arriving as a consequence of early adoption rather than as a precondition for it.</p>
+        <div class="case-action">
+          <p class="t-mono">What they did differently</p>
+          <p>They identified the specific condition that made the full thesis unviable immediately — enterprise procurement cycles — and found a customer segment where that condition didn't apply. The vision didn't change. The entry point did. Businesses that navigate DZ6 don't abandon their thesis when the gap is real. They find the part of the market where the gap is smallest, establish themselves there, and let adoption pull them into the larger market as it matures.</p>
+        </div>
+      </div>
+
+      <div class="derivative">
+        <p class="t-mono">What the survivors had in common</p>
+        <p class="derivative-intro">Businesses that navigated the timing gap didn't ignore it or power through it. They made three specific decisions about how to manage it.</p>
+        <div class="derivative-theme">
+          <span class="derivative-n">01</span>
+          <div>
+            <p class="derivative-title">They calculated the gap explicitly — in time and capital</p>
+            <p class="derivative-body">The businesses that failed in DZ6 were optimistic about the gap closing. The ones that survived were precise. They asked: what specifically has to change for this market to exist at the scale we need? How long will that take? How much capital do we need to survive until it happens — and do we have it? If the answer to the last question was no, they either changed the model, changed the entry point, or made the decision not to proceed. The ones that failed kept recalculating with optimistic assumptions until the capital ran out.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">02</span>
+          <div>
+            <p class="derivative-title">They found the version of the thesis that worked in the world that existed</p>
+            <p class="derivative-body">Every DZ6 survivor found a product, a customer segment, or a business model that was viable immediately — not in the future market but in the present one — while remaining positioned to benefit from the larger market as it arrived. This is not a compromise of the vision. It is the discipline of building a bridge that can support weight today while being pointed in the right direction for tomorrow. The businesses that failed built the bridge for the future market and collapsed before the future arrived.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">03</span>
+          <div>
+            <p class="derivative-title">They were honest about what they were — a bet on timing, not a proven business</p>
+            <p class="derivative-body">The businesses that failed in DZ6 often presented themselves — to investors, to themselves — as proven models in existing markets. They weren't. They were bets on when a market would arrive. That distinction matters because it changes every subsequent decision: how much capital is appropriate, what milestones prove the thesis, when to persist and when to stop. The businesses that survived named what they were, capitalised accordingly, and made decisions with clear eyes about the gap they were trying to bridge.</p>
+          </div>
+        </div>
+        <p class="derivative-close">Being right about the future is not sufficient. The question is whether you have the capital, the model, and the honesty to survive until the future arrives.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. What it cannot do is measure how wide your gap is.</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">That requires someone who can look at your thesis, your current market reality, your capital position, and your runway — and tell you honestly whether you are building a business or bridging to one. Those are different problems with different solutions. Knowing which one you have is the precondition for everything else. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zone-dz5.html">← DZ5</a>
+        <a href="zones.html">All zones →</a>
+        <a href="zone-dz7.html">DZ7 →</a>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
-  </div>
-</footer>
-
+<footer><div class="wrap footer-inner">
+  <span class="t-mono">THE 198</span>
+  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+</div></footer>
 </body>
 </html>

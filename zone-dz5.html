@@ -3,112 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ5: The Relevance Horizon &mdash; The 198</title>
+<title>DZ5: The Relevance Horizon — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
-
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
-
 <main>
-
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz4.html" class="btn-ghost-light">&larr; DZ4</a>
-      <a href="zone-dz6.html" class="btn-ghost-light">DZ6 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ5</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Relevance Horizon</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The Slow Vanishing</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The world moved. The business did not. This is not a failure of information — Kodak invented the digital camera. Blockbuster's CEO saw Netflix coming. The failure is structural: the business had organised itself around a specific version of customer need, and when that need evolved, the organisation could not follow.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">Its cost base, its culture, its identity, its incentives — all anchored to a utility that was quietly evaporating. The Relevance Horizon is the point beyond which a business cannot see its own obsolescence. It is rarely sudden. It is almost always survivable with sufficient will. What kills the company is not the horizon but the refusal to look.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Kodak</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Blockbuster</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Sears</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">RadioShack</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Blackberry</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">49</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">48.5%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">Someone inside the building knew the ground was shifting and could not get leadership to look. The information existed. The will to act on it did not.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz4.html" class="btn-ghost">← DZ4</a>
+        <a href="zone-dz6.html" class="btn-ghost">DZ6 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ5 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ5 — Death Zone Five</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Relevance Horizon</h1>
+      <p class="t-label" style="margin-bottom:0">The Slow Vanishing</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat"><span>49</span><span>Primary in The 198</span></div>
+        <div class="zone-stat"><span>43.9%</span><span>Named factor across all 198</span></div>
+        <div class="zone-stat"><span>4.1</span><span>Avg overall failure score</span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz4.html" class="btn-ghost">&larr; DZ4</a>
-      <a href="zone-dz6.html" class="btn-ghost">DZ6 &rarr;</a>
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>The business didn't fail because it lost to a better competitor. It failed because the thing it was competing to provide stopped being something the world needed in the form it was providing it. The market didn't move to someone else. The market moved on. The business was left behind, still organised around a utility that was evaporating, serving a customer whose behaviour had already structurally changed.</p>
+        <p>DZ5 is the most common primary classification in the 198 — 49 companies, nearly a quarter of the dataset. That frequency is the point. Relevance is not a permanent condition. It is maintained actively or lost gradually. The horizon doesn't announce itself. It is crossed quietly, often while the business is still growing, often while every internal metric still points upward. By the time the crossing is visible in the numbers, the cost base, the identity, and the incentive structure have all been organised around a position that no longer exists.</p>
+        <p>The cruelty of DZ5 is that the businesses that land here were usually right — once. The category was real. The customer need was genuine. The model worked. What it couldn't do forever was remain the best answer to a need that the world found better answers to. The failure was not in building the wrong thing. It was in assuming the right thing would stay right without active, ongoing work to make it so.</p>
+      </div>
+      <div class="signal-box">
+        <p class="t-mono">The signal you are probably not looking at</p>
+        <p>Who is your customer in ten years? Not the extended version of your current customer — the actual person with the actual need in the actual context that will exist then. If your answer is a more successful version of today, you are not answering the question. The businesses in this zone all had a version of today's customer. None of them had a credible version of tomorrow's.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
 
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">You are approaching this zone</p>
+      <p class="fork-intro">The businesses that survived DZ5 crossed the horizon deliberately — on their own terms, while they still had capital to cross it. Both paths are documented below.</p>
+
+      <div class="case-group-header">Businesses that didn't act — and what it cost them</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Kodak</span>
+          <span class="t-mono">Technology · US · Bankruptcy 2012 · Age 131</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 1981: Kodak's own market intelligence study accurately forecast digital photography's adoption curve and its potential to destroy the film business — a 30-year runway that became a countdown</p>
+        <p class="t-body">Kodak invented the digital camera in 1975 and its own internal research in 1981 forecast exactly what digital would do to film. The forecast was accurate. The response was to spend fifteen years optimising around film — Advantix, printing infrastructure, processing infrastructure — rather than cannibalising it. The film business was profitable. Cannibalising it was expensive and uncertain. Each year the decision was deferred, the window for crossing the horizon on Kodak's own terms narrowed.</p>
+        <p class="t-body" style="margin-top:1rem">By the time Kodak made serious digital moves, Canon, Sony and emerging smartphone manufacturers had consumed the market. The 131-year-old company filed for bankruptcy in January 2012. The tragedy is not that Kodak didn't see the horizon. It saw it thirty years in advance. The tragedy is that seeing it clearly made no difference to the decisions that were made in the years that followed.</p>
+        <div class="case-action">
+          <p class="t-mono">What the horizon looked like from inside</p>
+          <p>The film business generated the profits that funded Kodak's operations. Investing seriously in digital meant investing in the thing that would destroy the source of those profits. No individual leader could make that trade while the film business was still profitable and the digital business was still uncertain. By the time the trade became obviously necessary, the capacity to make it had been consumed by a decade of optimising the wrong thing.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Blockbuster</span>
+          <span class="t-mono">Entertainment · US · Bankruptcy 2010 · Age 25</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 2000: Netflix launched by-mail rental with no late fees — directly targeting Blockbuster's most complained-about feature, in the format its customers most resented</p>
+        <p class="t-body">Blockbuster had multiple opportunities to cross the horizon on its own terms. In 2000 it declined to acquire Netflix for $50M. In 2004, CEO John Antioco launched a credible counter-strategy — online rental, no late fees, by-mail — that briefly closed the gap. Then Carl Icahn forced Antioco's removal in 2005, installed a CEO who reversed the strategy, and reinstated late fees. The horizon had been seeable and crossable. The crossing was aborted by a shareholder dispute over short-term profitability.</p>
+        <p class="t-body" style="margin-top:1rem">By 2010, Netflix had 20 million subscribers and Blockbuster filed for bankruptcy. The business that had been the world's dominant video rental chain had been given a working blueprint for survival and had it taken from it. The DZ5 failure was compounded by a DZ8 decision at the critical moment. The horizon was crossable. The crossing required a leadership commitment that the board chose not to maintain.</p>
+        <div class="case-action">
+          <p class="t-mono">What the horizon looked like from inside</p>
+          <p>The late fee revenue was real, immediate, and significant. Eliminating it hurt the income statement in a way that was visible to every shareholder that quarter. The strategic rationale for absorbing that pain — to survive a horizon that was still two or three years away — required a board willing to accept short-term loss for long-term survival. That board did not exist at Blockbuster after 2005.</p>
+        </div>
+      </div>
+
+      <div class="case-group-header">A business that crossed the horizon on its own terms</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Netflix</span>
+          <span class="t-mono">Media · US · Founded 1997 · Still trading</span>
+          <span class="case-outcome outcome-win">Acted</span>
+        </div>
+        <p class="case-signal-win">Signal visible 2010: DVD-by-mail still dominant revenue while studio licensing conditions for streaming were actively worsening — the horizon was visible and approaching</p>
+        <p class="t-body">By 2010, Netflix had a profitable DVD-by-mail business and a growing streaming service. The streaming service depended entirely on studio licensing deals negotiated before studios understood what streaming would become. Every major studio was a motivated adversary — each had strong reasons to make streaming licensing more expensive, more restricted, or unavailable. The horizon was not a distant threat. It was an active, ongoing negotiation that Netflix was structurally likely to lose.</p>
+        <p class="t-body" style="margin-top:1rem">The response was to invest $100M in House of Cards — not primarily as a content play but as a structural independence play. By producing original content, Netflix reduced its dependency on conditions its adversaries controlled. The DVD business was managed into decline on its own timeline. The streaming business was built on a foundation that didn't require external permission to exist. Netflix crossed its own relevance horizon before the crossing became compulsory.</p>
+        <div class="case-action">
+          <p class="t-mono">What they did differently</p>
+          <p>They identified the specific dependency that would make the horizon uncrossable — studio licensing — and invested in eliminating it while the DVD business still generated the cash to fund the investment. The crossing was expensive, uncertain, and began before it was obviously necessary. That timing — acting before necessity rather than in response to it — is the consistent distinction between the businesses in this zone that survived and the ones that didn't.</p>
+        </div>
+      </div>
+
+      <div class="derivative">
+        <p class="t-mono">What the turnarounds had in common</p>
+        <p class="derivative-intro">Businesses that crossed the relevance horizon on their own terms shared three characteristics. None of them waited for the horizon to be undeniable before moving.</p>
+        <div class="derivative-theme">
+          <span class="derivative-n">01</span>
+          <div>
+            <p class="derivative-title">They separated "what we do" from "the need we serve"</p>
+            <p class="derivative-body">The businesses that failed identified themselves with their current form — the film, the video store, the physical catalogue. The businesses that survived identified themselves with the underlying need — capturing memories, convenient entertainment, accessible fashion. The distinction sounds simple. It is structurally difficult when the current form is profitable and the underlying need is served by something that would destroy it. But making that separation is the precondition for every other move. You cannot cross a horizon you believe you are not approaching.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">02</span>
+          <div>
+            <p class="derivative-title">They used current profitability to fund the crossing, not to defend the current position</p>
+            <p class="derivative-body">The window for crossing the relevance horizon on your own terms is exactly the period when the current business is still generating cash. That cash is also the resource most organisations allocate to defending and optimising the current position — because that is where the returns are measurable and immediate. The businesses that survived reallocated a portion of that cash to building the next position before the current one deteriorated. The businesses that failed spent it on making the current position marginally better for slightly longer.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">03</span>
+          <div>
+            <p class="derivative-title">They accepted the cannibalisation before it was forced on them</p>
+            <p class="derivative-body">In almost every DZ5 survival case, the business that crossed the horizon successfully had to eat into its own existing revenue to do it. Netflix's streaming growth came partly at the expense of its DVD revenue. The businesses that failed protected the existing revenue stream until an external force removed it entirely. The cannibalisation was coming either way. The only choice was who did it and when — the business on its own terms, or the market on its terms.</p>
+          </div>
+        </div>
+        <p class="derivative-close">The horizon is always visible before it is fatal. The businesses that survived saw it early enough to cross it voluntarily. The ones in this database saw it too — and kept optimising the position they were about to lose.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. What it cannot do is tell you where your horizon is.</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">That requires someone who can look at your current business and your current market simultaneously — and tell you honestly how much distance remains between where you are and where you need to be. Every business in this database had time. The question is not whether you have time. The question is how much, and whether you are using it to cross or to optimise. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zone-dz4.html">← DZ4</a>
+        <a href="zones.html">All zones →</a>
+        <a href="zone-dz6.html">DZ6 →</a>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
-  </div>
-</footer>
-
+<footer><div class="wrap footer-inner">
+  <span class="t-mono">THE 198</span>
+  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+</div></footer>
 </body>
 </html>
