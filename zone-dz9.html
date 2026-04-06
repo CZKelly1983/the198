@@ -3,112 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ9: The Soul Extraction &mdash; The 198</title>
+<title>DZ9: The Soul Extraction — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
-
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
-
 <main>
-
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz8.html" class="btn-ghost-light">&larr; DZ8</a>
-      <a href="zone-dz10.html" class="btn-ghost-light">DZ10 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ9</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Soul Extraction</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The Acquisition Decay</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The thing that made it work was the first thing they removed. Acquisition, merger, private equity rollup — the mechanism varies. The outcome is consistent. A high-context, high-conviction business is absorbed into a larger, lower-context machine.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">The acquirer's logic is efficiency: standardise, optimise, scale. What they systematically eliminate is the very source of the acquired company's value — the obsessive founder vision, the idiosyncratic culture, the high-touch service model, the product decisions that looked like inefficiencies but were actually the moat. Soul Extraction is almost never malicious. It is the inevitable result of applying industrial logic to something that survived precisely because it resisted industrial logic.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">MySpace (News Corp)</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Tumblr (Yahoo)</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Vine (Twitter)</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Compaq (HP)</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">AOL (Time Warner)</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">23</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">19.2%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">The people who understood what made the acquired business work were the first to be removed or ignored.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz8.html" class="btn-ghost">← DZ8</a>
+        <a href="zone-dz10.html" class="btn-ghost">DZ10 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ9 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ9 — Death Zone Nine</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Soul Extraction</h1>
+      <p class="t-label" style="margin-bottom:0">The Acquisition Decay</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat"><span>23</span><span>Primary in The 198</span></div>
+        <div class="zone-stat"><span>17.7%</span><span>Named factor across all 198</span></div>
+        <div class="zone-stat"><span>3.9</span><span>Avg overall failure score</span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz8.html" class="btn-ghost">&larr; DZ8</a>
-      <a href="zone-dz10.html" class="btn-ghost">DZ10 &rarr;</a>
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>The acquisition closed. The thing that made the acquired business work was the first thing removed. Sometimes actively — the acquirer's industrial logic imposed on a community whose value was its freedom. Sometimes passively — the investment stopped, the team was redeployed, the product quietly starved of resources while the acquirer focused on something else. The mechanism varies. The outcome is consistent.</p>
+        <p>DZ9 only applies to businesses where an acquisition, merger, or private equity rollup occurred and the integration was the mechanism of decline. The test is specific: did the integration remove the source of the acquired entity's value? Not just slow it down, not just change its direction — remove the specific thing that had made it worth acquiring in the first place. That thing was usually the people who understood it, the culture that had produced it, or the product philosophy that had differentiated it. All three are invisible on a balance sheet. All three are frequently the first casualties of integration logic.</p>
+        <p>The human signal in DZ9 is the moment when the people who understood why the thing worked stopped being listened to — or left. In MySpace, it was when News Corp's advertising team began overriding product decisions. In Vine, it was when Twitter declined to build creator monetisation for the third consecutive year. In Skype, it was when Microsoft's enterprise platform logic began imposing itself on a consumer product built on trust and simplicity. The extraction rarely announces itself. It accumulates through a hundred small decisions that each appear reasonable in isolation.</p>
+      </div>
+      <div class="signal-box">
+        <p class="t-mono">The signal to watch for — before and after</p>
+        <p>If you are considering acquisition: what specifically makes this business worth buying? Name it precisely. Now ask: what will integration do to that thing? If the answer requires assumptions about protecting something that your own organisation's incentives are structurally motivated to change, you are underwriting DZ9. If you have been acquired: what did the acquirer say they valued about you? Is that thing still being invested in, protected, and allowed to operate on its own logic — or is it being standardised, integrated, and rationalised? The gap between the acquisition rationale and the post-acquisition reality is where DZ9 lives.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
 
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">You are approaching this zone</p>
+      <p class="fork-intro">The acquisitions that avoided DZ9 were the ones where the acquirer genuinely understood what they were buying — and built the structure to protect it. Both paths are documented below.</p>
+
+      <div class="case-group-header">Acquisitions that extracted the soul</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">MySpace</span>
+          <span class="t-mono">Social Media · US · Acquired News Corp 2005 · Decline 2011</span>
+          <span class="case-outcome outcome-fail">Soul extracted</span>
+        </div>
+        <p class="case-signal-fail">Signal visible 2006–2008: News Corp's advertising-first management systematically degraded the user experience with banner ads, autoplay videos and cluttered redesigns — destroying exactly the authentic chaos that had made MySpace valuable</p>
+        <p class="t-body">News Corp paid $580M for MySpace in 2005 because MySpace had something News Corp didn't: a young, engaged audience who had self-organised around music, self-expression, and peer connection in a format no media company had built. The acquisition logic was sound. The integration logic was fatal. News Corp's media business ran on advertising revenue and audience scale. The MySpace integration team applied exactly those priorities — maximising ad inventory, optimising for page views — to a product whose value was in user experience and authentic expression.</p>
+        <p class="t-body" style="margin-top:1rem">Facebook's growth rate doubled in the same period MySpace's user experience was deteriorating. The users who left MySpace didn't leave because Facebook was better-funded. They left because Facebook was still optimising for why people used social networks, while MySpace was optimising for what News Corp needed from them. The $580M acquisition destroyed the $580M asset within five years. The acquirer had paid for the soul and immediately begun extracting it.</p>
+        <div class="case-action">
+          <p class="t-mono">What the extraction looked like from inside</p>
+          <p>The MySpace product team knew what was happening. The advertising pressure was not a secret — it was a directive. The people who understood why the platform worked were overridden by people who understood how media businesses generate revenue. Both groups were rational within their own logic. The problem was that the media business logic was incompatible with the product logic that had created the value being extracted.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Tumblr</span>
+          <span class="t-mono">Social Media · US · Acquired Yahoo 2013, Verizon 2017 · Decline 2019</span>
+          <span class="case-outcome outcome-fail">Soul extracted</span>
+        </div>
+        <p class="case-signal-fail">Signal visible December 2018: Verizon imposed a complete ban on adult content — removing the creative freedom that defined Tumblr's identity and differentiated it from every competing platform</p>
+        <p class="t-body">Tumblr's value was its specific community — artists, writers, fans, and a significant creative adult content ecosystem that had made the platform genuinely distinct from anywhere else on the internet. Yahoo acquired it for $1.1B in 2013 and made no meaningful product investment across four years of ownership. Verizon inherited it in 2017 and in December 2018 banned all adult content, citing app store compliance. App downloads dropped 30% within a week. The ban removed the primary differentiator of a platform that had nothing else to offer users that Instagram, Twitter, or Wordpress couldn't also provide.</p>
+        <p class="t-body" style="margin-top:1rem">Verizon sold Tumblr to Automattic in 2019 for approximately $3M — a 99.7% loss on the Yahoo acquisition price. The soul had been extracted in two stages: passive neglect under Yahoo, active removal under Verizon. Automattic has since cautiously worked to restore some of what was removed. The community that had made Tumblr worth $1.1B has not returned at scale.</p>
+        <div class="case-action">
+          <p class="t-mono">What the extraction looked like from inside</p>
+          <p>The adult content ban was a brand safety decision made at the Verizon level for Verizon's reasons. The Tumblr product team's understanding of what the ban would do to community retention was secondary to the parent company's concerns about Apple's app store policies and advertiser relationships. The decision was made by people whose primary frame was not "what makes Tumblr valuable" but "what makes Verizon Media less exposed."</p>
+        </div>
+      </div>
+
+      <div class="case-group-header">An acquisition that protected what it bought</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Instagram (under Facebook)</span>
+          <span class="t-mono">Social Media · US · Acquired 2012 · Still trading</span>
+          <span class="case-outcome outcome-win">Soul protected — initially</span>
+        </div>
+        <p class="case-signal-win">Signal at acquisition: Facebook paid $1B for a 13-person company with no revenue — the explicit bet was that the product philosophy, not the current business, was the asset</p>
+        <p class="t-body">Facebook's $1B acquisition of Instagram in 2012 was widely mocked at the time. The company had 13 employees, no revenue, and 30 million users. What it had was a product philosophy — mobile-first, simplicity-obsessed, visual — that was genuinely distinct from Facebook's increasingly cluttered, desktop-origin social graph. Zuckerberg's post-acquisition decision to let Instagram operate independently, with its own product team and its own roadmap, was the structural choice that allowed the asset to grow rather than be consumed.</p>
+        <p class="t-body" style="margin-top:1rem">The founders Kevin Systrom and Mike Krieger were given genuine autonomy for six years. Instagram grew from 30 million users at acquisition to over 1 billion. The integration that eventually occurred — the forced Facebook account linkage, the algorithmic feed, the stories format copied from Snapchat — all came later, after the platform had established sufficient mass that the Facebook logic could be imposed without destroying it. The DZ9 risk was managed not by eliminating it but by delaying the integration long enough for the asset to become resilient enough to survive it. Systrom and Krieger's 2018 departure over creative differences marked the point where that protection ended.</p>
+        <div class="case-action">
+          <p class="t-mono">What they did differently — and where it eventually broke</p>
+          <p>The early post-acquisition structure — genuine operational independence, founder control, separate product roadmap — is the template for DZ9 avoidance. The 2018 breakdown, when Zuckerberg began overriding product decisions and the founders left, is the DZ9 risk returning. The lesson from Instagram is not that acquisition-driven DZ9 is avoidable permanently. It is that structural protection can extend the period of value creation significantly — and that the moment it is removed, the extraction clock starts.</p>
+        </div>
+      </div>
+
+      <div class="derivative">
+        <p class="t-mono">What the acquisitions that avoided DZ9 had in common</p>
+        <p class="derivative-intro">The acquisitions that protected value shared three structural characteristics. None of them relied on goodwill alone.</p>
+        <div class="derivative-theme">
+          <span class="derivative-n">01</span>
+          <div>
+            <p class="derivative-title">They named the specific thing they were buying — and made structural commitments to protect it</p>
+            <p class="derivative-body">The acquisitions that failed in DZ9 had generic rationales: audience, technology, talent, market position. The ones that succeeded had specific ones: this product philosophy, this community dynamic, this founder's judgement about the product. And having named the specific thing, they built structural protections around it — operational independence, founder veto rights, explicit commitments about what would not be integrated. Goodwill evaporates under business pressure. Structural commitments are harder to override without a visible decision to do so.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">02</span>
+          <div>
+            <p class="derivative-title">They kept the people who understood it in positions where their understanding mattered</p>
+            <p class="derivative-body">In every DZ9 failure, the people who understood why the acquired business worked were either removed, sidelined, or replaced by people whose expertise was in the acquirer's core business rather than the acquired one. The acquisitions that worked kept the founders, the original product team, and the people with genuine domain expertise in positions where their judgement was consequential. Not as figureheads — in roles where they could block decisions that would have destroyed what they had built. The extraction begins when those people stop being able to say no.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">03</span>
+          <div>
+            <p class="derivative-title">They measured success on the acquired business's own terms, not the acquirer's</p>
+            <p class="derivative-body">The integration logic that destroys DZ9 businesses is almost always rational within the acquirer's measurement framework. More advertising revenue, lower operating costs, platform consistency, brand safety. These are real metrics. They are just the wrong metrics for the acquired business. The acquisitions that avoided DZ9 maintained separate measurement frameworks — what does success look like for this specific product, in this specific community, on this specific platform? — and protected those metrics from being overridden by the acquirer's own reporting requirements until the acquired business was strong enough to survive the rationalisation.</p>
+          </div>
+        </div>
+        <p class="derivative-close">The thing that made it worth buying was the first thing they removed. In every case, someone in the room knew what that thing was. In the acquisitions that failed, they weren't in a position to protect it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. What it cannot do is read your acquisition terms.</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">Whether you are considering an acquisition, negotiating one, or already inside one — the structural protections that prevent DZ9 need to be built before they are needed, not after the extraction has begun. That requires someone who can look at the specific integration logic being applied to your business and tell you honestly whether it is building on what you have or consuming it. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zone-dz8.html">← DZ8</a>
+        <a href="zones.html">All zones →</a>
+        <a href="zone-dz10.html">DZ10 →</a>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
-  </div>
-</footer>
-
+<footer><div class="wrap footer-inner">
+  <span class="t-mono">THE 198</span>
+  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+</div></footer>
 </body>
 </html>

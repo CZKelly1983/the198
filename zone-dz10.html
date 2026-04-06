@@ -3,112 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ10: The Sovereign Paradox &mdash; The 198</title>
+<title>DZ10: The Sovereign Paradox — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .rarity-block { background: var(--surface-up); border: 1px solid var(--border); padding: 2rem 2.5rem; max-width: 680px; margin-top: 2.5rem; }
+  .rarity-block .t-mono { margin-bottom: 0.75rem; }
+  .rarity-block p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0 0 0.75rem; }
+  .rarity-block p:last-child { margin-bottom: 0; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  .dz10-cases { margin-top: 3rem; }
+  .dz10-case { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .dz10-case-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .dz10-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); }
+  .dz10-why { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .dz10-body { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); max-width: 660px; margin: 0; }
+  @media (max-width: 640px) { .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
-
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
-
 <main>
-
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz9.html" class="btn-ghost-light">&larr; DZ9</a>
-      
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ10</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Sovereign Paradox</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The Unplannable Strike</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">Sometimes the plane was airworthy. Sometimes the pilot was competent. Sometimes the weather simply killed them. DZ10 exists because a forensically honest framework must acknowledge that not every failure is a failure of judgement, character, or foresight.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">This zone is not an alibi. Its entry criteria are strict: DZ10 is only assigned when no structural amplifier can be evidenced — when the company had no fragility that the external force exploited, no warning it ignored, no decision it deferred. It has zero primary assignments across 198 cases. In practice, external forces almost always exploit something that was already there.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:0.75rem">Primary assignments</p><p class="t-mono-light">Zero. No company in The 198 qualifies as a pure DZ10 primary. The framework requires the complete absence of structural amplifiers. None have met that threshold.</p></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">&mdash;</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:0.82rem;color:var(--dark-ink-2)">1.5%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">DZ10 has no primary assignments in this dataset. When examined carefully, every external shock exploited a pre-existing structural weakness. DZ10 is the framework's act of intellectual honesty — and its rarest verdict.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz9.html" class="btn-ghost">← DZ9</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ10 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ10 — Death Zone Ten</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Sovereign Paradox</h1>
+      <p class="t-label" style="margin-bottom:0">The Unplannable Strike</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat"><span>0</span><span>Primary in The 198</span></div>
+        <div class="zone-stat"><span>1.5%</span><span>Named factor across all 198</span></div>
+        <div class="zone-stat"><span>—</span><span>No primary OFS to report</span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz9.html" class="btn-ghost">&larr; DZ9</a>
-      
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>Sometimes the plane was airworthy. Sometimes the pilot was competent. Sometimes the weather simply killed them.</p>
+        <p>DZ10 exists because intellectual honesty requires it. The framework's position — that corporate failure is almost always traceable to human decisions and structural vulnerabilities — is not the same as saying external forces never matter. They do. Regulatory acts, sovereign interventions, systemic market collapses, genuine black swans — these can destroy businesses that were structurally sound and well-led. The framework acknowledges this. It just demands very high evidential standards before accepting it.</p>
+        <p>The zone may only be assigned as primary when no other zone scores above 4. If any structural amplifier can be evidenced — a concentration that made the impact catastrophic, a dependency that should have been hedged, a cost structure that left no resilience — DZ10 is secondary at most. The test is both stringent and necessary: most companies that claim external force as their primary cause of death are wrong. The external force triggered the collapse. The structure made it terminal.</p>
+      </div>
+
+      <div class="rarity-block">
+        <p class="t-mono">Why zero primary classifications</p>
+        <p>DZ10 has zero primary classifications across all 198 companies in this database. That number is not an accident or a calibration error. It is the dataset's central empirical finding: in every case we examined — including cases that were superficially obvious DZ10 candidates — a structural amplifier was present that meant the external event exploited a vulnerability rather than creating one from scratch.</p>
+        <p>The 2008 financial crisis killed dozens of businesses in this dataset. But the businesses it killed were carrying the leverage ratios, the MBS concentrations, or the wholesale funding dependencies that made the crisis fatal rather than survivable. September 11 grounded aviation globally — but the airlines that failed were already carrying debt structures, cost bases, or strategic positions that left no margin to absorb even a temporary shock. The pandemic accelerated the decline of physical retail — but the retailers it killed had been ceding their customer relationships to Amazon for a decade.</p>
+        <p>The external force was real. The structural amplifier was the cause. DZ10 primary is not impossible. It is just rarer than almost every business that fails in an economic shock would prefer to believe.</p>
+      </div>
+
+      <div class="signal-box" style="margin-top:2rem">
+        <p class="t-mono">The honest question DZ10 forces</p>
+        <p>If your business failed tomorrow due to an external event — a regulatory change, a market collapse, a geopolitical shock — would the post-mortem honestly conclude that you had done everything structurally reasonable to prepare for it? Or would it conclude that the external event triggered a collapse that a different capital structure, a different dependency profile, or a different cost base would have survived? DZ10 is the zone that forces you to interrogate your own resilience rather than your own luck.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
 
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">Cases where DZ10 appeared — as a secondary factor</p>
+      <div class="zone-body-text" style="margin-bottom:2rem">
+        <p>Three companies in the 198 carry DZ10 as a secondary classification. In each case, an external force was a genuine contributing factor — but not the primary cause. The primary cause was structural, and the structural cause was present and evidenced before the external event occurred.</p>
+      </div>
+
+      <div class="dz10-cases">
+        <div class="dz10-case">
+          <div class="dz10-case-top">
+            <span class="dz10-name">Napster</span>
+            <span class="t-mono" style="color:var(--ink-4)">Music/Tech · US · Shutdown 2001</span>
+          </div>
+          <p class="dz10-why">DZ10 secondary: the legal and licensing infrastructure for digital music did not yet exist — a genuine environmental condition, not a structural failure of Napster's making</p>
+          <p class="dz10-body">The RIAA lawsuit that destroyed Napster was not entirely avoidable — the legal framework for digital music licensing didn't exist, and Napster's centralised index architecture created a single point of legal attack that courts could and did act against. That environmental reality is the DZ10 element. The primary classification, however, is DZ7: Napster built its architecture with a structural flaw that a decentralised design would have survived, as BitTorrent later demonstrated. The external force was real. The structural amplifier determined the outcome.</p>
+        </div>
+
+        <div class="dz10-case">
+          <div class="dz10-case-top">
+            <span class="dz10-name">First Republic Bank</span>
+            <span class="t-mono" style="color:var(--ink-4)">Finance · US · Shutdown 2023</span>
+          </div>
+          <p class="dz10-why">DZ10 secondary: the SVB contagion in March 2023 triggered a bank run that spread across the sector — a genuine systemic event beyond any single institution's control</p>
+          <p class="dz10-body">The March 2023 SVB collapse triggered a contagion that spread to other regional banks through a mechanism — social media-accelerated withdrawal behaviour among correlated depositor bases — that was genuinely novel and difficult to anticipate. That is the DZ10 element. The primary classification is DZ7: First Republic was carrying 70% uninsured deposits concentrated among HNW and VC-backed clients whose withdrawal behaviour was highly correlated. The FDIC's post-failure report concluded the bank should have taken proactive steps to mitigate this risk. The contagion exploited the structure. It did not create it.</p>
+        </div>
+
+        <div class="dz10-case">
+          <div class="dz10-case-top">
+            <span class="dz10-name">Heartland Payment Systems</span>
+            <span class="t-mono" style="color:var(--ink-4)">Fintech · US · Significant breach 2009</span>
+          </div>
+          <p class="dz10-why">DZ10 secondary: the SQL injection attack methodology was sophisticated and the breach scale was genuinely exceptional — elements beyond standard operational security</p>
+          <p class="dz10-body">The 2009 breach of 130M+ card records at Heartland was one of the largest payment security incidents in history. Elements of the attack were sophisticated. The DZ10 classification reflects that the external threat environment included genuinely novel attack vectors. The primary classification, however, is DZ4/DZ7: Heartland had received PCI DSS assessments flagging vulnerabilities before the breach, the centralised architecture created a catastrophic concentration of risk, and the security investment had been deferred. The attack exploited known vulnerabilities on a known surface area.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">What DZ10 teaches about resilience</p>
+      <div class="zone-body-text">
+        <p>The rarity of DZ10 as a primary cause is not evidence that external forces don't matter. It is evidence that external forces almost always find structural vulnerabilities to exploit. The businesses that survive genuine black swans — wars, pandemics, regulatory acts, market collapses — tend not to be the ones with better luck. They tend to be the ones with better capital positions, more diversified dependencies, lower fixed cost bases, and less concentrated risks.</p>
+        <p>Resilience to DZ10 is not a separate strategic initiative. It is the byproduct of addressing DZ1 through DZ9 honestly. The business that has no single-point dependencies, no deferred integrity problems, no metrics that have lost contact with reality, no dependency on conditions that could reverse — that business has a structural capacity to absorb shocks that the others don't. The external event is the same. The outcome is different.</p>
+        <p>The framework's intellectual honesty requires DZ10 to exist. Its empirical findings suggest that founders who believe their business failed primarily because of external forces should interrogate that belief carefully — not because external forces aren't real, but because in 198 documented cases, they were never the whole story.</p>
+      </div>
+
+      <div class="rarity-block" style="margin-top:2.5rem">
+        <p class="t-mono">A note on the interrogator and DZ10</p>
+        <p>If your interrogator diagnosis surfaces DZ10 as a primary architecture, treat that finding with specific scepticism. Not because the external forces you are facing aren't real — they may be significant. But because the framework's dataset of 198 cases found zero instances where external force was the primary cause without a structural amplifier being present. Before accepting DZ10 as your primary classification, interrogate zones 1 through 9 against your current business with full honesty. The amplifier is almost always there.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. The question DZ10 always forces is: what made you fragile enough to be here?</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">External forces are real. Structural resilience is the only honest response to them. If your business is facing an external shock — regulatory, economic, competitive — the question that matters is not whether the shock was avoidable. It is whether the structure of your business gives you the capacity to survive it. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zone-dz9.html">← DZ9</a>
+        <a href="zones.html">All ten zones →</a>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
-  </div>
-</footer>
-
+<footer><div class="wrap footer-inner">
+  <span class="t-mono">THE 198</span>
+  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+</div></footer>
 </body>
 </html>

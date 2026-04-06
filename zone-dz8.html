@@ -3,112 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DZ8: The Human Ceiling &mdash; The 198</title>
+<title>DZ8: The Human Ceiling — The 198</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
+  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
+  .zone-body-text p { margin: 0 0 1.25rem; }
+  .zone-body-text p:last-child { margin-bottom: 0; }
+  .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
+  .signal-box .t-mono { margin-bottom: 0.75rem; }
+  .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
+</style>
 </head>
 <body>
-
 <nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">THE 198</a>
     <ul class="nav-links">
-      <li><a href="database.html">Database</a></li>
+      <li><a href="database.html">The database</a></li>
       <li><a href="zones.html">Death zones</a></li>
       <li><a href="evidence-patterns.html">Evidence</a></li>
       <li><a href="interrogator-diagnosis.html">The interrogator</a></li>
     </ul>
-    <a href="interrogator-diagnosis.html" class="btn">Is your business next? &rarr;</a>
+    <a href="interrogator-diagnosis.html" class="btn">Is your business next? →</a>
   </div>
 </nav>
-
 <main>
-
-<!-- ZONE HERO -->
-<section style="background:var(--dark);padding:4rem 0 3.5rem;border-bottom:1px solid var(--dark-3)">
-  <div class="wrap">
-    <div style="margin-bottom:2rem;display:flex;gap:1rem;align-items:center">
-      <a href="zones.html" class="btn-ghost-light">&larr; All zones</a>
-      <span class="t-mono-light" style="opacity:0.3">/</span>
-      <a href="zone-dz7.html" class="btn-ghost-light">&larr; DZ7</a>
-      <a href="zone-dz9.html" class="btn-ghost-light">DZ9 &rarr;</a>
-    </div>
-    <div class="hero-rule"></div>
-    <p style="font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.75rem">DZ8</p>
-    <h1 style="font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.1;color:var(--dark-ink);margin-bottom:0.5rem;letter-spacing:-0.02em">The Human Ceiling</h1>
-    <p style="font-family:var(--mono);font-size:0.78rem;color:var(--dark-ink-3);letter-spacing:0.06em;margin-bottom:3rem">The Kill Vector</p>
-    <div style="border-left:3px solid var(--accent);padding-left:1.75rem;max-width:700px;margin-bottom:2rem">
-      <p style="font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.25rem);line-height:1.75;color:var(--dark-ink)">The organisation's fate was determined not by the market, the product, or the macro environment — but by the specific limitations, pathologies, or failures of the people at the top. This zone covers the full spectrum of human failure in leadership: the autocrat who drove the company off a cliff with unchecked conviction, the founder who could not scale beyond their own cognitive capacity.</p>
-    </div>
-    <p style="font-family:var(--sans);font-size:0.9rem;font-weight:300;line-height:1.75;color:var(--dark-ink-2);max-width:660px">The Human Ceiling is the point beyond which the company cannot rise because the person or people at the top will not allow it — whether through action, inaction, ego, or fear. The company could only ever go as high as its leaders permitted. DZ8 appears as a named factor in 75.8% of all 198 cases. This is not a calibration problem. It is the thesis.</p>
-    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--dark-3)"><p class="t-label-light" style="margin-bottom:1.25rem">Cases in this zone include</p><div style="display:flex;flex-wrap:wrap;gap:0.5rem"><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Enron (Skilling)</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">WeWork (Neumann)</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Theranos (Holmes)</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">Boo.com (Malmsten)</span><span style="font-family:var(--mono);font-size:0.72rem;color:var(--dark-ink-2);border:1px solid var(--dark-3);padding:0.25rem 0.6rem">FTX (Bankman-Fried)</span></div></div>
-  </div>
-</section>
-
-<!-- STATS ROW -->
-<section style="border-bottom:1px solid var(--border)">
-  <div class="grid-3-dark" style="background:var(--border)">
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <p style="font-family:var(--mono);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--ink);line-height:1;margin-bottom:0.75rem">38</p>
-      <p class="t-mono">primary classifications in The 198</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem">
-      <span style="font-family:var(--mono);font-size:1.4rem;font-weight:500;color:var(--accent)">75.8%</span>
-      <p class="t-mono" style="margin-top:0.75rem">appear as named factor (primary or secondary)</p>
-    </div>
-    <div class="grid-cell" style="padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between">
-      <p class="t-body" style="font-size:0.875rem;margin-bottom:1.5rem">Does your business show this pattern? The interrogator maps your answers against all 198 failure architectures.</p>
-      <a href="interrogator-diagnosis.html" class="btn" style="align-self:flex-start">Take the interrogator &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- HUMAN SIGNAL -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border);background:var(--surface-up)">
-  <div class="wrap">
-    <p class="t-label" style="margin-bottom:1.5rem">The human signal</p>
-    <div style="max-width:680px">
-      <p class="t-body">There was a decision made in the last 18 months that people inside the organisation privately believed was wrong, and that no one successfully challenged.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FRAMEWORK NOTE -->
-<section style="padding:3.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">On scoring</p>
-        <p class="t-body" style="font-size:0.9rem">Score 7&ndash;10 when this zone was a major structural cause — its removal would have meaningfully delayed or altered the failure trajectory. Score 1&ndash;3 when the zone is demonstrably absent. Do not anchor to round numbers. A 7.5 is more honest than a forced 7 or 8.</p>
+  <section class="section zone-hero">
+    <div class="wrap">
+      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
+        <a href="zones.html" class="btn-ghost">← All zones</a>
+        <span class="t-mono" style="color:var(--border-2)">|</span>
+        <a href="zone-dz7.html" class="btn-ghost">← DZ7</a>
+        <a href="zone-dz9.html" class="btn-ghost">DZ9 →</a>
       </div>
-      <div>
-        <p class="t-label" style="margin-bottom:1.5rem">Classification</p>
-        <p class="t-body" style="font-size:0.9rem">Every company in The 198 receives one Primary Death Zone — the zone whose removal would most likely have prevented the failure. DZ8 is assigned as Primary when this architecture was the dominant structural cause, not merely a contributing factor.</p>
+      <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ8 — Death Zone Eight</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Human Ceiling</h1>
+      <p class="t-label" style="margin-bottom:0">The Kill Vector</p>
+      <div class="zone-stats-row">
+        <div class="zone-stat"><span>38</span><span>Primary in The 198</span></div>
+        <div class="zone-stat"><span>75.8%</span><span>Named factor across all 198</span></div>
+        <div class="zone-stat"><span>4.1</span><span>Avg overall failure score</span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- NAV FOOTER -->
-<section style="padding:2.5rem 0;border-bottom:1px solid var(--border)">
-  <div class="wrap" style="display:flex;gap:2rem;justify-content:space-between;align-items:center;flex-wrap:wrap">
-    <div style="display:flex;gap:1.5rem">
-      <a href="zone-dz7.html" class="btn-ghost">&larr; DZ7</a>
-      <a href="zone-dz9.html" class="btn-ghost">DZ9 &rarr;</a>
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">The pattern</p>
+      <div class="zone-body-text">
+        <p>DZ8 is the most frequently named factor in the 198. It appears in 75.8% of all cases — as primary, secondary, or present at score 5 or above. That number is the central argument of the entire framework. In three quarters of the corporate failures documented here, specific human decisions and behaviours at the leadership level were a meaningful causal factor in the death. The businesses didn't fail despite their leaders. They failed because of what their leaders did, or failed to do, at the specific moments that mattered.</p>
+        <p>The zone is named by its test: would a different leader, at the same company, at the same moment, likely have produced a different outcome? If yes, DZ8 scores high. This is the counterfactual that distinguishes human failure from structural failure. It is deliberately demanding. Vague management weakness doesn't qualify. The zone requires specificity: name the decision, name the person, explain why it was terminal.</p>
+        <p>DZ8 takes many forms — the autocrat who removed all dissent, the founder who couldn't separate personal conviction from market reality, the CEO who optimised for narrative rather than operations, the board that protected a leader past the point where protection was possible. What they share is that the failure was not inevitable. A different set of decisions, by a different person or team, would have produced a different company. The ceiling was human. It didn't have to be that low.</p>
+      </div>
+      <div class="signal-box">
+        <p class="t-mono">The signal you are probably not looking at</p>
+        <p>When did you last receive a piece of feedback that you genuinely disagreed with, sat with for more than 24 hours, and changed your mind about? If you cannot recall a specific instance in the last six months, it is not because the feedback hasn't come. It is because the mechanisms for it to reach you and register have either atrophied or were never built. Every founder in DZ8 believed they were acting on good information. They were — information that had been filtered through an organisation that had learned what they wanted to hear.</p>
+      </div>
     </div>
-    <a href="zones.html" class="btn-ghost">All ten zones &rarr;</a>
-  </div>
-</section>
+  </section>
 
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="margin-bottom:2rem">You are approaching this zone</p>
+      <p class="fork-intro">The businesses that navigated DZ8 did so by creating the conditions in which accurate information could reach the people who needed to act on it — and by being willing to act on it when it arrived.</p>
+
+      <div class="case-group-header">Businesses that didn't act — and what it cost them</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">WeWork</span>
+          <span class="t-mono">Real Estate/Tech · Global · Bankruptcy 2023 · Age 12</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible August 2019 S-1 filing: Neumann had borrowed $700M personally against company stock, assigned the "We" trademark to himself for $5.9M, and held 20-votes-per-share control — every governance accountability structure had been systematically removed</p>
+        <p class="t-body">The WeWork S-1 was not a disclosure document. It was a forensic record of how completely a single individual had removed every structural check on his own behaviour. The trademark self-dealing, the supervoting shares, the $700M personal loan, the $1.9B loss against $1.8B revenue at a $47B valuation — each of these individually was a governance failure. Together they described an organisation where Adam Neumann's judgement was the only judgement that existed, and where no mechanism remained to correct it.</p>
+        <p class="t-body" style="margin-top:1rem">The S-1 forced the removal Neumann's investors had been unwilling to make. SoftBank had invested $18.5B. JPMorgan had arranged $6B in financing. The board had no independent directors with meaningful power. Every institutional actor had made the same calculation: the narrative was too valuable to challenge, and the founder too central to the narrative to constrain. The IPO failure cost SoftBank $9B in write-downs. The bankruptcy in 2023 confirmed the human ceiling had been load-bearing from the beginning.</p>
+        <div class="case-action">
+          <p class="t-mono">What the ceiling looked like from inside</p>
+          <p>Inside WeWork, challenging Neumann was career-ending. The organisation had been built around a personality rather than a governance structure. The people who understood the numbers knew what they showed. They also knew what happened to people who said so. The information was there. The structure for it to become consequential was not.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Quibi</span>
+          <span class="t-mono">Media/Tech · US · Shutdown 2020 · Age 2</span>
+          <span class="case-outcome outcome-fail">Did not act</span>
+        </div>
+        <p class="case-signal-fail">Signal visible April 2020 launch: mobile-only premium content launched exactly when a pandemic had eliminated the commuter use-case that was the entire product thesis — no scenario planning had stress-tested the timing dependency</p>
+        <p class="t-body">Jeffrey Katzenberg and Meg Whitman raised $1.75B for Quibi on a specific thesis: commuters would watch premium short-form content on their phones during journeys. The pandemic eliminated commuting the week before launch. The question the $1.75B raise should have forced was whether the thesis was resilient to any change in its core assumption. It wasn't, and no one had tested it. The conviction that premium mobile content would succeed was so embedded in Katzenberg's worldview — and the fundraise had created such a public commitment — that scenario planning against the core assumption had become politically impossible inside the organisation.</p>
+        <div class="case-action">
+          <p class="t-mono">What the ceiling looked like from inside</p>
+          <p>$1.75B creates obligations. The raise had been made on a thesis. Questioning the thesis would have questioned the raise. The launch date was fixed because the fundraising narrative required it. Every internal signal that the thesis deserved stress-testing was filtered through an organisation that had been built to execute the thesis, not to challenge it.</p>
+        </div>
+      </div>
+
+      <div class="case-group-header">A business that raised the ceiling in time</div>
+
+      <div class="case-card">
+        <div class="case-card-top">
+          <span class="case-name">Intel</span>
+          <span class="t-mono">Semiconductors · US · Founded 1968 · Still trading</span>
+          <span class="case-outcome outcome-win">Acted</span>
+        </div>
+        <p class="case-signal-win">Signal visible 1984–1985: memory chip business under terminal price pressure from Japanese manufacturers — the founders could not see the exit clearly because they were inside the business that had built its identity around memory</p>
+        <p class="t-body">In 1985, Intel was losing its memory chip business to Japanese competitors who were manufacturing at costs Intel could not match. Founders Gordon Moore and Andy Grove had built Intel around memory. The company's identity, its engineering culture, and its investor narrative were all organised around a product that was being structurally undercut. The decision to exit memory and commit to microprocessors was obvious in retrospect and genuinely difficult in practice — because the people who needed to make it had built everything they had built around the thing they needed to abandon.</p>
+        <p class="t-body" style="margin-top:1rem">Grove's famous account of the decision describes him asking Moore: if the board replaced both of them, what would a new CEO do? Moore's answer was immediate: get out of memory. Grove's response was equally immediate: why shouldn't we walk out the door, come back in, and do it ourselves? The question — what would someone without our history decide? — was the mechanism that allowed two founders to see past the ceiling their own identities had created. Intel exited memory in 1985, committed fully to microprocessors, and became the dominant semiconductor company in the world.</p>
+        <div class="case-action">
+          <p class="t-mono">What they did differently</p>
+          <p>They created a deliberate mechanism to see past their own cognitive ceiling. The "new CEO" question is a specific technique for forcing the separation between what the business needs and what the current leadership is emotionally or historically committed to. It works because it externalises the decision — makes it hypothetical before making it real. The businesses in DZ8 that failed had leaders who could not create that separation, or did not try.</p>
+        </div>
+      </div>
+
+      <div class="derivative">
+        <p class="t-mono">What the turnarounds had in common</p>
+        <p class="derivative-intro">DZ8 is present in 75.8% of all 198 cases. The businesses that navigated it shared three characteristics — none of them passive.</p>
+        <div class="derivative-theme">
+          <span class="derivative-n">01</span>
+          <div>
+            <p class="derivative-title">They built structural mechanisms for dissent, not just cultural permission for it</p>
+            <p class="derivative-body">Telling people they can disagree is not sufficient. The businesses that navigated DZ8 built structures that made disagreement safe and consequential: anonymous feedback mechanisms, board members with real independence and real power, advisors specifically chosen to hold contrary views, deliberate post-mortems on decisions that went wrong. Cultural permission evaporates under pressure. Structural mechanisms persist. The test is not whether people feel they can speak. It is whether the information that results actually reaches the decision-makers and changes anything.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">02</span>
+          <div>
+            <p class="derivative-title">They separated their identity from the specific decisions they had made</p>
+            <p class="derivative-body">The deepest form of DZ8 is the leader who has merged their sense of self with a specific strategy, product, or market position — so that challenging the strategy feels like challenging the person. Grove's "new CEO" technique works because it creates a fictional separation between the leader and the decision. Other mechanisms serve the same function: a devil's advocate, a structured red team, an explicit "what would we have to believe for this to be wrong?" exercise. The leaders who navigated DZ8 found ways to hold their own convictions lightly enough to update them. The ones who didn't could not tell the difference between defending their business and defending themselves.</p>
+          </div>
+        </div>
+        <div class="derivative-theme">
+          <span class="derivative-n">03</span>
+          <div>
+            <p class="derivative-title">They acted on hard information before the cost of acting on it became catastrophic</p>
+            <p class="derivative-body">DZ8 decisions compound. A bad product decision made in year two, corrected in year two, costs time and money. The same decision, defended through years three and four because the leader couldn't separate it from their identity, and corrected in year five, costs the company. The businesses that navigated this zone were characterised by leaders who made the hard decision earlier than felt necessary — before the cost of deferral had compounded beyond recovery. That timing — acting when it is uncomfortable rather than when it is unavoidable — is the consistent distinction across every DZ8 survival case.</p>
+          </div>
+        </div>
+        <p class="derivative-close">The ceiling was human in every case. In the businesses that survived, the humans raised it. In the ones that didn't, the ceiling held — until the business couldn't.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad">
+    <div class="wrap">
+      <p class="t-mono" style="color:var(--accent);margin-bottom:1.25rem">Business 199 is always optional</p>
+      <h2 class="t-heading" style="max-width:520px;margin-bottom:1.25rem">The interrogator identified this architecture. What it cannot do is show you your own ceiling.</h2>
+      <p class="t-body" style="max-width:520px;margin-bottom:2rem">That requires someone outside your information flow — who can observe the decisions you have made, the information that did and didn't reach you, and the pattern of what you have and haven't been willing to update on. You cannot see your own ceiling from inside it. That is what makes it a ceiling. That is the conversation this tool is designed to open.</p>
+      <a href="interrogator-diagnosis.html" class="btn">Take the interrogator →</a>
+      <div class="zone-nav-bar">
+        <a href="zone-dz7.html">← DZ7</a>
+        <a href="zones.html">All zones →</a>
+        <a href="zone-dz9.html">DZ9 →</a>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="t-mono-light">THE 198</span>
-      <span class="t-mono-light" style="opacity:0.4">Forensic architecture of corporate failure</span>
-    </div>
-  </div>
-</footer>
-
+<footer><div class="wrap footer-inner">
+  <span class="t-mono">THE 198</span>
+  <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+</div></footer>
 </body>
 </html>
