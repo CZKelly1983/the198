@@ -6,30 +6,50 @@
 <title>DZ10: The Sovereign Paradox — The 198</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
-  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
-  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  /* Zone page additions — no overrides of existing site classes */
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--dark-3); flex-wrap: wrap; }
   .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
   .zone-body-text p { margin: 0 0 1.25rem; }
   .zone-body-text p:last-child { margin-bottom: 0; }
   .signal-box { border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; background: var(--surface-up); max-width: 640px; margin-top: 2rem; }
   .signal-box .t-mono { margin-bottom: 0.75rem; }
   .signal-box p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0; }
+  .fork-intro { font-family: var(--serif); font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.4; color: var(--ink); max-width: 620px; margin-bottom: 2.5rem; }
+  .case-group-header { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-top: 3rem; margin-bottom: 0; }
+  .case-card { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .case-card-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .case-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); line-height: 1.1; }
+  .case-outcome { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; margin-left: auto; }
+  .outcome-fail { background: #fdf0ee; color: var(--accent); }
+  .outcome-win  { background: #eef5f0; color: #2a6041; }
+  .case-signal-fail { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-signal-win  { font-family: var(--mono); font-size: 0.72rem; color: #2a6041; line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .case-action { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .case-action .t-mono { margin-bottom: 0.5rem; }
+  .case-action p { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: var(--ink-3); max-width: 600px; margin: 0; }
+  .derivative { background: var(--ink); padding: 3rem 3.5rem; margin-top: 3rem; }
+  .derivative .t-mono { color: var(--accent); margin-bottom: 1.5rem; }
+  .derivative-intro { font-family: var(--serif); font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.45; color: #fff; margin-bottom: 2rem; max-width: 580px; }
+  .derivative-theme { padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: 28px 1fr; gap: 1.25rem; align-items: start; }
+  .derivative-n { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); padding-top: 2px; }
+  .derivative-title { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .derivative-body { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.6); margin: 0; }
+  .derivative-close { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.4); margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); max-width: 500px; line-height: 1.55; }
+  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
+  .zone-nav-bar a:hover { color: var(--accent); }
+  /* DZ10-specific */
   .rarity-block { background: var(--surface-up); border: 1px solid var(--border); padding: 2rem 2.5rem; max-width: 680px; margin-top: 2.5rem; }
   .rarity-block .t-mono { margin-bottom: 0.75rem; }
   .rarity-block p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0 0 0.75rem; }
   .rarity-block p:last-child { margin-bottom: 0; }
-  .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
-  .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
-  .zone-nav-bar a:hover { color: var(--accent); }
   .dz10-cases { margin-top: 3rem; }
   .dz10-case { padding: 2rem 0; border-bottom: 1px solid var(--border); }
   .dz10-case-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
   .dz10-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); }
   .dz10-why { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
   .dz10-body { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); max-width: 660px; margin: 0; }
-  @media (max-width: 640px) { .zone-stats-row { gap: 1.5rem; } }
+  @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
 </style>
 </head>
 <body>
@@ -46,20 +66,20 @@
   </div>
 </nav>
 <main>
-  <section class="section zone-hero">
+  <section class="zone-hero">
     <div class="wrap">
       <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
-        <a href="zones.html" class="btn-ghost">← All zones</a>
-        <span class="t-mono" style="color:var(--border-2)">|</span>
-        <a href="zone-dz9.html" class="btn-ghost">← DZ9</a>
+        <a href="zones.html" class="btn-ghost-light">← All zones</a>
+        <span class="t-mono" style="color:var(--dark-3)">|</span>
+        <a href="zone-dz9.html" class="btn-ghost-light">← DZ9</a>
       </div>
       <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ10 — Death Zone Ten</p>
-      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Sovereign Paradox</h1>
-      <p class="t-label" style="margin-bottom:0">The Unplannable Strike</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem;color:var(--dark-ink)">The Sovereign Paradox</h1>
+      <p class="t-label-light" style="margin-bottom:0">The Unplannable Strike</p>
       <div class="zone-stats-row">
-        <div class="zone-stat"><span>0</span><span>Primary in The 198</span></div>
-        <div class="zone-stat"><span>1.5%</span><span>Named factor across all 198</span></div>
-        <div class="zone-stat"><span>—</span><span>No primary OFS to report</span></div>
+        <div class="zone-stat"><span style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1;color:var(--dark-ink);display:block">0</span><span style="font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark-ink-3);display:block;margin-top:4px">Primary in The 198</span></div>
+        <div class="zone-stat"><span style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1;color:var(--dark-ink);display:block">1.5%</span><span style="font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark-ink-3);display:block;margin-top:4px">Named factor across all 198</span></div>
+        <div class="zone-stat"><span style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1;color:var(--dark-ink);display:block">—</span><span style="font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark-ink-3);display:block;margin-top:4px">No primary OFS to report</span></div>
       </div>
     </div>
   </section>

@@ -6,10 +6,8 @@
 <title>DZ1: The Complexity Trap — The 198</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  .zone-hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
-  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .zone-stat span:first-child { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--ink); }
-  .zone-stat span:last-child { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+  /* Zone page additions — no overrides of existing site classes */
+  .zone-stats-row { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--dark-3); flex-wrap: wrap; }
   .zone-body-text { font-family: var(--sans); font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--ink-2); max-width: 680px; }
   .zone-body-text p { margin: 0 0 1.25rem; }
   .zone-body-text p:last-child { margin-bottom: 0; }
@@ -40,6 +38,17 @@
   .zone-nav-bar { display: flex; gap: 1.75rem; padding-top: 2rem; border-top: 1px solid var(--border); margin-top: 4rem; }
   .zone-nav-bar a { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ink-3); text-decoration: none; }
   .zone-nav-bar a:hover { color: var(--accent); }
+  /* DZ10-specific */
+  .rarity-block { background: var(--surface-up); border: 1px solid var(--border); padding: 2rem 2.5rem; max-width: 680px; margin-top: 2.5rem; }
+  .rarity-block .t-mono { margin-bottom: 0.75rem; }
+  .rarity-block p { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); margin: 0 0 0.75rem; }
+  .rarity-block p:last-child { margin-bottom: 0; }
+  .dz10-cases { margin-top: 3rem; }
+  .dz10-case { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .dz10-case-top { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .dz10-name { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); }
+  .dz10-why { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); line-height: 1.55; margin-bottom: 0.9rem; max-width: 640px; }
+  .dz10-body { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.7; color: var(--ink-2); max-width: 660px; margin: 0; }
   @media (max-width: 640px) { .derivative { padding: 2rem 1.5rem; } .case-outcome { margin-left: 0; } .zone-stats-row { gap: 1.5rem; } }
 </style>
 </head>
@@ -60,28 +69,28 @@
 
 <main>
 
-  <section class="section zone-hero">
+  <section class="zone-hero">
     <div class="wrap">
       <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center">
-        <a href="zones.html" class="btn-ghost">← All zones</a>
-        <span class="t-mono" style="color:var(--border-2)">|</span>
-        <a href="zone-dz2.html" class="btn-ghost">DZ2 →</a>
+        <a href="zones.html" class="btn-ghost-light">← All zones</a>
+        <span class="t-mono" style="color:var(--dark-3)">|</span>
+        <a href="zone-dz2.html" class="btn-ghost-light">DZ2 →</a>
       </div>
       <p class="t-mono" style="color:var(--accent);margin-bottom:0.75rem">DZ1 — Death Zone One</p>
-      <h1 class="t-verdict" style="margin-bottom:0.5rem">The Complexity Trap</h1>
-      <p class="t-label" style="margin-bottom:0">The Weight of Bloat</p>
+      <h1 class="t-verdict" style="margin-bottom:0.5rem;color:var(--dark-ink)">The Complexity Trap</h1>
+      <p class="t-label-light" style="margin-bottom:0">The Weight of Bloat</p>
       <div class="zone-stats-row">
         <div class="zone-stat">
-          <span>6</span>
-          <span>Primary in The 198</span>
+          <span style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1;color:var(--dark-ink);display:block">6</span>
+          <span style="font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark-ink-3);display:block;margin-top:4px">Primary in The 198</span>
         </div>
         <div class="zone-stat">
-          <span>14.1%</span>
-          <span>Named factor across all 198</span>
+          <span style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1;color:var(--dark-ink);display:block">14.1%</span>
+          <span style="font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark-ink-3);display:block;margin-top:4px">Named factor across all 198</span>
         </div>
         <div class="zone-stat">
-          <span>4.4</span>
-          <span>Avg overall failure score</span>
+          <span style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);line-height:1;color:var(--dark-ink);display:block">4.4</span>
+          <span style="font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark-ink-3);display:block;margin-top:4px">Avg overall failure score</span>
         </div>
       </div>
     </div>
