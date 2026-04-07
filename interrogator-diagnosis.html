@@ -4,192 +4,199 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The interrogator — The 198</title>
+<link rel="stylesheet" href="style.css">
 <style>
-:root {
-  --serif: 'Georgia', 'Times New Roman', serif;
-  --mono: 'Courier New', monospace;
-  --surface: #0a0a0a;
-  --ink: #d4d0c8;
-  --ink-2: #a09c94;
-  --ink-3: #6a6660;
-  --ink-4: #3a3630;
-  --accent: #c8a86b;
-  --accent-dim: #8a7048;
-  --border: #1e1e1e;
-  --border-2: #2a2a2a;
-  --red: #c85c5c;
-  --green: #6b9e6b;
+/* ─── INTERROGATOR-SPECIFIC STYLES ─────────────────────────────────────────
+   All base typography, nav, layout, buttons, colours from style.css.
+   Only interrogator UI components defined here.
+──────────────────────────────────────────────────────────────────────────── */
+
+.inq-wrap { max-width: 720px; margin: 0 auto; padding: 0 var(--gap); }
+
+/* PRIVACY NOTICE */
+.privacy-notice {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-4);
+  border-left: 1px solid var(--border-2);
+  padding: 0.75rem 1.25rem;
+  line-height: 1.8;
+  margin-bottom: 3rem;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { background: var(--surface); color: var(--ink); font-family: var(--serif); font-size: 16px; line-height: 1.6; }
 
-/* NAV */
-.site-nav { border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 52px; }
-.nav-logo { font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; }
-.nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; transition: color 0.15s; }
-.nav-links a:hover { color: var(--accent); }
-.btn { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid var(--accent-dim); color: var(--accent); padding: 8px 16px; text-decoration: none; transition: all 0.15s; cursor: pointer; }
-.btn:hover { background: var(--accent); color: var(--surface); }
-.btn-ghost { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; border: 1px solid var(--border-2); color: var(--ink-3); padding: 8px 16px; text-decoration: none; transition: all 0.15s; cursor: pointer; }
-.btn-ghost:hover { border-color: var(--ink-3); color: var(--ink); }
-
-/* LAYOUT */
-.inq-wrap { max-width: 760px; margin: 0 auto; padding: 0 32px; }
-.section { padding: 5rem 0 4rem; }
-
-/* INTRO */
-.t-mono { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--ink-3); }
-.t-verdict { font-family: var(--serif); font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: normal; line-height: 1.25; color: var(--ink); }
-.t-verdict em { font-style: italic; color: var(--ink-2); }
-.privacy-notice { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-4); line-height: 1.6; border: 1px solid var(--border-2); padding: 1rem 1.25rem; margin-bottom: 2.5rem; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-.grid-cell { background: var(--surface); padding: 1.75rem; }
-.t-stat { font-family: var(--mono); font-size: 2rem; color: var(--accent); letter-spacing: -0.02em; }
-
-/* QUESTIONS */
-.phase-track { display: flex; gap: 8px; margin-bottom: 2.5rem; opacity: 0; transition: opacity 0.4s; }
+/* PHASE TRACK */
+.phase-track { display: flex; gap: 6px; margin-bottom: 3rem; opacity: 0; transition: opacity 0.4s; }
 .phase-track.visible { opacity: 1; }
-.phase-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-2); transition: background 0.3s; }
-.phase-dot.done { background: var(--accent-dim); }
+.phase-dot { width: 40px; height: 2px; background: var(--border-2); transition: background 0.3s; }
+.phase-dot.done { background: var(--ink); }
 .phase-dot.active { background: var(--accent); }
 
-.q-card { animation: fadeUp 0.3s ease; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-.q-number { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; color: var(--ink-4); margin-bottom: 1.5rem; text-transform: uppercase; }
-.q-text { font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: normal; line-height: 1.4; margin-bottom: 0.75rem; }
-.q-sub { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-3); margin-bottom: 2rem; }
-.options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
-.opt { background: var(--surface); border: 1px solid var(--border-2); color: var(--ink); padding: 1rem 1.25rem; text-align: left; cursor: pointer; transition: all 0.15s; font-family: var(--serif); font-size: 0.95rem; line-height: 1.4; }
-.opt:hover { border-color: var(--ink-3); }
-.opt.selected { border-color: var(--accent); color: var(--accent); }
-.opt-label { display: block; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--ink-4); margin-bottom: 4px; text-transform: uppercase; }
-.opt.selected .opt-label { color: var(--accent-dim); }
-.q-nav { display: flex; gap: 1rem; }
+/* QUESTION CARD */
+.q-card { display: none; animation: fadeUp 0.35s ease; }
+.q-card.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.q-number { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); margin-bottom: 1.25rem; letter-spacing: 0.06em; }
+.q-text { font-family: var(--serif); font-size: clamp(1.3rem, 2.5vw, 1.75rem); line-height: 1.35; margin-bottom: 0.75rem; color: var(--ink); }
+.q-sub { font-family: var(--sans); font-size: 0.875rem; color: var(--ink-3); font-weight: 300; margin-bottom: 2.5rem; line-height: 1.65; }
+
+/* OPTIONS */
+.options { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+.opt {
+  display: block; padding: 1.1rem 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--surface-up);
+  cursor: pointer; text-align: left;
+  font-family: var(--sans); font-size: 0.9rem; font-weight: 300; color: var(--ink-2);
+  line-height: 1.5; transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.opt:hover { border-color: var(--ink); color: var(--ink); }
+.opt.selected { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+.opt .opt-label { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-4); display: block; margin-bottom: 0.3rem; letter-spacing: 0.06em; }
+.opt.selected .opt-label { color: var(--surface); opacity: 0.6; }
+.q-nav { display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; }
 
 /* CALCULATING */
-.calculating { display: none; text-align: center; padding: 4rem 0; }
+.calculating { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); padding: 4rem 0; display: none; }
 .calculating.active { display: block; }
-.calc-dots::after { content: ''; animation: dots 1.5s infinite; }
-@keyframes dots { 0%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
+.calc-dots { display: inline-block; animation: dots 1.4s infinite; }
+@keyframes dots { 0%,20%{content:"."} 40%{content:".."} 60%,100%{content:"..."} }
 
 /* VERDICT */
 #verdict { display: none; }
-#verdict.active { display: block; }
+#verdict.active { display: block; animation: fadeUp 0.5s ease; }
 
-.verdict-zone { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-dim); margin-bottom: 0.75rem; }
-.verdict-heading { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: normal; line-height: 1.15; margin-bottom: 0.5rem; }
-.verdict-sub { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-3); margin-bottom: 3rem; }
+.verdict-zone { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+.verdict-heading { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin-bottom: 0.5rem; }
+.verdict-sub { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); margin-bottom: 3rem; }
+.verdict-section { border-top: 1px solid var(--border); padding: 2rem 0; }
+.verdict-section-label { font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 1.25rem; }
+.verdict-body { font-family: var(--serif); font-size: 1.05rem; line-height: 1.75; color: var(--ink); }
 
-.verdict-section { margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); }
-.verdict-section:last-child { border-bottom: none; }
-.verdict-section-label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 1.25rem; }
-
-.verdict-bar { border-left: 3px solid var(--accent); padding-left: 1.5rem; }
-.verdict-body { font-size: 1rem; line-height: 1.75; color: var(--ink-2); }
-
-/* VECTORS */
-.vector-grid { display: flex; flex-direction: column; gap: 0.75rem; }
-.vector-row { display: grid; grid-template-columns: 140px 1fr 48px; gap: 1.25rem; align-items: center; }
-.vector-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; color: var(--ink-3); }
+/* TRI-VECTOR BARS */
+.vector-grid { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem; }
+.vector-row { display: grid; grid-template-columns: 140px 1fr 48px; gap: 1rem; align-items: center; }
+.vector-label { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-3); }
 .vector-label.dominant { color: var(--accent); }
-.vector-track { height: 3px; background: var(--border-2); position: relative; }
-.vector-fill { height: 100%; background: var(--border-2); transition: width 0.8s ease; }
-.vector-fill.pr-bar { background: #6b8fa0; }
-.vector-fill.sl-bar { background: #8a7a6b; }
-.vector-fill.he-bar { background: #9b6b6b; }
-.vector-fill.dominant { background: var(--accent); }
-.vector-val { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-3); text-align: right; }
-.vector-val.dominant { color: var(--accent); }
+.vector-bar-wrap { background: var(--border); height: 3px; position: relative; overflow: hidden; }
+.vector-bar-fill { height: 100%; background: var(--ink-3); width: 0%; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.vector-bar-fill.dominant { background: var(--accent); }
+.vector-score { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); text-align: right; }
+.vector-score.dominant { color: var(--accent); }
 
 /* LEAD INDICATOR */
-.lead-box { background: #0f0f0f; border: 1px solid var(--border-2); border-left: 3px solid var(--accent-dim); padding: 1.5rem; }
-.lead-text { font-size: 0.95rem; line-height: 1.8; color: var(--ink-2); }
-.lead-text strong { color: var(--ink); font-weight: normal; font-style: italic; }
+.lead-box { border: 1px solid var(--border-2); padding: 1.5rem; }
+.lead-text { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; line-height: 1.85; color: var(--ink-2); }
+.lead-text strong { color: var(--ink); font-weight: 400; font-style: italic; }
 
 /* TWINS */
-.twins-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
-.twin-card { background: var(--surface); padding: 1.5rem; text-decoration: none; display: block; transition: background 0.15s; cursor: pointer; }
-.twin-card:hover { background: #111; }
-.twin-rank { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--ink-4); margin-bottom: 0.5rem; text-transform: uppercase; }
-.twin-company { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); margin-bottom: 0.4rem; }
-.twin-meta { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-4); margin-bottom: 0.75rem; letter-spacing: 0.04em; }
-.twin-parallel { font-size: 0.875rem; line-height: 1.65; color: var(--ink-3); }
-.twin-link-hint { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--accent-dim); margin-top: 0.75rem; }
+.twins-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+.twin-card {
+  background: var(--surface-up); padding: 1.5rem;
+  text-decoration: none; display: block;
+  transition: background 0.15s; cursor: pointer;
+  border-bottom: none;
+}
+.twin-card:hover { background: var(--surface); }
+.twin-rank { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--ink-4); margin-bottom: 0.4rem; text-transform: uppercase; }
+.twin-company { font-family: var(--serif); font-size: 1.05rem; color: var(--ink); margin-bottom: 0.3rem; }
+.twin-meta { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-4); margin-bottom: 0.75rem; letter-spacing: 0.04em; }
+.twin-parallel { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; color: var(--ink-2); line-height: 1.65; }
+.twin-link-hint { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--ink-4); margin-top: 0.75rem; transition: color 0.15s; }
 .twin-card:hover .twin-link-hint { color: var(--accent); }
 
-/* TRIAGE */
-.triage-items { display: flex; flex-direction: column; gap: 1.5rem; }
-.triage-item { display: grid; grid-template-columns: 36px 1fr; gap: 1.5rem; align-items: flex-start; }
-.triage-n { font-family: var(--mono); font-size: 0.7rem; color: var(--accent-dim); padding-top: 0.2rem; }
-.triage-action strong { display: block; font-family: var(--serif); font-size: 0.95rem; font-weight: normal; color: var(--ink); margin-bottom: 0.4rem; }
-.triage-action { font-size: 0.875rem; line-height: 1.65; color: var(--ink-3); }
+/* DATABASE LINK BLOCK */
+.db-link-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.db-link-text { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-3); line-height: 1.6; }
+.db-link-text strong { color: var(--ink-2); font-weight: 500; }
+.db-link-btn {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink);
+  border: 1px solid var(--border-2); padding: 0.45rem 1rem;
+  text-decoration: none; white-space: nowrap;
+  transition: all 0.15s; background: transparent;
+}
+.db-link-btn:hover { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 
-/* CLOSE / CTA */
-.cta-block { background: #0d0d0d; border: 1px solid var(--border-2); padding: 2.5rem; }
-.cta-close { font-family: var(--serif); font-size: clamp(1rem, 2vw, 1.3rem); line-height: 1.5; color: var(--ink-2); margin-bottom: 1.5rem; font-style: italic; }
-.cta-close strong { color: var(--ink); font-style: normal; font-weight: normal; }
-.cta-body { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-3); line-height: 1.7; margin-bottom: 2rem; }
+/* TRIAGE */
+.triage-items { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin-bottom: 2rem; }
+.triage-item { background: var(--surface-up); padding: 1.5rem; display: grid; grid-template-columns: 32px 1fr; gap: 1.25rem; align-items: start; }
+.triage-n { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); padding-top: 3px; }
+.triage-action { font-family: var(--sans); font-size: 0.875rem; font-weight: 300; color: var(--ink-2); line-height: 1.7; }
+.triage-action strong { display: block; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+
+/* CTA BLOCK */
+.cta-block { border: 1px solid var(--ink); padding: 2.5rem; margin-top: 3rem; margin-bottom: 3rem; }
+.cta-close { font-family: var(--serif); font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.55; color: var(--ink-2); margin-bottom: 1.25rem; font-style: italic; }
+.cta-close strong { color: var(--ink); font-style: normal; }
+.cta-body { font-family: var(--sans); font-size: 0.9rem; font-weight: 300; color: var(--ink-2); margin-bottom: 2rem; line-height: 1.75; }
 .cta-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
 
-/* COPY / CLIPBOARD */
-.copy-block { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
-.copy-label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 0.75rem; }
-.copy-row { display: flex; gap: 0; }
-.copy-text { flex: 1; background: var(--border); border: 1px solid var(--border-2); border-right: none; color: var(--ink-3); font-family: var(--mono); font-size: 0.75rem; padding: 0.6rem 1rem; outline: none; }
-.copy-btn { background: var(--border-2); border: 1px solid var(--border-2); color: var(--ink-3); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; padding: 0.6rem 1.25rem; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
-.copy-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--surface); }
-.copy-btn.copied { background: var(--green); border-color: var(--green); color: var(--surface); }
-.copy-note { font-family: var(--mono); font-size: 0.65rem; color: var(--ink-4); margin-top: 0.5rem; }
+/* COPY BLOCK */
+.copy-block { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.copy-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 0.6rem; }
+.copy-row { display: flex; }
+.copy-text {
+  flex: 1; background: var(--surface); border: 1px solid var(--border); border-right: none;
+  color: var(--ink-3); font-family: var(--mono); font-size: 0.72rem;
+  padding: 0.6rem 1rem; outline: none;
+}
+.copy-btn {
+  background: var(--surface-up); border: 1px solid var(--border);
+  color: var(--ink-3); font-family: var(--mono); font-size: 0.68rem;
+  letter-spacing: 0.08em; padding: 0.6rem 1.25rem;
+  cursor: pointer; white-space: nowrap; transition: all 0.15s;
+}
+.copy-btn:hover { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+.copy-btn.copied { background: #4a7c4a; border-color: #4a7c4a; color: #fff; }
+.copy-note { font-family: var(--mono); font-size: 0.62rem; color: var(--ink-4); margin-top: 0.5rem; }
 
-/* RESTART */
-.restart-row { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; gap: 2rem; align-items: center; }
-.restart-link { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); cursor: pointer; background: none; border: none; padding: 0; transition: color 0.15s; }
-.restart-link:hover { color: var(--ink-2); }
-
-/* DATABASE LINK */
-.db-link-block { background: #0f0f0f; border: 1px solid var(--border-2); padding: 1.5rem; margin-top: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-.db-link-text { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-3); line-height: 1.6; }
-.db-link-text strong { color: var(--ink-2); font-weight: normal; }
-.db-link-btn { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent-dim); padding: 8px 16px; text-decoration: none; white-space: nowrap; transition: all 0.15s; }
-.db-link-btn:hover { background: var(--accent); color: var(--surface); }
+/* RESTART ROW */
+.restart-row { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+.restart-link { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); cursor: pointer; background: none; border: none; padding: 0; transition: color 0.15s; text-decoration: none; }
+.restart-link:hover { color: var(--ink); }
 
 /* HIDDEN */
 #intro.hidden { display: none; }
 #questions { display: none; }
 #questions.active { display: block; }
 
-footer { border-top: 1px solid var(--border); padding: 24px 32px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-4); display: flex; justify-content: space-between; }
-
 @media (max-width: 640px) {
-  .nav-links { display: none; }
-  .site-nav .btn { display: none; }
-  .inq-wrap { padding: 0 16px; }
   .vector-row { grid-template-columns: 100px 1fr 40px; }
   .triage-item { grid-template-columns: 28px 1fr; gap: 1rem; }
   .cta-actions { flex-direction: column; align-items: flex-start; }
   .db-link-block { flex-direction: column; align-items: flex-start; }
   .copy-row { flex-direction: column; }
-  .copy-text { border-right: 1px solid var(--border-2); border-bottom: none; }
+  .copy-text { border-right: 1px solid var(--border); border-bottom: none; }
 }
 </style>
 </head>
 <body>
 
 <nav class="site-nav">
-  <a href="index.html" class="nav-logo">THE 198</a>
-  <ul class="nav-links">
-    <li><a href="database.html">The database</a></li>
-    <li><a href="zones.html">Death zones</a></li>
-    <li><a href="evidence-patterns.html">Evidence</a></li>
-    <li><a href="interrogator.html">The interrogator</a></li>
-  </ul>
-  <a href="interrogator.html" class="btn">Begin again &rarr;</a>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">THE 198</a>
+    <ul class="nav-links">
+      <li><a href="database.html">The database</a></li>
+      <li><a href="zones.html">Death zones</a></li>
+      <li><a href="evidence-patterns.html">Evidence</a></li>
+      <li><a href="interrogator.html">The interrogator</a></li>
+    </ul>
+    <a href="interrogator.html" class="btn">Begin again &rarr;</a>
+  </div>
 </nav>
 
 <main>
-<section class="section">
+<section class="section" style="padding:5rem 0 4rem">
 <div class="inq-wrap">
 
   <!-- INTRO -->
@@ -208,9 +215,18 @@ footer { border-top: 1px solid var(--border); padding: 24px 32px; font-family: v
       <span class="t-mono" style="color:var(--ink-4)">12 questions &nbsp;&middot;&nbsp; ~4 minutes &nbsp;&middot;&nbsp; no account required</span>
     </div>
     <div class="grid-3">
-      <div class="grid-cell"><p class="t-stat" style="margin-bottom:0.4rem;font-size:1.8rem">12</p><p class="t-mono">questions</p></div>
-      <div class="grid-cell"><p class="t-stat" style="margin-bottom:0.4rem;font-size:1.8rem">10</p><p class="t-mono">death zones mapped</p></div>
-      <div class="grid-cell"><p class="t-stat" style="margin-bottom:0.4rem;font-size:1.8rem">198</p><p class="t-mono">historical twins</p></div>
+      <div class="grid-cell" style="padding:1.75rem">
+        <p class="t-stat" style="margin-bottom:0.4rem;font-size:1.8rem">12</p>
+        <p class="t-mono">questions</p>
+      </div>
+      <div class="grid-cell" style="padding:1.75rem">
+        <p class="t-stat" style="margin-bottom:0.4rem;font-size:1.8rem">10</p>
+        <p class="t-mono">death zones mapped</p>
+      </div>
+      <div class="grid-cell" style="padding:1.75rem">
+        <p class="t-stat" style="margin-bottom:0.4rem;font-size:1.8rem">198</p>
+        <p class="t-mono">historical twins</p>
+      </div>
     </div>
   </div>
 
@@ -226,8 +242,8 @@ footer { border-top: 1px solid var(--border); padding: 24px 32px; font-family: v
     </div>
     <div id="qContainer"></div>
     <div class="calculating" id="calcState">
-      <p style="margin-bottom:1rem;font-family:var(--mono);font-size:0.85rem;color:var(--ink-3)">Mapping against 198 failure architectures<span class="calc-dots"></span></p>
-      <p class="t-mono" style="color:var(--ink-4)">The diagnosis takes a moment.</p>
+      <p style="margin-bottom:1rem">Mapping against 198 failure architectures<span class="calc-dots"></span></p>
+      <p style="color:var(--ink-4)">The diagnosis takes a moment.</p>
     </div>
   </div>
 
@@ -242,11 +258,16 @@ footer { border-top: 1px solid var(--border); padding: 24px 32px; font-family: v
 </main>
 
 <footer>
-  <span class="t-mono">THE 198</span>
-  <span class="t-mono">Forensic architecture of corporate failure</span>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="t-mono">THE 198</span>
+      <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+    </div>
+  </div>
 </footer>
 
 <script>
+
 // ─── DATA (full 198, DZ scores included) ────────────────────────────────────
 const THE198=JSON.parse('[{"id":1,"company":"Pets.com","year":2000,"sector":"E-commerce","geo":"US","age":1,"peak":"$300M valuation","failure_type":"Shutdown","dz":[3.0,7.5,8.5,2.0,2.0,7.0,3.0,4.0,2.0,1.0],"PR":5.25,"SL":4.18,"HE":3.75,"OFS":4.39,"VS":1.5,"primary_dz":"DZ3","sec1":"DZ2","sec2":"DZ6","lead":"Twelve months before shutdown, the company was spending $400 to acquire each customer against average order values of under $30 — a DZ2 signal visible in any unit economics review — while simultaneously depending on dot-com capital availability to bridge the gap, a DZ3 dependency that collapsed with the NASDAQ in Q1 2000."},{"id":2,"company":"WebVan","year":2001,"sector":"E-commerce","geo":"US","age":3,"peak":"$1.2B raised","failure_type":"Bankruptcy","dz":[4.0,3.0,5.0,2.0,2.0,7.5,6.5,8.5,2.0,1.0],"PR":4.0,"SL":4.8,"HE":4.44,"OFS":4.41,"VS":0.8,"primary_dz":"DZ8","sec1":"DZ6","sec2":"DZ7","lead":"Eighteen months before bankruptcy, Webvan contracted Bechtel for $1B in warehouses across 26 cities before demonstrating unit-economic viability in a single market — a DZ8 decision by CEO George Shaheen that locked in irreversible fixed costs and a DZ7 concentration in one catastrophic infrastructure bet."},{"id":3,"company":"Boo.com","year":2000,"sector":"E-commerce","geo":"Global","age":2,"peak":"$135M raised","failure_type":"Shutdown","dz":[3.0,4.0,5.5,2.0,2.0,7.0,3.0,9.0,2.0,1.0],"PR":3.98,"SL":3.95,"HE":4.34,"OFS":4.09,"VS":0.39,"primary_dz":"DZ8","sec1":"DZ6","sec2":"DZ3","lead":"On launch day, Boo.com recorded a 0.25% conversion rate against $22M already spent on marketing — a DZ8 signal that the simultaneous 18-country launch without validating the product or infrastructure had already made the burn rate unsurvivable."},{"id":4,"company":"Kozmo.com","year":2001,"sector":"E-commerce","geo":"US","age":3,"peak":"$280M raised","failure_type":"Shutdown","dz":[2.0,7.5,6.0,2.0,2.0,8.0,3.0,5.0,2.0,1.0],"PR":4.35,"SL":4.35,"HE":3.98,"OFS":4.23,"VS":0.37,"primary_dz":"DZ6","sec1":"DZ2","sec2":"DZ3","lead":"From its first year, Kozmo\'s average cost per delivery exceeded $7.50 against average order values of $10 with no delivery fee — a DZ2/DZ6 signal that the unit economics were terminal without infrastructure that did not yet exist."},{"id":5,"company":"eToys.com","year":2001,"sector":"E-commerce","geo":"US","age":3,"peak":"$8B peak market cap","failure_type":"Bankruptcy","dz":[2.0,6.0,8.0,2.0,2.0,5.0,3.0,4.0,2.0,1.0],"PR":4.55,"SL":3.78,"HE":3.8,"OFS":4.04,"VS":0.77,"primary_dz":"DZ3","sec1":"DZ2","sec2":"DZ6","lead":"In Christmas 1999, eToys.com failed to fulfil a significant proportion of orders due to logistics infrastructure that couldn\'t scale — a DZ3 signal that the $8B market cap was predicated on capital availability and growth assumptions that collapsed with the NASDAQ."},{"id":6,"company":"Flooz","year":2001,"sector":"Fintech","geo":"US","age":2,"peak":"$35M raised","failure_type":"Shutdown","dz":[2.0,6.0,6.0,2.0,2.0,7.5,3.0,4.5,2.0,1.0],"PR":4.15,"SL":4.03,"HE":3.83,"OFS":4.0,"VS":0.32,"primary_dz":"DZ6","sec1":"DZ3","sec2":"DZ2","lead":"Twelve months before shutdown, Flooz had spent the majority of its $35M raise on celebrity marketing while merchant acceptance remained negligible — a DZ6 signal that the infrastructure for digital currency trust did not yet exist in 2000."},{"id":7,"company":"Lehman Brothers","year":2008,"sector":"Finance","geo":"Global","age":158,"peak":"$60B revenue","failure_type":"Bankruptcy","dz":[5.0,4.0,4.0,8.5,2.0,7.0,7.5,8.0,3.0,2.0],"PR":3.67,"SL":5.43,"HE":5.49,"OFS":4.53,"VS":1.82,"primary_dz":"DZ4","sec1":"DZ7","sec2":"DZ8","lead":"By 2007, Lehman\'s leverage ratio had risen from 24:1 to 31:1 while MBS holdings doubled to $111B — a DZ4 signal embedded in every annual report that the firm was systematically borrowing against its own future."},{"id":8,"company":"Enron","year":2001,"sector":"Energy","geo":"US","age":16,"peak":"$101B revenue","failure_type":"Bankruptcy","dz":[3.0,6.0,3.0,9.0,2.0,3.0,3.0,7.0,3.0,1.0],"PR":3.35,"SL":3.6,"HE":5.11,"OFS":4.02,"VS":1.76,"primary_dz":"DZ4","sec1":"DZ2","sec2":"DZ8","lead":"In August 2001, Enron VP Sherron Watkins sent a memo directly to CEO Ken Lay warning the company could implode in a wave of accounting scandals — a DZ4 lead indicator that the integrity rot was visible to insiders years before the bankruptcy."},{"id":9,"company":"General Motors","year":2009,"sector":"Automotive","geo":"US","age":101,"peak":"$207B revenue","failure_type":"Bankruptcy","dz":[9.0,4.0,3.0,5.0,8.5,2.0,5.0,7.5,4.0,2.0],"PR":3.89,"SL":5.67,"HE":5.99,"OFS":4.89,"VS":2.1,"primary_dz":"DZ1","sec1":"DZ5","sec2":"DZ8","lead":"By 2005, GM was carrying a $1,500-per-vehicle legacy cost disadvantage versus Toyota while maintaining eight brands it could not afford — a DZ1 signal that no single leader had the authority or will to make the pruning decisions the structure required."},{"id":10,"company":"Washington Mutual","year":2008,"sector":"Finance","geo":"US","age":119,"peak":"$37B revenue","failure_type":"Bankruptcy","dz":[3.0,4.0,4.0,8.0,2.0,5.0,7.0,7.5,3.0,2.0],"PR":3.5,"SL":4.73,"HE":4.86,"OFS":4.36,"VS":1.36,"primary_dz":"DZ4","sec1":"DZ7","sec2":"DZ8","lead":"Between 2004 and 2006, Washington Mutual\'s subprime origination share rose from 14% to 37% while internal risk officers flagged deteriorating loan quality — a DZ4 signal that the organisation was systematically borrowing against its own future."},{"id":11,"company":"Toys R Us","year":2017,"sector":"Retail","geo":"US","age":70,"peak":"$11.5B revenue","failure_type":"Bankruptcy","dz":[5.0,3.0,2.0,3.0,8.0,4.0,7.5,4.0,3.0,1.0],"PR":3.4,"SL":4.83,"HE":3.6,"OFS":3.94,"VS":1.43,"primary_dz":"DZ5","sec1":"DZ7","sec2":"DZ1","lead":"In 2004, Toys R Us had allowed Amazon to become its primary online storefront, then ceded that relationship — a DZ5/DZ7 signal that the company had already surrendered the digital channel while its physical format faced structural decline."},{"id":12,"company":"Kodak","year":2012,"sector":"Technology","geo":"US","age":131,"peak":"$16B peak revenue","failure_type":"Bankruptcy","dz":[6.0,3.0,3.0,3.0,9.0,2.0,3.0,7.0,3.0,1.0],"PR":3.85,"SL":4.08,"HE":4.58,"OFS":4.17,"VS":0.73,"primary_dz":"DZ5","sec1":"DZ8","sec2":"DZ1","lead":"In 1981, Kodak\'s own market intelligence study accurately forecast digital photography\'s adoption curve — a DZ5 lead indicator that leadership then spent 15 years optimising around rather than confronting."},{"id":13,"company":"Blockbuster","year":2010,"sector":"Entertainment","geo":"US","age":25,"peak":"$6B peak revenue","failure_type":"Bankruptcy","dz":[4.0,6.0,3.0,3.0,8.5,2.0,4.0,8.0,3.0,1.0],"PR":4.0,"SL":3.88,"HE":4.98,"OFS":4.29,"VS":1.1,"primary_dz":"DZ5","sec1":"DZ8","sec2":"DZ2","lead":"In 2004, Blockbuster launched a credible counter-strategy under CEO Antioco — then investor Carl Icahn forced Antioco\'s removal and new CEO Keyes reversed it, a DZ8 decision that condemned the company."},{"id":14,"company":"Borders","year":2011,"sector":"Retail","geo":"US","age":40,"peak":"$4B peak revenue","failure_type":"Bankruptcy","dz":[3.0,6.0,3.0,3.0,8.0,3.0,3.0,7.5,3.0,1.0],"PR":3.85,"SL":3.65,"HE":4.36,"OFS":3.95,"VS":0.71,"primary_dz":"DZ5","sec1":"DZ8","sec2":"DZ2","lead":"In 2001, Borders signed a deal for Amazon to operate its online bookstore — a DZ8 decision that surrendered the digital channel entirely to the company that would destroy it."},{"id":15,"company":"Polaroid","year":2001,"sector":"Technology","geo":"US","age":63,"peak":"$3B peak revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,3.0,6.5,8.0,3.0,3.0,4.5,3.0,1.0],"PR":3.9,"SL":3.98,"HE":3.75,"OFS":3.88,"VS":0.23,"primary_dz":"DZ5","sec1":"DZ4","sec2":"DZ8","lead":"By 1999, digital camera unit sales had surpassed film cameras globally while Polaroid carried $950M in pension and debt obligations — a DZ5/DZ4 signal that the relevance horizon had been crossed simultaneously with the integrity debt being called."},{"id":16,"company":"RadioShack","year":2015,"sector":"Retail","geo":"US","age":94,"peak":"$4.8B peak revenue","failure_type":"Bankruptcy","dz":[7.0,4.0,2.0,3.0,8.5,2.0,3.0,5.0,3.0,1.0],"PR":3.55,"SL":4.33,"HE":4.08,"OFS":3.99,"VS":0.78,"primary_dz":"DZ5","sec1":"DZ1","sec2":"DZ8","lead":"By 2010, the smartphone had eliminated demand from RadioShack\'s core customer — a DZ5 signal the company addressed by attempting five different strategic identities without committing to any."},{"id":17,"company":"Circuit City","year":2008,"sector":"Retail","geo":"US","age":60,"peak":"$12B peak revenue","failure_type":"Bankruptcy","dz":[3.0,6.0,3.0,3.0,6.5,2.0,3.0,8.5,3.0,1.0],"PR":3.73,"SL":3.53,"HE":4.84,"OFS":4.03,"VS":1.31,"primary_dz":"DZ8","sec1":"DZ5","sec2":"DZ2","lead":"In March 2007, Circuit City laid off its 3,400 highest-paid hourly employees — a DZ8 decision that accelerated customer defection to Best Buy; Best Buy\'s comparable-store sales surged in the following quarter."},{"id":18,"company":"Sears","year":2018,"sector":"Retail","geo":"US","age":132,"peak":"$55B peak revenue","failure_type":"Bankruptcy","dz":[7.0,3.0,2.0,5.0,9.0,3.0,4.0,8.5,3.0,1.0],"PR":3.85,"SL":5.1,"HE":4.97,"OFS":4.64,"VS":1.25,"primary_dz":"DZ5","sec1":"DZ8","sec2":"DZ1","lead":"By 2010, Sears had not meaningfully renovated its store base in over a decade while Eddie Lampert restructured it as a hedge fund investment — a DZ8 decision that eliminated capital investment while the DZ5 relevance horizon was already in view."},{"id":19,"company":"Bed Bath & Beyond","year":2023,"sector":"Retail","geo":"US","age":52,"peak":"$12B peak revenue","failure_type":"Bankruptcy","dz":[3.0,4.0,3.0,3.0,6.0,3.0,7.0,9.0,3.0,1.0],"PR":3.5,"SL":4.28,"HE":4.85,"OFS":4.21,"VS":1.35,"primary_dz":"DZ8","sec1":"DZ7","sec2":"DZ5","lead":"In 2020-21, CEO Mark Tritton eliminated the national brands driving store traffic and replaced them with private-label alternatives — a DZ8 decision that directly caused comparable sales to fall 20%+ in 12 months."},{"id":20,"company":"Payless ShoeSource","year":2019,"sector":"Retail","geo":"US","age":57,"peak":"$3.5B peak revenue","failure_type":"Bankruptcy","dz":[5.0,3.0,2.0,3.0,8.0,3.0,7.5,4.0,3.0,1.0],"PR":3.35,"SL":4.73,"HE":3.43,"OFS":3.84,"VS":1.38,"primary_dz":"DZ5","sec1":"DZ7","sec2":"DZ1","lead":"By 2015, Payless carried $840M in PE-loaded debt while its core customer was migrating online — a DZ5/DZ7 signal that the debt structure had made store rationalisation impossible at precisely the moment the format needed reinvention."},{"id":21,"company":"Nokia (mobile division)","year":2013,"sector":"Technology","geo":"EU","age":15,"peak":"$65B peak revenue","failure_type":"Acquisition (distressed)","dz":[4.0,6.5,3.0,3.0,8.5,3.0,3.0,6.0,3.0,1.0],"PR":4.25,"SL":3.88,"HE":4.73,"OFS":4.29,"VS":0.85,"primary_dz":"DZ5","sec1":"DZ2","sec2":"DZ8","lead":"By 2010, Nokia\'s Symbian OS had lost ecosystem parity with iOS and Android — a DZ5 lead indicator that its 40% smartphone market share was built on a structurally obsolete platform."},{"id":22,"company":"BlackBerry","year":2016,"sector":"Technology","geo":"Global","age":34,"peak":"$20B peak revenue","failure_type":"Decline","dz":[3.0,6.0,3.0,3.0,8.0,3.0,3.0,6.5,3.0,1.0],"PR":3.95,"SL":3.63,"HE":4.63,"OFS":4.07,"VS":1.0,"primary_dz":"DZ5","sec1":"DZ2","sec2":"DZ8","lead":"In 2007, Mike Lazaridis and Jim Balsillie publicly dismissed the iPhone as impractical for enterprise — a DZ8 signal that co-CEOs could not see the DZ5 relevance shift driven by consumers pulling enterprise behind them."},{"id":23,"company":"MySpace","year":2011,"sector":"Social Media","geo":"US","age":8,"peak":"$580M acquisition value","failure_type":"Acquisition (distressed)","dz":[2.0,4.0,2.0,3.0,6.0,2.0,3.0,5.0,8.5,1.0],"PR":2.9,"SL":3.38,"HE":4.06,"OFS":3.45,"VS":1.16,"primary_dz":"DZ9","sec1":"DZ8","sec2":"DZ5","lead":"Between 2006 and 2008, News Corp\'s advertising-first management systematically degraded the MySpace user experience — a DZ9 lead indicator that the acquirer\'s industrial logic was destroying what had made the platform valuable."},{"id":24,"company":"Yahoo","year":2016,"sector":"Technology","geo":"US","age":21,"peak":"$125B peak market cap","failure_type":"Acquisition (distressed)","dz":[7.0,4.0,5.0,3.0,7.0,3.0,4.0,8.5,4.0,1.0],"PR":4.2,"SL":4.45,"HE":5.0,"OFS":4.55,"VS":0.8,"primary_dz":"DZ8","sec1":"DZ1","sec2":"DZ5","lead":"In February 2008, Yahoo\'s board rejected Microsoft\'s $44.6B acquisition offer at $31/share — a DZ8 decision that destroyed $30B of shareholder value as the stock fell to $15 within months."},{"id":25,"company":"Netscape","year":2003,"sector":"Technology","geo":"US","age":9,"peak":"$4.2B acquisition value","failure_type":"Shutdown","dz":[2.0,3.0,3.0,2.0,6.5,3.0,8.0,4.0,3.0,1.0],"PR":3.3,"SL":3.98,"HE":3.05,"OFS":3.44,"VS":0.93,"primary_dz":"DZ7","sec1":"DZ5","sec2":"","lead":"In August 1995, Microsoft announced Internet Explorer would be bundled free with Windows — a DZ7 lead indicator that Netscape\'s entire revenue model had been destroyed by a single platform decision it had no power to counter."},{"id":26,"company":"AltaVista","year":2003,"sector":"Technology","geo":"US","age":8,"peak":"$2.3B acquisition value","failure_type":"Shutdown","dz":[2.0,8.0,3.0,3.0,5.5,2.0,3.0,5.0,6.0,1.0],"PR":4.1,"SL":3.45,"HE":4.92,"OFS":4.16,"VS":1.47,"primary_dz":"DZ2","sec1":"DZ9","sec2":"DZ8","lead":"In 1998, Compaq\'s management transformed AltaVista from a pure search engine into an advertising portal — a DZ2 decision that elevated portal stickiness metrics over search quality at precisely the moment Google was building relevance-first algorithms."},{"id":27,"company":"Napster","year":2001,"sector":"Music/Tech","geo":"US","age":2,"peak":"$1B estimated value","failure_type":"Shutdown","dz":[1.0,2.0,2.0,2.0,2.0,4.0,8.0,2.0,2.0,7.5],"PR":2.25,"SL":3.83,"HE":2.03,"OFS":2.7,"VS":1.8,"primary_dz":"DZ7","sec1":"DZ10","sec2":"DZ6","lead":"In December 1999, the RIAA filed suit against Napster within six months of launch — a DZ10 signal that the licensing infrastructure for digital music did not yet exist; the centralised index architecture created the single point of legal attack."},{"id":28,"company":"Compaq","year":2002,"sector":"Technology","geo":"US","age":22,"peak":"$25B revenue","failure_type":"Acquisition (distressed)","dz":[5.0,6.0,3.0,3.0,7.5,2.0,3.0,7.0,3.0,1.0],"PR":3.95,"SL":3.95,"HE":4.15,"OFS":4.02,"VS":0.2,"primary_dz":"DZ5","sec1":"DZ8","sec2":"DZ2","lead":"In 1999, Dell overtook Compaq using a direct-to-consumer model that Compaq\'s channel-dependent structure could not replicate — a DZ5 lead indicator that its premium-PC relevance was structurally eroding."},{"id":29,"company":"Pan Am","year":1991,"sector":"Aviation","geo":"US","age":64,"peak":"$4.5B peak revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,3.0,3.0,7.5,3.0,7.5,6.5,3.0,2.0],"PR":3.65,"SL":4.43,"HE":4.05,"OFS":4.04,"VS":0.78,"primary_dz":"DZ5","sec1":"DZ7","sec2":"DZ8","lead":"The 1978 Airline Deregulation Act immediately exposed Pan Am\'s structural flaw — a purely international network with no domestic feed traffic — as low-cost domestic carriers emerged."},{"id":30,"company":"BHS","year":2016,"sector":"Retail","geo":"UK","age":88,"peak":"$2.1B peak revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,2.0,7.5,6.0,3.0,3.0,8.5,3.0,1.0],"PR":3.3,"SL":4.08,"HE":5.4,"OFS":4.26,"VS":2.1,"primary_dz":"DZ8","sec1":"DZ4","sec2":"DZ5","lead":"Between 2002 and 2004, Philip Green extracted £423M in dividends from BHS while making no meaningful investment in stores, technology, or the pension fund — a DZ8 lead indicator confirmed by parliamentary inquiry."},{"id":31,"company":"Woolworths (UK)","year":2008,"sector":"Retail","geo":"UK","age":99,"peak":"$3.1B peak revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,3.0,3.0,7.5,3.0,7.0,3.0,3.0,1.0],"PR":3.45,"SL":4.23,"HE":3.6,"OFS":3.76,"VS":0.78,"primary_dz":"DZ5","sec1":"DZ7","sec2":"","lead":"In 2001, Woolworths\' demerger from Kingfisher loaded £385M of debt and locked the business into 30-year sale-and-leaseback leases with upward-only rent reviews — a DZ7 structural trap that compounded annually."},{"id":32,"company":"Egghead Software","year":2000,"sector":"Retail","geo":"US","age":18,"peak":"$700M peak revenue","failure_type":"Shutdown","dz":[2.0,3.0,3.0,2.0,7.5,6.0,3.0,7.0,3.0,1.0],"PR":4.0,"SL":3.85,"HE":4.05,"OFS":3.97,"VS":0.2,"primary_dz":"DZ5","sec1":"DZ8","sec2":"DZ6","lead":"In 1998, Egghead closed all 80 physical stores and pivoted to online-only retail — a DZ8/DZ6 decision that was structurally correct in direction but premature in execution; the internet infrastructure for software e-commerce was 3-5 years from maturity."},{"id":33,"company":"360networks","year":2001,"sector":"Telecoms","geo":"Global","age":2,"peak":"$6B raised","failure_type":"Bankruptcy","dz":[3.0,3.0,9.0,3.0,2.0,5.0,7.5,4.0,3.0,1.0],"PR":4.55,"SL":4.68,"HE":3.08,"OFS":4.1,"VS":1.6,"primary_dz":"DZ3","sec1":"DZ7","sec2":"DZ6","lead":"By 2000, the \'internet traffic doubling every 100 days\' thesis underpinning 360networks\' $6B fibre rollout was demonstrably false — a DZ3 lead indicator that the business had been built on a mirage."},{"id":34,"company":"Broadband Sports","year":2001,"sector":"Media/Tech","geo":"US","age":3,"peak":"$60M raised","failure_type":"Shutdown","dz":[2.0,3.0,8.0,2.0,2.0,7.0,3.0,5.5,2.0,1.0],"PR":4.3,"SL":3.93,"HE":3.88,"OFS":4.04,"VS":0.42,"primary_dz":"DZ3","sec1":"DZ6","sec2":"DZ8","lead":"In 2000, Broadband Sports committed to expensive sports content rights assuming dot-com advertising revenue and broadband adoption curves the market did not deliver — a DZ3/DZ6 signal that the infrastructure for profitable online sports streaming did not yet exist."},{"id":35,"company":"Digex","year":2002,"sector":"Telecoms","geo":"US","age":8,"peak":"$1.1B revenue","failure_type":"Decline","dz":[2.0,2.0,5.0,3.0,2.0,3.0,8.5,3.0,6.5,1.0],"PR":3.1,"SL":4.33,"HE":3.8,"OFS":3.74,"VS":1.23,"primary_dz":"DZ7","sec1":"DZ9","sec2":"DZ3","lead":"By 2000, WorldCom had acquired 96% of Digex, creating a DZ7 structural trap where Digex\'s fate was entirely inseparable from its parent\'s collapse."},{"id":36,"company":"WorldCom","year":2002,"sector":"Telecoms","geo":"US","age":16,"peak":"$39B revenue","failure_type":"Bankruptcy","dz":[6.0,4.0,3.0,6.5,3.0,4.0,3.0,8.5,5.0,1.0],"PR":3.35,"SL":4.33,"HE":5.16,"OFS":4.28,"VS":1.81,"primary_dz":"DZ8","sec1":"DZ4","sec2":"DZ1","lead":"From 2000, WorldCom\'s board authorised hundreds of millions in personal loans to CEO Ebbers — visible in proxy statements — a DZ8 signal that governance had collapsed around a single individual whose financial interest drove the $11B accounting fraud."},{"id":37,"company":"Arthur Andersen","year":2002,"sector":"Professional Services","geo":"Global","age":89,"peak":"$9.3B revenue","failure_type":"Shutdown","dz":[3.0,4.0,3.0,7.0,3.0,3.0,8.5,5.5,4.0,1.0],"PR":3.35,"SL":4.48,"HE":4.05,"OFS":3.96,"VS":1.13,"primary_dz":"DZ7","sec1":"DZ4","sec2":"DZ8","lead":"In June 2001, the SEC issued a cease-and-desist against Arthur Andersen for the Waste Management fraud — a DZ7/DZ4 lead indicator that auditing independence had been systematically compromised by consulting fee dependence."},{"id":38,"company":"Barings Bank","year":1995,"sector":"Finance","geo":"UK","age":233,"peak":"$900M capital","failure_type":"Bankruptcy","dz":[2.0,2.0,2.0,5.5,2.0,2.0,8.5,4.0,4.0,1.0],"PR":2.6,"SL":3.83,"HE":3.73,"OFS":3.39,"VS":1.23,"primary_dz":"DZ7","sec1":"DZ4","sec2":"DZ8","lead":"From 1992, Nick Leeson simultaneously controlled both trading operations and the settlements back office — a DZ7 structural defect identified in internal audit but not remedied."},{"id":39,"company":"Bre-X","year":1997,"sector":"Mining","geo":"Global","age":5,"peak":"$6B peak market cap","failure_type":"Shutdown","dz":[2.0,3.0,3.0,8.5,2.0,2.0,7.5,5.0,3.0,1.0],"PR":3.5,"SL":4.0,"HE":4.38,"OFS":3.96,"VS":0.88,"primary_dz":"DZ4","sec1":"DZ7","sec2":"DZ8","lead":"From 1993 to 1997, Bre-X\'s core sample processing was exclusively controlled by chief geologist Michael de Guzman with no independent third-party verification — a DZ4/DZ7 structural defect enabling systematic sample salting."},{"id":40,"company":"Northvolt","year":2024,"sector":"Manufacturing","geo":"EU","age":8,"peak":"$12B valuation","failure_type":"Bankruptcy","dz":[3.0,5.5,3.0,4.0,2.0,3.0,7.0,8.0,3.0,1.0],"PR":3.25,"SL":4.18,"HE":5.09,"OFS":4.17,"VS":1.84,"primary_dz":"DZ8","sec1":"DZ7","sec2":"DZ2","lead":"By 2022, Northvolt\'s gigafactory was producing cells at a fraction of target yield rates while CEO Peter Carlsson continued to raise capital at multi-billion valuations — a DZ8 signal that leadership had decoupled its capital-raising narrative from operational reality."},{"id":41,"company":"FTX","year":2022,"sector":"Crypto/Finance","geo":"Global","age":3,"peak":"$32B valuation","failure_type":"Bankruptcy","dz":[3.0,4.0,4.0,9.0,2.0,3.0,7.5,8.0,4.0,1.0],"PR":3.5,"SL":4.7,"HE":5.22,"OFS":4.47,"VS":1.72,"primary_dz":"DZ4","sec1":"DZ8","sec2":"DZ7","lead":"From at least 2021, FTX customer deposits were being used by Alameda Research as trading capital — a DZ4/DZ8 fraud visible to insiders; Alameda\'s balance sheet was collateralised by FTT tokens that FTX itself had created."},{"id":42,"company":"WeWork","year":2023,"sector":"Real Estate/Tech","geo":"Global","age":12,"peak":"$47B peak valuation","failure_type":"Bankruptcy","dz":[3.0,8.0,6.5,4.0,2.0,3.0,3.0,9.0,4.0,1.0],"PR":4.6,"SL":3.83,"HE":4.88,"OFS":4.44,"VS":0.77,"primary_dz":"DZ8","sec1":"DZ2","sec2":"DZ3","lead":"The August 2019 S-1 revealed Adam Neumann had borrowed $700M personally against company stock, given himself 20-votes-per-share control, and recorded $1.9B in losses against $1.8B revenue while valuing the company at $47B."},{"id":43,"company":"Theranos","year":2018,"sector":"Healthcare/Tech","geo":"US","age":15,"peak":"$9B peak valuation","failure_type":"Shutdown","dz":[3.0,7.5,3.0,9.0,2.0,3.0,3.0,7.5,3.0,1.0],"PR":4.45,"SL":3.6,"HE":5.22,"OFS":4.42,"VS":1.62,"primary_dz":"DZ4","sec1":"DZ2","sec2":"DZ8","lead":"By 2013, Theranos\' own lab director had flagged internally that the Edison devices could not achieve clinical diagnostic accuracy — a DZ4 lead indicator that Holmes continued to raise capital and place test results in patients\' hands knowing the technology did not work."},{"id":44,"company":"MoviePass","year":2019,"sector":"Entertainment","geo":"US","age":7,"peak":"$400M valuation","failure_type":"Bankruptcy","dz":[2.0,7.5,6.0,2.0,2.0,2.0,3.0,8.5,2.0,1.0],"PR":4.45,"SL":3.55,"HE":3.98,"OFS":3.99,"VS":0.9,"primary_dz":"DZ8","sec1":"DZ2","sec2":"DZ3","lead":"In August 2017, MoviePass dropped the monthly price to $9.95 — below the average $10.99 ticket price — with no sustainable unit economics model; subscriber count was used as the proxy metric while the burn rate made the company terminally illiquid."},{"id":45,"company":"Quibi","year":2020,"sector":"Media/Tech","geo":"US","age":2,"peak":"$1.75B raised","failure_type":"Shutdown","dz":[2.0,7.5,4.5,3.0,2.0,5.0,3.0,8.5,3.0,2.0],"PR":4.25,"SL":3.88,"HE":4.23,"OFS":4.12,"VS":0.37,"primary_dz":"DZ8","sec1":"DZ2","sec2":"DZ6","lead":"Quibi launched mobile-only premium content in April 2020 — exactly when a pandemic had eliminated the commuter use-case that was the entire product thesis."},{"id":46,"company":"Munchery","year":2019,"sector":"Food Tech","geo":"US","age":8,"peak":"$125M raised","failure_type":"Shutdown","dz":[2.0,8.0,6.0,2.0,2.0,3.0,3.0,6.5,2.0,1.0],"PR":4.55,"SL":3.38,"HE":4.08,"OFS":4.0,"VS":1.17,"primary_dz":"DZ2","sec1":"DZ8","sec2":"DZ3","lead":"By 2017, Munchery\'s food waste rate exceeded 30-40% and delivery costs routinely exceeded per-order revenue — a DZ2 lead indicator that the metric dashboard was showing growth while the unit economics were terminal."},{"id":47,"company":"Hipmunk","year":2020,"sector":"Travel Tech","geo":"US","age":10,"peak":"$55M raised","failure_type":"Acquisition (distressed)","dz":[2.0,3.0,3.0,2.0,6.0,2.0,3.0,4.5,8.0,1.0],"PR":2.9,"SL":3.48,"HE":4.25,"OFS":3.54,"VS":1.35,"primary_dz":"DZ9","sec1":"DZ5","sec2":"DZ8","lead":"Following SAP\'s 2016 acquisition of Hipmunk, the product\'s distinctive consumer-first design was immediately redirected toward B2B corporate travel — a DZ9 lead indicator that the acquirer\'s logic was removing what made the product distinctive."},{"id":48,"company":"Jawbone","year":2017,"sector":"Consumer Tech","geo":"US","age":17,"peak":"$3.2B peak valuation","failure_type":"Shutdown","dz":[3.0,3.0,3.0,3.0,7.0,3.0,6.5,8.0,3.0,1.0],"PR":3.4,"SL":4.25,"HE":4.48,"OFS":4.04,"VS":1.08,"primary_dz":"DZ8","sec1":"DZ5","sec2":"DZ7","lead":"In 2015, Jawbone launched the UP3 with documented hardware quality failures while facing competition from Fitbit\'s IPO and the Apple Watch — a DZ8 signal that CEO Rahman continued raising at $3B+ valuations despite evidence the hardware-only model was terminal."},{"id":49,"company":"ScaleFactor","year":2020,"sector":"Fintech","geo":"US","age":4,"peak":"$100M raised","failure_type":"Shutdown","dz":[2.0,6.5,3.0,8.5,2.0,2.0,3.0,7.5,3.0,1.0],"PR":3.9,"SL":3.7,"HE":5.12,"OFS":4.24,"VS":1.42,"primary_dz":"DZ4","sec1":"DZ8","sec2":"DZ2","lead":"In 2019, Forbes published evidence that ScaleFactor\'s claimed AI-powered bookkeeping was performed by offshore human accountants — a DZ4/DZ8 lead indicator that the company had systematically misrepresented its core technology."},{"id":50,"company":"Mixer","year":2020,"sector":"Gaming/Media","geo":"US","age":4,"peak":"Microsoft-owned","failure_type":"Shutdown","dz":[2.0,3.0,4.0,2.0,5.0,2.0,7.5,5.5,7.0,1.0],"PR":2.95,"SL":3.88,"HE":3.78,"OFS":3.54,"VS":0.93,"primary_dz":"DZ7","sec1":"DZ8","sec2":"DZ9","lead":"By January 2020, Microsoft had spent $150M+ on exclusive streaming deals while Mixer\'s daily active users remained flat — a DZ8/DZ7 signal that the parent was unwilling to invest in platform infrastructure needed for retention."},{"id":51,"company":"Juicero","year":2017,"sector":"Consumer Tech","geo":"US","age":4,"peak":"$120M raised","failure_type":"Shutdown","dz":[1.0,7.5,3.0,2.0,2.0,3.0,2.0,9.0,2.0,1.0],"PR":4.0,"SL":3.13,"HE":3.58,"OFS":3.57,"VS":0.87,"primary_dz":"DZ8","sec1":"DZ2","sec2":"","lead":"At March 2016 launch, Juicero charged $699 for a machine whose core function could be replicated by hand — a DZ8 lead indicator that CEO Doug Evans had built a product around personal conviction rather than validated customer need."},{"id":52,"company":"Shyp","year":2018,"sector":"Logistics","geo":"US","age":5,"peak":"$50M raised","failure_type":"Shutdown","dz":[2.0,6.5,5.5,2.0,2.0,3.0,3.0,8.0,2.0,1.0],"PR":4.1,"SL":3.63,"HE":3.85,"OFS":3.86,"VS":0.47,"primary_dz":"DZ8","sec1":"DZ2","sec2":"DZ3","lead":"In 2015, Shyp converted couriers to full-time employees before proving unit economics — a DZ8 decision CEO Gibbon later acknowledged publicly; he simultaneously rejected investor advice to focus on small business customers and expanded geographically."},{"id":53,"company":"Beepi","year":2016,"sector":"Automotive","geo":"US","age":3,"peak":"$150M raised","failure_type":"Shutdown","dz":[2.0,5.5,3.0,6.5,2.0,2.0,3.0,8.5,3.0,1.0],"PR":3.65,"SL":3.53,"HE":4.43,"OFS":3.87,"VS":0.9,"primary_dz":"DZ8","sec1":"DZ2","sec2":"","lead":"By 2015, Beepi was burning $7M/month while founders\' personal bills were paid from company funds — a DZ8 lead indicator of governance collapse; Carvana proved the underlying model was sound under disciplined leadership."},{"id":54,"company":"Zume Pizza","year":2019,"sector":"Food Tech","geo":"US","age":4,"peak":"$375M raised","failure_type":"Decline","dz":[8.5,3.0,3.0,3.0,2.0,2.0,3.0,7.5,2.0,1.0],"PR":3.6,"SL":4.65,"HE":3.63,"OFS":3.96,"VS":1.05,"primary_dz":"DZ1","sec1":"DZ8","sec2":"","lead":"By 2018, Zume had simultaneously positioned itself as robot pizza company, food tech licensor, AI logistics platform and sustainable packaging startup — a DZ1 lead indicator that no single problem had been solved before additional complexity was added."},{"id":55,"company":"Convoy","year":2023,"sector":"Logistics","geo":"US","age":8,"peak":"$3.8B peak valuation","failure_type":"Shutdown","dz":[2.0,6.0,8.5,2.0,3.0,3.0,6.0,4.0,2.0,2.0],"PR":4.35,"SL":4.13,"HE":3.7,"OFS":4.06,"VS":0.65,"primary_dz":"DZ3","sec1":"DZ7","sec2":"DZ2","lead":"By late 2021, freight market volumes were normalising from pandemic peaks while Convoy\'s $3.8B valuation was predicated on those conditions persisting — a DZ3 lead indicator of no durable unit economics independent of the freight boom."},{"id":56,"company":"Olive AI","year":2022,"sector":"HealthTech","geo":"US","age":6,"peak":"$850M valuation","failure_type":"Shutdown","dz":[8.5,3.0,5.0,3.0,2.0,2.0,3.0,7.0,2.0,1.0],"PR":3.8,"SL":4.48,"HE":3.75,"OFS":4.01,"VS":0.73,"primary_dz":"DZ1","sec1":"DZ8","sec2":"DZ3","lead":"By 2021, Olive AI was simultaneously operating RCM, prior auth, population health, surgical analytics, a Medicaid insurer, and a VC fund — a DZ1 lead indicator of the lack of focus CEO Lane admitted in his July 2022 layoff memo."},{"id":57,"company":"Nasty Gal","year":2016,"sector":"E-commerce","geo":"US","age":10,"peak":"$300M peak revenue","failure_type":"Bankruptcy","dz":[3.0,4.0,3.0,6.5,5.5,2.0,3.0,8.0,3.0,1.0],"PR":3.55,"SL":3.7,"HE":4.97,"OFS":4.07,"VS":1.42,"primary_dz":"DZ8","sec1":"DZ4","sec2":"DZ5","lead":"In 2013, Nasty Gal faced multiple lawsuits alleging pregnancy discrimination — a DZ8/DZ4 lead indicator that founder Amoruso\'s management culture was creating structural legal exposure while the company overexpanded into physical retail."},{"id":58,"company":"Aeropostale","year":2016,"sector":"Retail","geo":"US","age":30,"peak":"$2.9B peak revenue","failure_type":"Bankruptcy","dz":[2.0,3.0,3.0,2.0,8.0,2.0,7.0,4.0,2.0,1.0],"PR":3.35,"SL":4.35,"HE":3.63,"OFS":3.78,"VS":1.0,"primary_dz":"DZ5","sec1":"DZ7","sec2":"","lead":"By 2014, teen mall traffic was in structural decline as smartphone-driven fashion discovery migrated online — a DZ5 lead indicator that Aeropostale\'s mall-anchored format had lost relevance."},{"id":59,"company":"American Apparel","year":2017,"sector":"Retail","geo":"US","age":27,"peak":"$633M peak revenue","failure_type":"Bankruptcy","dz":[2.0,3.0,2.0,6.5,5.5,2.0,2.0,8.5,3.0,1.0],"PR":3.25,"SL":3.45,"HE":4.97,"OFS":3.89,"VS":1.72,"primary_dz":"DZ8","sec1":"DZ4","sec2":"","lead":"Between 2012 and 2014, American Apparel\'s board paid millions defending CEO Dov Charney against documented harassment claims — a DZ8/DZ4 lead indicator that governance had been entirely subordinated to one individual."},{"id":60,"company":"Sports Authority","year":2016,"sector":"Retail","geo":"US","age":45,"peak":"$3.5B peak revenue","failure_type":"Bankruptcy","dz":[2.0,3.0,2.0,3.0,7.5,2.0,7.0,4.0,2.0,1.0],"PR":3.25,"SL":4.2,"HE":3.43,"OFS":3.63,"VS":0.97,"primary_dz":"DZ5","sec1":"DZ7","sec2":"","lead":"By 2010, Amazon sporting goods was growing 30%+ annually while Sports Authority carried $600M+ in PE-loaded debt — a DZ5/DZ7 lead indicator of simultaneous inability to invest in digital and permanent category migration online."},{"id":61,"company":"JC Penney","year":2020,"sector":"Retail","geo":"US","age":118,"peak":"$17.3B peak revenue","failure_type":"Bankruptcy","dz":[4.0,4.0,2.0,3.0,6.5,3.0,6.5,9.0,3.0,1.0],"PR":3.55,"SL":4.4,"HE":5.0,"OFS":4.32,"VS":1.45,"primary_dz":"DZ8","sec1":"DZ5","sec2":"DZ7","lead":"In February 2012, CEO Ron Johnson eliminated all coupons and promotions simultaneously — a DZ8 decision that drove comparable store sales down 25% in Q1 2012; his Apple Store conversion strategy ignored that JCP\'s entire customer relationship was built on promotional psychology."},{"id":62,"company":"Ascena Retail Group","year":2020,"sector":"Retail","geo":"US","age":14,"peak":"$7B peak revenue","failure_type":"Bankruptcy","dz":[8.5,3.0,2.0,3.0,6.5,3.0,6.5,4.0,3.0,1.0],"PR":3.5,"SL":5.1,"HE":3.55,"OFS":4.05,"VS":1.6,"primary_dz":"DZ1","sec1":"DZ5","sec2":"DZ7","lead":"In 2015, Ascena acquired Ann Taylor and LOFT adding a seventh brand to a portfolio already including Lane Bryant, Justice, Catherines, Dressbarn and Maurices — a DZ1 lead indicator that the organisation resolved every strategic challenge by acquisition rather than focus."},{"id":63,"company":"Serta Simmons Bedding","year":2023,"sector":"Manufacturing","geo":"US","age":90,"peak":"$3.2B revenue","failure_type":"Bankruptcy","dz":[2.0,3.0,3.0,3.0,6.0,3.0,8.5,3.0,3.0,1.0],"PR":3.15,"SL":4.35,"HE":3.55,"OFS":3.68,"VS":1.2,"primary_dz":"DZ7","sec1":"DZ5","sec2":"","lead":"By 2016, Serta Simmons had been through two successive PE leveraged buyouts creating combined debt exceeding $3B — a DZ7 structural trap requiring perfect trading conditions to service."},{"id":64,"company":"Boxed","year":2023,"sector":"E-commerce","geo":"US","age":10,"peak":"$1.7B peak valuation","failure_type":"Bankruptcy","dz":[2.0,6.0,8.5,3.0,3.0,2.0,4.0,5.0,2.0,2.0],"PR":4.45,"SL":3.9,"HE":3.97,"OFS":4.11,"VS":0.55,"primary_dz":"DZ3","sec1":"DZ8","sec2":"DZ2","lead":"By 2021, Boxed\'s pandemic-era bulk grocery growth was normalising while the company had no membership model to provide the recurring economics that made Costco viable — a DZ3 lead indicator that growth had been conditional on behavioural shifts that were reverting."},{"id":65,"company":"Secoo","year":2022,"sector":"E-commerce","geo":"APAC","age":13,"peak":"$1.8B peak valuation","failure_type":"Decline","dz":[2.0,6.5,8.0,3.0,3.0,2.0,3.0,4.0,2.0,2.0],"PR":4.3,"SL":3.55,"HE":3.93,"OFS":3.93,"VS":0.75,"primary_dz":"DZ3","sec1":"DZ2","sec2":"DZ8","lead":"By 2021, China\'s common prosperity regulatory agenda was actively discouraging conspicuous luxury consumption — a DZ3 lead indicator that Secoo\'s luxury e-commerce model was built on political and cultural conditions under direct regulatory pressure."},{"id":66,"company":"Tower Records","year":2006,"sector":"Retail","geo":"US","age":44,"peak":"$1B peak revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,2.0,3.0,8.5,3.0,6.5,5.5,3.0,1.0],"PR":3.6,"SL":4.5,"HE":3.88,"OFS":4.0,"VS":0.9,"primary_dz":"DZ5","sec1":"DZ7","sec2":"DZ8","lead":"By 2001, Napster\'s 80 million users had demonstrated consumer preference for digital music access — a DZ5 lead indicator that Tower Records\' entire business model faced structural obsolescence; management responded by expanding physical store count."},{"id":67,"company":"Commodore","year":1994,"sector":"Technology","geo":"US","age":21,"peak":"$1B peak revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,3.0,3.0,8.0,3.0,3.0,5.5,3.0,1.0],"PR":3.7,"SL":3.65,"HE":4.08,"OFS":3.81,"VS":0.43,"primary_dz":"DZ5","sec1":"DZ8","sec2":"","lead":"By 1987, the IBM PC compatible ecosystem had established itself as the computing industry standard while Commodore maintained incompatible architectures — a DZ5 lead indicator visible since 1981."},{"id":68,"company":"Palm","year":2010,"sector":"Technology","geo":"US","age":15,"peak":"$1.6B revenue","failure_type":"Acquisition (distressed)","dz":[3.0,4.0,3.0,3.0,8.0,3.0,3.0,7.0,5.5,1.0],"PR":3.65,"SL":3.78,"HE":4.82,"OFS":4.08,"VS":1.17,"primary_dz":"DZ5","sec1":"DZ8","sec2":"DZ9","lead":"In January 2007, Palm CEO Ed Colligan responded to the iPhone announcement with \'PC guys are not going to just walk in here\' — a DZ8/DZ5 lead indicator that leadership had confused historical category expertise with future relevance."},{"id":79,"company":"Terra/Luna","year":2022,"sector":"Crypto","geo":"Global","age":2,"peak":"$60B peak market cap","failure_type":"Shutdown","dz":[2.0,4.0,4.0,8.0,2.0,3.0,8.5,6.0,3.0,2.0],"PR":3.4,"SL":5.05,"HE":5.4,"OFS":4.62,"VS":2.0,"primary_dz":"DZ7","sec1":"DZ4","sec2":"DZ8","lead":"By 2021, multiple academic papers had identified the death spiral vulnerability in UST algorithmic backing — a DZ4/DZ7 lead indicator that the system had a structural flaw misrepresented as equivalent to asset-backed stability."},{"id":87,"company":"Terraform Labs","year":2024,"sector":"Crypto","geo":"Global","age":4,"peak":"$60B peak ecosystem value","failure_type":"Shutdown","dz":[2.0,4.0,4.0,9.0,2.0,3.0,7.5,8.0,3.0,2.0],"PR":3.5,"SL":4.73,"HE":5.67,"OFS":4.63,"VS":2.17,"primary_dz":"DZ4","sec1":"DZ7","sec2":"DZ8","lead":"Do Kwon systematically misrepresented UST stability mechanisms while fabricating usage data — a DZ4/DZ8 fraud charged by the SEC as a multi-billion dollar scheme."},{"id":124,"company":"Wirecard","year":2020,"sector":"Fintech","geo":"EU","age":20,"peak":"$28B peak market cap","failure_type":"Bankruptcy","dz":[2.0,6.0,3.0,9.0,3.0,3.0,4.0,7.5,3.0,1.0],"PR":3.8,"SL":3.9,"HE":5.01,"OFS":4.24,"VS":1.21,"primary_dz":"DZ4","sec1":"DZ8","sec2":"DZ2","lead":"By 2015, the Financial Times had published credible evidence of accounting irregularities in Wirecard\'s Asian operations — a DZ4 lead indicator that the company had been fabricating revenues; BaFin responded by investigating the journalists rather than the company."},{"id":125,"company":"Greensill Capital","year":2021,"sector":"Finance","geo":"Global","age":10,"peak":"$7B valuation","failure_type":"Bankruptcy","dz":[3.0,4.0,4.0,8.5,2.0,3.0,8.5,6.5,3.0,1.0],"PR":3.45,"SL":5.38,"HE":4.62,"OFS":4.48,"VS":1.93,"primary_dz":"DZ4","sec1":"DZ7","sec2":"DZ8","lead":"By 2020, BaFin was investigating Greensill Bank\'s excessive concentration in GFG Alliance loans — approximately 90% of the loan book exposed to a single counterparty whose creditworthiness depended on continued Greensill financing."},{"id":126,"company":"Archegos Capital","year":2021,"sector":"Finance","geo":"US","age":10,"peak":"$36B peak exposure","failure_type":"Shutdown","dz":[2.0,3.0,3.0,9.0,2.0,3.0,8.5,7.0,2.0,1.0],"PR":3.1,"SL":4.88,"HE":5.11,"OFS":4.36,"VS":2.01,"primary_dz":"DZ4","sec1":"DZ7","sec2":"DZ8","lead":"Between 2020 and 2021, Bill Hwang used total return swaps to build undisclosed positions exceeding 70% of some companies\' float while deliberately misrepresenting his concentration to each bank."},{"id":74,"company":"Silicon Valley Bank","year":2023,"sector":"Finance","geo":"US","age":40,"peak":"$212B assets","failure_type":"Shutdown","dz":[2.0,3.0,6.5,5.0,2.0,3.0,8.5,4.0,3.0,3.0],"PR":3.3,"SL":4.63,"HE":3.93,"OFS":3.95,"VS":1.33,"primary_dz":"DZ7","sec1":"DZ3","sec2":"DZ4","lead":"By Q4 2022, SVB held $91B in long-duration bonds against a concentrated depositor base of VC-backed startups with highly correlated withdrawal behaviour — a DZ7 structural fault-line; the Chief Risk Officer position had been vacant 8 months preceding collapse."},{"id":41,"company":"FTX","year":2022,"sector":"Crypto/Finance","geo":"Global","age":3,"peak":"$32B valuation","failure_type":"Bankruptcy","dz":[3.0,4.0,4.0,9.0,2.0,3.0,7.5,8.0,4.0,1.0],"PR":3.5,"SL":4.7,"HE":5.22,"OFS":4.47,"VS":1.72,"primary_dz":"DZ4","sec1":"DZ8","sec2":"DZ7","lead":"From at least 2021, FTX customer deposits were being used by Alameda Research as trading capital — a DZ4/DZ8 fraud visible to insiders including Alameda CEO Caroline Ellison."},{"id":181,"company":"GE Capital","year":2015,"sector":"Finance","geo":"US","age":30,"peak":"$500B assets","failure_type":"Decline","dz":[9.0,3.0,6.5,3.0,3.0,4.0,7.5,4.0,2.0,2.0],"PR":3.9,"SL":5.65,"HE":4.33,"OFS":4.63,"VS":1.75,"primary_dz":"DZ1","sec1":"DZ3","sec2":"DZ7","lead":"By 2008, GE Capital had grown to represent over 50% of GE\'s total earnings through four decades of financial services accumulation — a DZ1 lead indicator that the organisation had added financial complexity faster than it could manage it."},{"id":143,"company":"Zynga","year":2015,"sector":"Gaming","geo":"US","age":8,"peak":"$14B peak market cap","failure_type":"Decline","dz":[3.0,4.0,5.0,3.0,8.5,3.0,7.5,6.0,2.0,1.0],"PR":3.85,"SL":4.73,"HE":4.7,"OFS":4.43,"VS":0.88,"primary_dz":"DZ5","sec1":"DZ7","sec2":"DZ8","lead":"By 2012, Facebook\'s algorithm changes had cut Zynga\'s organic reach while mobile gaming was exploding — a DZ5/DZ7 lead indicator that the entire $14B market cap was built on a single-platform dependency in a category migrating away from browser gaming."},{"id":135,"company":"THQ","year":2012,"sector":"Gaming","geo":"US","age":22,"peak":"$1B revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,4.0,3.0,5.5,3.0,7.0,8.5,3.0,1.0],"PR":3.45,"SL":4.25,"HE":4.55,"OFS":4.08,"VS":1.1,"primary_dz":"DZ8","sec1":"DZ7","sec2":"DZ5","lead":"In Christmas 2011, THQ launched the uDraw GameTablet — a peripheral it had produced 1.7M units of that sold fewer than 100K — a DZ8/DZ7 lead indicator that CEO Brian Farrell had committed $100M+ without adequate market validation."},{"id":96,"company":"Vine","year":2017,"sector":"Social Media","geo":"US","age":4,"peak":"Twitter-owned","failure_type":"Shutdown","dz":[2.0,3.0,3.0,3.0,6.5,2.0,3.0,4.0,8.5,1.0],"PR":2.9,"SL":3.55,"HE":4.38,"OFS":3.61,"VS":1.48,"primary_dz":"DZ9","sec1":"DZ5","sec2":"DZ8","lead":"In 2015, Vine\'s top creators publicly demanded revenue sharing tools — a DZ9 lead indicator that Twitter\'s ownership was systematically failing to invest in creator monetisation; migration was immediate and permanent."},{"id":98,"company":"Digg","year":2012,"sector":"Social Media","geo":"US","age":7,"peak":"$200M peak valuation","failure_type":"Acquisition (distressed)","dz":[2.0,6.5,3.0,3.0,6.0,2.0,3.0,8.5,3.0,1.0],"PR":3.9,"SL":3.53,"HE":4.75,"OFS":4.06,"VS":1.22,"primary_dz":"DZ8","sec1":"DZ5","sec2":"DZ2","lead":"In August 2010, Digg launched v4 — removing power user features and introducing publisher-driven content — a DZ8 lead indicator that CEO Kevin Rose had misread his community\'s identity as a constraint rather than an asset."},{"id":97,"company":"Friendster","year":2011,"sector":"Social Media","geo":"Global","age":8,"peak":"$100M acquisition offer declined","failure_type":"Shutdown","dz":[2.0,8.0,3.0,3.0,6.5,2.0,3.0,7.0,3.0,1.0],"PR":4.1,"SL":3.45,"HE":4.18,"OFS":3.91,"VS":0.73,"primary_dz":"DZ2","sec1":"DZ5","sec2":"DZ8","lead":"In 2003, Friendster declined Google\'s $30M acquisition offer while experiencing 40-second page load times — a DZ8 lead indicator that CEO Jonathan Abrams\' valuation expectations were disconnected from operational reality."},{"id":138,"company":"Vice Media","year":2023,"sector":"Media","geo":"US","age":17,"peak":"$5.7B peak valuation","failure_type":"Bankruptcy","dz":[3.0,8.0,7.5,3.0,4.0,3.0,3.0,5.5,3.0,1.0],"PR":4.75,"SL":3.58,"HE":4.05,"OFS":4.13,"VS":1.17,"primary_dz":"DZ2","sec1":"DZ3","sec2":"DZ8","lead":"By 2018, Facebook\'s \'pivot to video\' had been revealed as based on vastly overstated video view metrics — a DZ3 lead indicator that Vice\'s $5.7B valuation was built on a digital advertising thesis the platform had falsely validated."},{"id":139,"company":"BuzzFeed","year":2023,"sector":"Media","geo":"US","age":17,"peak":"$1.7B peak valuation","failure_type":"Decline","dz":[2.0,8.0,7.5,3.0,4.0,3.0,3.0,4.0,3.0,1.0],"PR":4.55,"SL":3.45,"HE":3.6,"OFS":3.87,"VS":1.1,"primary_dz":"DZ2","sec1":"DZ3","sec2":"DZ8","lead":"By 2017, BuzzFeed had missed annual revenue targets by $80M+ while Google and Facebook captured 90%+ of digital advertising growth — a DZ3 lead indicator that the $1.7B valuation was predicated on a digital media ad model the platform duopoly had permanently closed."},{"id":142,"company":"Groupon","year":2022,"sector":"E-commerce","geo":"US","age":14,"peak":"$30B peak market cap","failure_type":"Decline","dz":[3.0,8.5,6.5,3.0,4.0,2.0,3.0,5.0,3.0,1.0],"PR":4.55,"SL":3.53,"HE":4.1,"OFS":4.06,"VS":1.02,"primary_dz":"DZ2","sec1":"DZ8","sec2":"DZ3","lead":"By 2011, Groupon\'s own data showed merchant repeat participation rates below 20% — a DZ2 lead indicator that CEO Andrew Mason was optimising subscriber growth while the underlying marketplace was structurally broken."},{"id":118,"company":"Carillion","year":2018,"sector":"Construction","geo":"UK","age":19,"peak":"$5.2B revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,3.0,8.5,2.0,3.0,7.0,7.5,3.0,1.0],"PR":3.15,"SL":4.88,"HE":4.95,"OFS":4.33,"VS":1.8,"primary_dz":"DZ4","sec1":"DZ8","sec2":"DZ7","lead":"By 2016, Carillion\'s internal management accounts showed massive losses on major contracts — a DZ4 lead indicator that the company was deferring recognition of losses while maintaining full dividend payments and executive bonuses."},{"id":113,"company":"Thomas Cook","year":2019,"sector":"Travel","geo":"UK","age":178,"peak":"$12.6B revenue","failure_type":"Bankruptcy","dz":[3.0,3.0,3.0,3.0,8.0,3.0,7.5,5.5,3.0,2.0],"PR":3.45,"SL":4.73,"HE":3.75,"OFS":3.98,"VS":1.28,"primary_dz":"DZ5","sec1":"DZ7","sec2":"DZ8","lead":"By 2010, Booking.com and low-cost airline direct booking were growing at 30%+ annually while Thomas Cook\'s 178-year-old package holiday model was losing structural relevance — a DZ5 lead indicator that the intermediary format had been disintermediated."},{"id":115,"company":"Monarch Airlines","year":2017,"sector":"Aviation","geo":"UK","age":49,"peak":"$1.2B revenue","failure_type":"Bankruptcy","dz":[2.0,3.0,4.5,3.0,8.0,3.0,6.5,4.0,3.0,2.0],"PR":3.45,"SL":4.33,"HE":3.53,"OFS":3.77,"VS":0.88,"primary_dz":"DZ5","sec1":"DZ7","sec2":"","lead":"By 2015, Ryanair and easyJet were pricing key Mediterranean leisure routes below Monarch\'s unit cost structure — a DZ5 lead indicator that the charter-heritage airline had no sustainable competitive position as the category commoditised."},{"id":156,"company":"Rdio","year":2015,"sector":"Music Tech","geo":"US","age":5,"peak":"$125M raised","failure_type":"Bankruptcy","dz":[2.0,6.5,4.0,3.0,8.0,3.0,6.5,3.0,2.0,1.0],"PR":3.75,"SL":4.25,"HE":3.68,"OFS":3.89,"VS":0.57,"primary_dz":"DZ5","sec1":"DZ7","sec2":"DZ2","lead":"By 2013, Spotify\'s free tier had established it as the dominant music streaming platform — a DZ5 lead indicator that the streaming category had consolidated and Rdio\'s superior design could not overcome Spotify\'s network effects and capital advantage."},{"id":176,"company":"Bright Health","year":2024,"sector":"HealthTech","geo":"US","age":8,"peak":"$11.4B IPO valuation","failure_type":"Bankruptcy","dz":[3.0,4.0,8.5,3.0,2.0,5.5,6.5,5.0,3.0,1.0],"PR":4.25,"SL":4.48,"HE":4.0,"OFS":4.24,"VS":0.48,"primary_dz":"DZ3","sec1":"DZ7","sec2":"DZ8","lead":"By 2022, Bright Health\'s medical loss ratios consistently exceeded 100% — paying out more in claims than it collected in premiums — a DZ3 lead indicator that the technology-enabled health insurance thesis was predicated on cost structures that hadn\'t been proven viable."},{"id":178,"company":"Babylon Health","year":2023,"sector":"HealthTech","geo":"Global","age":10,"peak":"$4.2B IPO valuation","failure_type":"Bankruptcy","dz":[3.0,4.5,8.5,6.0,2.0,3.0,3.0,7.5,3.0,1.0],"PR":4.35,"SL":3.85,"HE":4.93,"OFS":4.38,"VS":1.08,"primary_dz":"DZ3","sec1":"DZ8","sec2":"DZ4","lead":"By 2021, peer-reviewed studies in the BMJ had challenged Babylon\'s AI diagnostic accuracy claims — a DZ3/DZ4 lead indicator that the $4.2B valuation was predicated on AI capabilities that clinical evidence was not confirming."}]');
 
@@ -1020,6 +1041,7 @@ function restartInterrogator() {
   renderQuestion(0);
   window.scrollTo(0, 0);
 }
+
 </script>
 </body>
 </html>
