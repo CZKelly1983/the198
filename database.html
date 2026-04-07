@@ -1,864 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The 198 — Database</title>
-  <style>
-    /* ─── RESET & TOKENS ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:          #0a0a0a;
-      --surface:     #111111;
-      --surface-2:   #181818;
-      --border:      #222222;
-      --border-hi:   #333333;
-      --text:        #d4d0c8;
-      --text-dim:    #7a7670;
-      --text-muted:  #444444;
-      --accent:      #c8a86b;
-      --accent-dim:  #8a7048;
-      --red:         #c85c5c;
-      --tag-bg:      #1a1a1a;
-
-      /* DZ colours */
-      --dz1:  #9b4f4f;  /* complexity trap – deep red */
-      --dz2:  #4f7a9b;  /* proxy trap – slate blue */
-      --dz3:  #9b7a4f;  /* mirage – amber */
-      --dz4:  #7a4f9b;  /* dependency – purple */
-      --dz5:  #4f9b7a;  /* slow bleed – teal */
-      --dz6:  #9b6b4f;  /* leverage – rust */
-      --dz7:  #4f6b9b;  /* concentration – steel */
-      --dz8:  #7a9b4f;  /* execution gap – olive */
-      --dz9:  #9b4f7a;  /* governance – magenta */
-      --dz10: #4f9b9b;  /* external shock – cyan */
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Georgia', 'Times New Roman', serif;
-      font-size: 14px;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
-    /* ─── HEADER ─── */
-    .site-header {
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 52px;
-    }
-
-    .site-header .wordmark {
-      font-family: 'Courier New', monospace;
-      font-size: 13px;
-      letter-spacing: 0.12em;
-      color: var(--accent);
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
-    .site-nav {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .site-nav a {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-
-    .site-nav a:hover,
-    .site-nav a.active { color: var(--accent); }
-
-    /* ─── PAGE HEADER ─── */
-    .page-header {
-      padding: 48px 32px 32px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .page-header .eyebrow {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent-dim);
-      margin-bottom: 12px;
-    }
-
-    .page-header h1 {
-      font-size: 28px;
-      font-weight: normal;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .page-header .subtitle {
-      font-size: 13px;
-      color: var(--text-dim);
-      max-width: 640px;
-      line-height: 1.7;
-    }
-
-    .db-meta {
-      margin-top: 20px;
-      display: flex;
-      gap: 32px;
-    }
-
-    .db-meta-item {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-    }
-
-    .db-meta-item span {
-      color: var(--accent);
-      font-size: 18px;
-      display: block;
-      letter-spacing: -0.02em;
-      font-family: Georgia, serif;
-    }
-
-    /* ─── CONTROLS ─── */
-    .controls {
-      padding: 20px 32px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: flex-end;
-    }
-
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .control-group label {
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-
-    .control-group select,
-    .control-group input[type="text"],
-    .control-group input[type="number"] {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      padding: 6px 10px;
-      appearance: none;
-      -webkit-appearance: none;
-      outline: none;
-      cursor: pointer;
-      transition: border-color 0.15s;
-      min-width: 140px;
-    }
-
-    .control-group select:hover,
-    .control-group input:hover {
-      border-color: var(--border-hi);
-    }
-
-    .control-group select:focus,
-    .control-group input:focus {
-      border-color: var(--accent-dim);
-    }
-
-    .control-group input[type="text"] {
-      min-width: 200px;
-    }
-
-    .year-range {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .year-range input[type="number"] {
-      min-width: 70px;
-      width: 70px;
-    }
-
-    .year-sep {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .sort-bar {
-      margin-left: auto;
-      display: flex;
-      gap: 8px;
-      align-items: flex-end;
-    }
-
-    .sort-btn {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .sort-btn:hover { border-color: var(--border-hi); color: var(--text); }
-    .sort-btn.active { border-color: var(--accent-dim); color: var(--accent); }
-    .sort-btn.desc::after { content: ' ↓'; }
-    .sort-btn.asc::after  { content: ' ↑'; }
-
-    .reset-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .reset-btn:hover { border-color: var(--red); color: var(--red); }
-
-    /* ─── RESULTS BAR ─── */
-    .results-bar {
-      padding: 10px 32px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .results-count {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-    }
-
-    .results-count strong {
-      color: var(--accent);
-      font-weight: normal;
-    }
-
-    /* ─── TABLE ─── */
-    .table-wrap {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    thead th {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 16px;
-      text-align: left;
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      white-space: nowrap;
-      font-weight: normal;
-    }
-
-    thead th:first-child { padding-left: 32px; }
-    thead th:last-child  { padding-right: 32px; }
-
-    /* ─── ROWS ─── */
-    tbody tr.case-row {
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: background 0.1s;
-    }
-
-    tbody tr.case-row:hover { background: var(--surface); }
-
-    tbody tr.case-row td {
-      padding: 12px 16px;
-      vertical-align: middle;
-    }
-
-    tbody tr.case-row td:first-child { padding-left: 32px; }
-    tbody tr.case-row td:last-child  { padding-right: 32px; }
-
-    .company-name {
-      font-size: 14px;
-      color: var(--text);
-      font-weight: normal;
-    }
-
-    .company-year {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .td-mono {
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      color: var(--text-dim);
-    }
-
-    .dz-tag {
-      display: inline-block;
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      padding: 3px 8px;
-      border-radius: 2px;
-      font-weight: normal;
-      white-space: nowrap;
-    }
-
-    .dz1-tag  { background: rgba(155, 79,  79,  0.18); color: #c08080; border: 1px solid rgba(155,79,79,0.3); }
-    .dz2-tag  { background: rgba(79,  122, 155, 0.18); color: #80a4c0; border: 1px solid rgba(79,122,155,0.3); }
-    .dz3-tag  { background: rgba(155, 122, 79,  0.18); color: #c0a480; border: 1px solid rgba(155,122,79,0.3); }
-    .dz4-tag  { background: rgba(122, 79,  155, 0.18); color: #a480c0; border: 1px solid rgba(122,79,155,0.3); }
-    .dz5-tag  { background: rgba(79,  155, 122, 0.18); color: #80c0a4; border: 1px solid rgba(79,155,122,0.3); }
-    .dz6-tag  { background: rgba(155, 107, 79,  0.18); color: #c09680; border: 1px solid rgba(155,107,79,0.3); }
-    .dz7-tag  { background: rgba(79,  107, 155, 0.18); color: #8096c0; border: 1px solid rgba(79,107,155,0.3); }
-    .dz8-tag  { background: rgba(122, 155, 79,  0.18); color: #a4c080; border: 1px solid rgba(122,155,79,0.3); }
-    .dz9-tag  { background: rgba(155, 79,  122, 0.18); color: #c080a4; border: 1px solid rgba(155,79,122,0.3); }
-    .dz10-tag { background: rgba(79,  155, 155, 0.18); color: #80c0c0; border: 1px solid rgba(79,155,155,0.3); }
-
-    /* ─── DZ TOOLTIP ─── */
-    .dz-ref {
-      border-bottom: 1px dashed var(--text-muted);
-      cursor: help;
-      white-space: nowrap;
-    }
-
-    #dz-tooltip {
-      position: fixed;
-      z-index: 1000;
-      max-width: 280px;
-      background: #161616;
-      border: 1px solid var(--border-hi);
-      padding: 10px 14px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.12s;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.6);
-    }
-
-    #dz-tooltip.visible { opacity: 1; }
-
-    .tt-zone {
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-
-    .tt-name {
-      font-size: 13px;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-
-    .tt-desc {
-      font-size: 12px;
-      color: var(--text-dim);
-      line-height: 1.6;
-    }
-
-    .ofs-val {
-      font-family: 'Courier New', monospace;
-      font-size: 13px;
-    }
-
-    .ofs-hi  { color: var(--red); }
-    .ofs-mid { color: var(--accent); }
-    .ofs-lo  { color: var(--text-dim); }
-
-    .ft-tag {
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    .expand-icon {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-      transition: transform 0.2s;
-      display: inline-block;
-    }
-
-    tr.expanded .expand-icon { transform: rotate(90deg); }
-
-    /* ─── EXPAND ROW ─── */
-    tr.detail-row {
-      display: none;
-    }
-
-    tr.detail-row.open {
-      display: table-row;
-    }
-
-    tr.detail-row td {
-      padding: 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .detail-inner {
-      padding: 20px 32px 24px 64px;
-      background: var(--surface-2);
-      border-left: 3px solid var(--border-hi);
-      margin-left: 29px;
-    }
-
-    .detail-layout {
-      display: flex;
-      gap: 40px;
-      align-items: flex-start;
-    }
-
-    .detail-text {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .detail-radar {
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .detail-radar svg {
-      display: block;
-    }
-
-    .radar-label {
-      font-family: 'Courier New', monospace;
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .detail-layout { flex-direction: column; }
-      .detail-radar { align-items: flex-start; }
-    }
-
-    .detail-label {
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .lead-indicator-text {
-      font-size: 13px;
-      line-height: 1.75;
-      color: var(--text-dim);
-      max-width: 860px;
-    }
-
-    .detail-meta {
-      margin-top: 14px;
-      display: flex;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    .detail-meta-item {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .detail-meta-item strong {
-      color: var(--text-dim);
-      font-weight: normal;
-    }
-
-    .secondary-dz {
-      display: inline-block;
-      margin-left: 4px;
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      color: var(--text-muted);
-      border: 1px solid var(--border-hi);
-      padding: 2px 6px;
-    }
-
-    /* ─── EMPTY STATE ─── */
-    .empty-state {
-      padding: 80px 32px;
-      text-align: center;
-    }
-
-    .empty-state .glyph {
-      font-family: 'Courier New', monospace;
-      font-size: 32px;
-      color: var(--border-hi);
-      margin-bottom: 16px;
-    }
-
-    .empty-state p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    /* ─── FOOTER ─── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 32px;
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-    }
-
-    /* ─── SECONDARY COLUMNS — hidden by default ─── */
-    .col-secondary { display: none; }
-    .cols-expanded .col-secondary { display: table-cell; }
-
-    /* ─── COLUMNS TOGGLE ─── */
-    .cols-toggle {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .cols-toggle:hover { border-color: var(--border-hi); color: var(--text-dim); }
-    .cols-toggle[aria-pressed="true"] { border-color: var(--accent-dim); color: var(--accent); }
-
-    /* ─── FILTER PILLS ─── */
-    .pills-bar {
-      padding: 0 32px;
-      min-height: 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      transition: padding 0.15s;
-    }
-    .pills-bar:not(:empty) { padding: 10px 32px; border-bottom: 1px solid var(--border); }
-
-    .filter-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      color: var(--text-dim);
-      background: var(--surface);
-      border: 1px solid var(--border-hi);
-      padding: 3px 8px 3px 10px;
-      cursor: default;
-    }
-    .pill-dismiss {
-      cursor: pointer;
-      color: var(--text-muted);
-      font-size: 12px;
-      line-height: 1;
-      padding: 0 2px;
-      transition: color 0.12s;
-    }
-    .pill-dismiss:hover { color: var(--red); }
-
-    /* ─── EXPLORE LINK ─── */
-    .detail-explore { margin-top: 4px; }
-    .explore-link {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid var(--accent-dim);
-      padding-bottom: 1px;
-      transition: color 0.15s, border-color 0.15s;
-    }
-    .explore-link:hover { color: var(--text); border-color: var(--text-dim); }
-    @media (max-width: 768px) {
-      .site-nav { display: none; }
-      .controls { flex-direction: column; gap: 10px; }
-      .sort-bar { margin-left: 0; }
-      .detail-inner { padding: 16px; margin-left: 0; }
-      tbody tr.case-row td:first-child,
-      thead th:first-child { padding-left: 16px; }
-      .pills-bar { padding: 8px 16px; }
-      .cols-toggle { display: none; }
-    }
-
-    /* ─── TEASER ─── */
-    .company-teaser {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      line-height: 1.5;
-      max-width: 480px;
-      font-style: italic;
-    }
-
-    /* ─── OFS BAND ─── */
-    .ofs-band {
-      font-family: 'Courier New', monospace;
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    /* ─── TH NOTE ─── */
-    .th-ofs { white-space: normal !important; max-width: 100px; }
-    .th-note {
-      display: block;
-      font-size: 9px;
-      letter-spacing: 0.04em;
-      text-transform: none;
-      color: var(--text-muted);
-      margin-top: 2px;
-      opacity: 0.7;
-    }
-
-    /* ─── INTERROGATOR CTA ─── */
-    .interrogator-cta {
-      margin-left: auto;
-      border-left: 1px solid var(--border);
-      padding-left: 28px;
-    }
-
-    .interrogator-cta span {
-      display: block;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .interrogator-cta a {
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid var(--accent-dim);
-      padding-bottom: 1px;
-      transition: color 0.15s, border-color 0.15s;
-    }
-
-    .interrogator-cta a:hover {
-      color: var(--text);
-      border-color: var(--text-dim);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The database — The 198</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* ─── DATABASE-SPECIFIC STYLES ─────────────────────────────────────────────
+   All base typography, nav, layout, buttons use style.css.
+   Only database UI components are defined here.
+──────────────────────────────────────────────────────────────────────────── */
+
+/* PAGE HEADER */
+.db-header { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+.db-meta { margin-top: 2rem; display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: flex-end; }
+.db-meta-item { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); letter-spacing: 0.06em; }
+.db-meta-item span { display: block; font-family: var(--serif); font-size: 1.8rem; color: var(--ink); line-height: 1; margin-bottom: 4px; letter-spacing: -0.02em; }
+.db-cta-item { margin-left: auto; border-left: 1px solid var(--border); padding-left: 2rem; }
+.db-cta-item p { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); margin-bottom: 6px; }
+.db-cta-item a { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+.db-cta-item a:hover { border-bottom-color: var(--accent); }
+
+/* CONTROLS */
+.db-controls {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  background: var(--surface);
+  position: sticky;
+  top: 56px; /* nav height */
+  z-index: 50;
+}
+.db-controls-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--gap); display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; width: 100%; }
+.ctrl-group { display: flex; flex-direction: column; gap: 3px; }
+.ctrl-group label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-4); }
+.ctrl-group select,
+.ctrl-group input[type="text"],
+.ctrl-group input[type="number"] {
+  background: var(--surface-up);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  padding: 0.45rem 0.75rem;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  min-width: 140px;
+}
+.ctrl-group select:hover,
+.ctrl-group input:hover { border-color: var(--border-2); }
+.ctrl-group select:focus,
+.ctrl-group input:focus { border-color: var(--ink-3); }
+.ctrl-group input[type="text"] { min-width: 180px; }
+.year-pair { display: flex; gap: 4px; align-items: center; }
+.year-pair input[type="number"] { min-width: 64px; width: 64px; }
+.year-sep { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); }
+.ctrl-sort { margin-left: auto; display: flex; gap: 6px; align-items: flex-end; }
+.sort-btn {
+  background: var(--surface-up);
+  border: 1px solid var(--border);
+  color: var(--ink-3);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sort-btn:hover { border-color: var(--border-2); color: var(--ink); }
+.sort-btn.active { border-color: var(--ink); color: var(--ink); background: var(--ink); color: var(--surface); }
+.sort-btn.desc::after { content: ' ↓'; }
+.sort-btn.asc::after  { content: ' ↑'; }
+.reset-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-4);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* RESULTS BAR */
+.results-bar {
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.results-bar-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--gap); display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.results-count { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-4); }
+.results-count strong { color: var(--ink); font-weight: 500; }
+.cols-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-4);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.cols-toggle:hover { border-color: var(--border-2); color: var(--ink-3); }
+.cols-toggle[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); }
+
+/* FILTER PILLS */
+.pills-bar { max-width: var(--max); margin: 0 auto; padding: 0 var(--gap); display: flex; flex-wrap: wrap; gap: 6px; }
+.pills-bar:not(:empty) { padding-top: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  background: var(--surface-up);
+  border: 1px solid var(--border-2);
+  padding: 0.2rem 0.5rem 0.2rem 0.75rem;
+}
+.pill-dismiss { cursor: pointer; color: var(--ink-4); font-size: 0.85rem; line-height: 1; transition: color 0.12s; padding: 0 2px; }
+.pill-dismiss:hover { color: var(--accent); }
+
+/* TABLE */
+.db-table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+thead { position: sticky; top: calc(56px + 57px); z-index: 40; } /* nav + controls */
+thead th {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-2);
+  padding: 0.65rem 1rem;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  white-space: nowrap;
+  font-weight: 400;
+}
+thead th:first-child { padding-left: 0; }
+.th-ofs { white-space: normal; max-width: 90px; }
+.th-note { display: block; font-size: 0.58rem; letter-spacing: 0.03em; text-transform: none; color: var(--ink-4); opacity: 0.7; margin-top: 2px; }
+
+/* SECONDARY COLUMNS */
+.col-secondary { display: none; }
+.cols-expanded .col-secondary { display: table-cell; }
+
+/* ROWS */
+tbody tr.case-row {
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+tbody tr.case-row:hover { background: var(--surface-up); }
+tbody tr.case-row td { padding: 0.85rem 1rem; vertical-align: top; }
+tbody tr.case-row td:first-child { padding-left: 0; }
+
+.company-name { font-family: var(--serif); font-size: 1rem; color: var(--ink); line-height: 1.3; }
+.company-teaser { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-4); margin-top: 4px; line-height: 1.5; max-width: 380px; }
+
+.td-mono { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-3); vertical-align: middle; }
+
+/* DZ TAGS — using site accent colour system */
+.dz-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem;
+  white-space: nowrap;
+  border: 1px solid var(--border-2);
+  color: var(--ink-2);
+  background: var(--surface-up);
+  cursor: help;
+}
+.dz-name { font-family: var(--mono); font-size: 0.62rem; color: var(--ink-4); margin-top: 3px; }
+
+/* OFS */
+.ofs-val { font-family: var(--mono); font-size: 0.88rem; font-weight: 500; }
+.ofs-hi  { color: var(--accent); }
+.ofs-mid { color: var(--ink-2); }
+.ofs-lo  { color: var(--ink-4); }
+.ofs-band { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-4); margin-top: 3px; }
+
+.ft-tag { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-4); white-space: nowrap; }
+
+.expand-icon { font-family: var(--mono); font-size: 0.65rem; color: var(--ink-4); transition: transform 0.2s; display: inline-block; }
+tr.expanded .expand-icon { transform: rotate(90deg); }
+
+/* DETAIL ROW */
+tr.detail-row { display: none; }
+tr.detail-row.open { display: table-row; }
+tr.detail-row td { padding: 0; border-bottom: 1px solid var(--border); }
+.detail-inner {
+  padding: 1.5rem 1rem 2rem 2rem;
+  background: var(--surface-up);
+  border-left: 3px solid var(--border-2);
+  margin-left: 1rem;
+}
+.detail-layout { display: flex; gap: 3rem; align-items: flex-start; }
+.detail-text { flex: 1; min-width: 0; }
+.detail-radar { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.detail-radar svg { display: block; }
+.radar-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); text-align: center; }
+.detail-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 0.75rem;
+}
+.lead-indicator-text {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--ink-2);
+  max-width: 720px;
+}
+.detail-meta {
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.detail-meta-item { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-4); }
+.detail-meta-item strong { color: var(--ink-3); font-weight: 500; }
+.detail-explore { margin-top: 6px; }
+.explore-link { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+.explore-link:hover { border-bottom-color: var(--accent); }
+
+/* DZ-REF (tooltip triggers in text) */
+.dz-ref { border-bottom: 1px dashed var(--border-2); cursor: help; white-space: nowrap; }
+
+/* TOOLTIP */
+#dz-tooltip {
+  position: fixed;
+  z-index: 1000;
+  max-width: 280px;
+  background: var(--surface-up);
+  border: 1px solid var(--border-2);
+  padding: 0.9rem 1.1rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+#dz-tooltip.visible { opacity: 1; }
+.tt-zone { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+.tt-name { font-family: var(--serif); font-size: 0.95rem; color: var(--ink); margin-bottom: 6px; }
+.tt-desc { font-family: var(--sans); font-size: 0.8rem; font-weight: 300; color: var(--ink-3); line-height: 1.6; }
+
+/* EMPTY STATE */
+.empty-state { padding: 5rem 0; text-align: center; }
+.empty-glyph { font-family: var(--mono); font-size: 1.5rem; color: var(--border-2); margin-bottom: 1rem; }
+.empty-state p { font-family: var(--sans); font-size: 0.875rem; color: var(--ink-4); }
+
+/* WRAP ADJUSTMENTS for full-width table */
+.db-full { max-width: var(--max); margin: 0 auto; padding: 0 var(--gap); }
+
+@media (max-width: 900px) {
+  .detail-layout { flex-direction: column; }
+  .db-cta-item { display: none; }
+}
+@media (max-width: 640px) {
+  .db-controls-inner { gap: 0.75rem; }
+  .ctrl-sort { margin-left: 0; }
+  .cols-toggle { display: none; }
+  .detail-inner { padding: 1rem; margin-left: 0; }
+}
+</style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="site-header">
-  <a class="wordmark" href="index.html">The 198</a>
-  <nav>
-    <ul class="site-nav">
-      <li><a href="index.html">Overview</a></li>
-      <li><a href="database.html" class="active">Database</a></li>
-      <li><a href="interrogator.html">Interrogator</a></li>
-      <li><a href="about.html">About</a></li>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">THE 198</a>
+    <ul class="nav-links">
+      <li><a href="database.html">The database</a></li>
+      <li><a href="zones.html">Death zones</a></li>
+      <li><a href="evidence-patterns.html">Evidence</a></li>
+      <li><a href="interrogator.html">The interrogator</a></li>
     </ul>
-  </nav>
-</header>
+    <a href="interrogator.html" class="btn">Is your business next? &rarr;</a>
+  </div>
+</nav>
+
+<main>
 
 <!-- PAGE HEADER -->
-<div class="page-header">
-  <div class="eyebrow">Forensic Case Database</div>
-  <h1>The 198 Corporate Failures</h1>
-  <p class="subtitle">Find the company that failed the way you're at risk of failing. 198 cases scored across ten Death Zones — each one a structural pattern that kills businesses. Filter by zone, sector, or geography. Click any row for the lead indicator: the signal that was visible before the end.</p>
-  <div class="db-meta">
-    <div class="db-meta-item"><span id="total-count">198</span> Cases</div>
-    <div class="db-meta-item"><span>1983</span> Earliest</div>
-    <div class="db-meta-item"><span>2024</span> Latest</div>
-    <div class="db-meta-item"><span>10</span> Death Zones</div>
-    <div class="db-meta-item interrogator-cta">
-      <span>Don't know your zone?</span>
-      <a href="interrogator.html">Run the Interrogator →</a>
-    </div>
-  </div>
-</div>
-
-<!-- CONTROLS -->
-<div class="controls">
-
-  <div class="control-group">
-    <label>Search</label>
-    <input type="text" id="search-input" placeholder="Company name…" autocomplete="off" />
-  </div>
-
-  <div class="control-group">
-    <label>Primary Death Zone</label>
-    <select id="filter-dz">
-      <option value="">All zones</option>
-      <option value="DZ1">DZ1 — The Complexity Trap</option>
-      <option value="DZ2">DZ2 — The Proxy Trap</option>
-      <option value="DZ3">DZ3 — The Mirage</option>
-      <option value="DZ4">DZ4 — The Dependency</option>
-      <option value="DZ5">DZ5 — The Slow Bleed</option>
-      <option value="DZ6">DZ6 — The Leverage Trap</option>
-      <option value="DZ7">DZ7 — The Concentration Risk</option>
-      <option value="DZ8">DZ8 — The Execution Gap</option>
-      <option value="DZ9">DZ9 — The Governance Failure</option>
-    </select>
-  </div>
-
-  <div class="control-group">
-    <label>Sector</label>
-    <select id="filter-sector">
-      <option value="">All sectors</option>
-    </select>
-  </div>
-
-  <div class="control-group">
-    <label>Geography</label>
-    <select id="filter-geo">
-      <option value="">All</option>
-      <option value="US">US</option>
-      <option value="UK">UK</option>
-      <option value="EU">EU</option>
-      <option value="Global">Global</option>
-      <option value="APAC">APAC</option>
-    </select>
-  </div>
-
-  <div class="control-group">
-    <label>Failure Type</label>
-    <select id="filter-ft">
-      <option value="">All types</option>
-      <option value="Bankruptcy">Bankruptcy</option>
-      <option value="Shutdown">Shutdown</option>
-      <option value="Decline">Decline</option>
-      <option value="Acquisition (distressed)">Acquisition (distressed)</option>
-    </select>
-  </div>
-
-  <div class="control-group">
-    <label>Year range</label>
-    <div class="year-range">
-      <input type="number" id="year-from" placeholder="1983" min="1983" max="2024" />
-      <span class="year-sep">—</span>
-      <input type="number" id="year-to"   placeholder="2024" min="1983" max="2024" />
-    </div>
-  </div>
-
-  <div class="sort-bar">
-    <div class="control-group">
-      <label>Sort</label>
-      <div style="display:flex;gap:8px;">
-        <button class="sort-btn" id="sort-ofs"  data-field="OFS">OFS</button>
-        <button class="sort-btn" id="sort-year" data-field="year_of_failure">Year</button>
-        <button class="sort-btn" id="sort-age"  data-field="age_at_failure_years">Age</button>
+<section class="db-header section">
+  <div class="wrap">
+    <p class="t-mono" style="margin-bottom:0.75rem">/database</p>
+    <h1 class="t-heading" style="margin-bottom:0.75rem">The 198 corporate failures</h1>
+    <p class="t-body" style="max-width:600px">Find the company that failed the way you're at risk of failing. 198 cases scored across ten Death Zones. Filter by zone, sector, or geography. Click any row for the lead indicator — the signal that was visible before the end.</p>
+    <div class="db-meta">
+      <div class="db-meta-item"><span id="total-count">198</span>Cases</div>
+      <div class="db-meta-item"><span>1983</span>Earliest</div>
+      <div class="db-meta-item"><span>2024</span>Latest</div>
+      <div class="db-meta-item"><span>10</span>Death Zones</div>
+      <div class="db-meta-item db-cta-item">
+        <p>Don't know your zone?</p>
+        <a href="interrogator.html">Run the interrogator &rarr;</a>
       </div>
     </div>
-    <button class="reset-btn" id="reset-btn">Reset</button>
   </div>
+</section>
 
+<!-- CONTROLS -->
+<div class="db-controls" id="db-controls">
+  <div class="db-controls-inner">
+
+    <div class="ctrl-group">
+      <label>Search</label>
+      <input type="text" id="search-input" placeholder="Company name&hellip;" autocomplete="off" />
+    </div>
+
+    <div class="ctrl-group">
+      <label>Primary Death Zone</label>
+      <select id="filter-dz">
+        <option value="">All zones</option>
+        <option value="DZ1">DZ1 — The Complexity Trap</option>
+        <option value="DZ2">DZ2 — The Proxy Trap</option>
+        <option value="DZ3">DZ3 — The Mirage</option>
+        <option value="DZ4">DZ4 — The Dependency</option>
+        <option value="DZ5">DZ5 — The Slow Bleed</option>
+        <option value="DZ6">DZ6 — The Leverage Trap</option>
+        <option value="DZ7">DZ7 — The Concentration Risk</option>
+        <option value="DZ8">DZ8 — The Execution Gap</option>
+        <option value="DZ9">DZ9 — The Governance Failure</option>
+      </select>
+    </div>
+
+    <div class="ctrl-group">
+      <label>Sector</label>
+      <select id="filter-sector">
+        <option value="">All sectors</option>
+      </select>
+    </div>
+
+    <div class="ctrl-group">
+      <label>Geography</label>
+      <select id="filter-geo">
+        <option value="">All</option>
+        <option value="US">US</option>
+        <option value="UK">UK</option>
+        <option value="EU">EU</option>
+        <option value="Global">Global</option>
+        <option value="APAC">APAC</option>
+      </select>
+    </div>
+
+    <div class="ctrl-group">
+      <label>Outcome</label>
+      <select id="filter-ft">
+        <option value="">All types</option>
+        <option value="Bankruptcy">Bankruptcy</option>
+        <option value="Shutdown">Shutdown</option>
+        <option value="Decline">Decline</option>
+        <option value="Acquisition (distressed)">Acquisition (distressed)</option>
+      </select>
+    </div>
+
+    <div class="ctrl-group">
+      <label>Year range</label>
+      <div class="year-pair">
+        <input type="number" id="year-from" placeholder="1983" min="1983" max="2024" />
+        <span class="year-sep">&mdash;</span>
+        <input type="number" id="year-to" placeholder="2024" min="1983" max="2024" />
+      </div>
+    </div>
+
+    <div class="ctrl-sort">
+      <div class="ctrl-group">
+        <label>Sort by</label>
+        <div style="display:flex;gap:4px;">
+          <button class="sort-btn" id="sort-ofs"  data-field="OFS">OFS</button>
+          <button class="sort-btn" id="sort-year" data-field="year_of_failure">Year</button>
+          <button class="sort-btn" id="sort-age"  data-field="age_at_failure_years">Age</button>
+        </div>
+      </div>
+      <button class="reset-btn" id="reset-btn">Reset</button>
+    </div>
+
+  </div>
 </div>
 
 <!-- RESULTS BAR -->
 <div class="results-bar">
-  <div class="results-count">
-    Showing <strong id="showing-count">198</strong> of <strong>198</strong> cases
+  <div class="results-bar-inner">
+    <span class="results-count">Showing <strong id="showing-count">198</strong> of <strong>198</strong> cases</span>
+    <button class="cols-toggle" id="cols-toggle" aria-pressed="false">Show more columns</button>
   </div>
-  <button class="cols-toggle" id="cols-toggle" aria-pressed="false">Show more columns</button>
 </div>
 
 <!-- FILTER PILLS -->
 <div class="pills-bar" id="pills-bar"></div>
 
 <!-- TABLE -->
-<div class="table-wrap">
+<div class="db-table-wrap db-full">
   <table id="db-table">
     <thead>
       <tr>
-        <th>Company</th>
+        <th style="padding-left:0">Company</th>
         <th>Year</th>
-        <th class="col-secondary col-geo">Geography</th>
+        <th class="col-secondary">Geography</th>
         <th>Sector</th>
         <th>Primary Death Zone</th>
-        <th class="th-ofs">OFS <span class="th-note">scored 3.3–4.9 across all cases</span></th>
-        <th class="col-secondary col-age">Age at failure</th>
-        <th class="col-secondary col-ft">Outcome</th>
+        <th class="th-ofs">OFS <span class="th-note">scored 3.3&ndash;4.9 across all cases</span></th>
+        <th class="col-secondary">Age at failure</th>
+        <th class="col-secondary">Outcome</th>
         <th></th>
       </tr>
     </thead>
-    <tbody id="table-body">
-    </tbody>
+    <tbody id="table-body"></tbody>
   </table>
   <div class="empty-state" id="empty-state" style="display:none;">
-    <div class="glyph">[ 0 ]</div>
+    <div class="empty-glyph">[ 0 ]</div>
     <p>No cases match the current filters.</p>
   </div>
 </div>
 
+</main>
+
+<!-- TOOLTIP -->
 <div id="dz-tooltip" role="tooltip">
   <div class="tt-zone" id="tt-zone"></div>
   <div class="tt-name" id="tt-name"></div>
   <div class="tt-desc" id="tt-desc"></div>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <span>The 198 — Forensic Database of Corporate Failure</span>
-  <span>Death Zone Framework v1.2</span>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="t-mono">THE 198</span>
+      <span class="t-mono" style="color:var(--ink-4)">Forensic architecture of corporate failure</span>
+    </div>
+  </div>
 </footer>
 
 <script>
+
 // ─── DATA ───────────────────────────────────────────────────────────────────
 
 const DZ_NAMES = {
@@ -1020,13 +618,13 @@ function buildRadar(d) {
   const rings = [2.5, 5, 7.5, 10].map(v => {
     const rr = (v / 10) * r;
     const pts = zones.map((_, i) => point(i, rr).join(',')).join(' ');
-    return `<polygon points="${pts}" fill="none" stroke="#222" stroke-width="1"/>`;
+    return `<polygon points="${pts}" fill="none" stroke="#e0dfd8" stroke-width="1"/>`;
   }).join('');
 
   // Spokes
   const spokes = zones.map((_, i) => {
     const [x, y] = point(i, r);
-    return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#222" stroke-width="1"/>`;
+    return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#e0dfd8" stroke-width="1"/>`;
   }).join('');
 
   // Score polygon
@@ -1037,9 +635,9 @@ function buildRadar(d) {
 
   // Zone colours matching the CSS tags
   const dzColours = {
-    DZ1:'rgba(155,79,79,0.7)', DZ2:'rgba(79,122,155,0.7)', DZ3:'rgba(155,122,79,0.7)',
-    DZ4:'rgba(122,79,155,0.7)', DZ5:'rgba(79,155,122,0.7)', DZ6:'rgba(155,107,79,0.7)',
-    DZ7:'rgba(79,107,155,0.7)', DZ8:'rgba(122,155,79,0.7)', DZ9:'rgba(155,79,122,0.7)'
+    DZ1:'rgba(160,60,60,0.8)', DZ2:'rgba(50,100,160,0.8)', DZ3:'rgba(160,110,40,0.8)',
+    DZ4:'rgba(100,50,160,0.8)', DZ5:'rgba(40,130,90,0.8)', DZ6:'rgba(160,80,40,0.8)',
+    DZ7:'rgba(50,80,160,0.8)', DZ8:'rgba(90,130,40,0.8)', DZ9:'rgba(160,50,100,0.8)'
   };
   const fillColour = dzColours[primary] || 'rgba(200,168,107,0.4)';
   const strokeColour = fillColour.replace('0.7','1');
@@ -1070,7 +668,7 @@ function buildRadar(d) {
     const rr = (Math.min(s, 10) / 10) * r;
     const [x, y] = point(i, rr - 10);
     return `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle"
-      font-family="Courier New,monospace" font-size="7.5" fill="#888">${s}</text>`;
+      font-family="Courier New,monospace" font-size="7.5" fill="#6b6b64">${s}</text>`;
   }).join('');
 
   return `<svg viewBox="0 0 220 220" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
@@ -1080,7 +678,7 @@ function buildRadar(d) {
     ${dots}
     ${scoreLabels}
     ${labelEls}
-    <text x="${cx}" y="208" text-anchor="middle" font-family="Courier New,monospace" font-size="8" fill="#333">OFS ${d.OFS.toFixed(2)}</text>
+    <text x="${cx}" y="208" text-anchor="middle" font-family="Courier New,monospace" font-size="8" fill="#9a9a90">OFS ${d.OFS.toFixed(2)}</text>
   </svg>`;
 }
 
@@ -1440,6 +1038,7 @@ sortField = 'OFS';
 sortDir = 'desc';
 document.getElementById('sort-ofs').classList.add('active', 'desc');
 applyFilters();
+
 </script>
 </body>
 </html>
